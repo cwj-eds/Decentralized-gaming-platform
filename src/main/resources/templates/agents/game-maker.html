@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html th:replace="layout/base :: base(~{::title}, ~{::#content})">
+<head>
+    <title>AI游戏制作 - 去中心化游戏平台</title>
+</head>
+<body>
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="text-center mb-5">
+                        <h2><i class="fas fa-magic me-2"></i>AI游戏制作</h2>
+                        <p class="lead">用自然语言描述您的想法，AI智能体将为您生成独特的游戏</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow">
+                        <div class="card-body p-4">
+                            <form id="gameGenerationForm">
+                                <div class="mb-4">
+                                    <label for="gameDescription" class="form-label h5">
+                                        <i class="fas fa-lightbulb me-2"></i>描述您的游戏创意
+                                    </label>
+                                    <textarea class="form-control" id="gameDescription" rows="6" 
+                                              placeholder="例如：我想要一个太空射击游戏，玩家控制飞船在太空中战斗，有各种敌人和道具..."></textarea>
+                                    <div class="form-text">
+                                        请详细描述游戏的玩法、风格、难度等特点，描述越详细，生成的游戏越符合您的期望。
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="gameTitle" class="form-label h6">游戏名称（可选）</label>
+                                    <input type="text" class="form-control" id="gameTitle" 
+                                           placeholder="如果不填写，AI将为您生成合适的游戏名称">
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h6 class="mb-3">游戏类型偏好</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="action">
+                                                <label class="form-check-label" for="action">
+                                                    <i class="fas fa-fist-raised me-1"></i>动作游戏
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="puzzle">
+                                                <label class="form-check-label" for="puzzle">
+                                                    <i class="fas fa-puzzle-piece me-1"></i>益智游戏
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="strategy">
+                                                <label class="form-check-label" for="strategy">
+                                                    <i class="fas fa-chess me-1"></i>策略游戏
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="casual">
+                                                <label class="form-check-label" for="casual">
+                                                    <i class="fas fa-smile me-1"></i>休闲游戏
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h6 class="mb-3">难度设置</h6>
+                                    <div class="btn-group" role="group">
+                                        <input type="radio" class="btn-check" name="difficulty" id="easy" value="easy" checked>
+                                        <label class="btn btn-outline-success" for="easy">简单</label>
+                                        
+                                        <input type="radio" class="btn-check" name="difficulty" id="normal" value="normal">
+                                        <label class="btn btn-outline-warning" for="normal">普通</label>
+                                        
+                                        <input type="radio" class="btn-check" name="difficulty" id="hard" value="hard">
+                                        <label class="btn btn-outline-danger" for="hard">困难</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-magic me-2"></i>开始生成游戏
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- 生成进度 -->
+                    <div class="card mt-4" id="generationProgress" style="display: none;">
+                        <div class="card-body text-center">
+                            <div class="spinner-border text-primary mb-3" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <h5>AI正在为您生成游戏...</h5>
+                            <p class="text-muted">这可能需要几分钟时间，请耐心等待</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 生成结果 -->
+                    <div class="card mt-4" id="generationResult" style="display: none;">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-check-circle text-success me-2"></i>游戏生成完成</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>游戏预览</h6>
+                                    <div class="game-preview bg-light p-3 rounded text-center">
+                                        <i class="fas fa-gamepad fa-3x text-muted mb-2"></i>
+                                        <p class="text-muted">游戏预览将在这里显示</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>游戏信息</h6>
+                                    <div class="game-info">
+                                        <p><strong>名称：</strong><span id="generatedGameTitle">-</span></p>
+                                        <p><strong>类型：</strong><span id="generatedGameType">-</span></p>
+                                        <p><strong>描述：</strong><span id="generatedGameDesc">-</span></p>
+                                    </div>
+                                    <div class="d-grid gap-2 mt-3">
+                                        <button class="btn btn-success" onclick="saveGame()">
+                                            <i class="fas fa-save me-2"></i>保存游戏
+                                        </button>
+                                        <button class="btn btn-primary" onclick="playGame()">
+                                            <i class="fas fa-play me-2"></i>试玩游戏
+                                        </button>
+                                        <button class="btn btn-outline-secondary" onclick="regenerateGame()">
+                                            <i class="fas fa-redo me-2"></i>重新生成
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

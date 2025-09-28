@@ -1,0 +1,135 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: decentralized-gaming-platform
+
+# Spring配置
+
+  # 数据源配置 (使用MySQL数据库ggg)
+  datasource:
+    url: jdbc:mysql://localhost:3306/ggg?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  # 禁用SQL初始化以避免Bean定义问题
+  sql:
+    init:
+      mode: never
+
+  # Redis配置（暂时禁用）
+  # data:
+  #   redis:
+  #     host: localhost
+  #     port: 6379
+  #     database: 0
+  #     password: 
+  #     timeout: 10000ms
+  #     lettuce:
+  #       pool:
+  #         max-active: 100
+  #         max-idle: 10
+  #         min-idle: 0
+  #         max-wait: -1ms
+
+  # Thymeleaf配置
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  # Jackson配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+
+# MyBatis-Plus配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+  global-config:
+    db-config:
+      id-type: AUTO
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath*:mapper/**/*.xml
+
+# 日志配置
+logging:
+  level:
+    com.decentralized.gaming.platform: DEBUG
+    org.springframework.web: INFO
+    com.baomidou.mybatisplus.core: DEBUG
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n'
+  file:
+    name: logs/gaming-platform.log
+
+# 应用配置
+app:
+  # 区块链配置
+  blockchain:
+    network-url: https://goerli.infura.io/v3/YOUR_PROJECT_ID
+    chain-id: 5
+    gas-limit: 300000
+    gas-price: 20000000000
+    # 合约地址配置
+    contracts:
+      platform-token: ""
+      game-nft: ""
+      agent-nft: ""
+      marketplace: ""
+  
+  # IPFS配置
+  ipfs:
+    gateway-url: https://ipfs.io/ipfs/
+    upload-url: http://localhost:5001/api/v0
+  
+  # AI配置
+  ai:
+    openai:
+      api-key: YOUR_OPENAI_API_KEY
+      model: gpt-4
+      temperature: 0.7
+  
+  # 支付配置
+  payment:
+    stripe:
+      public-key: pk_test_YOUR_STRIPE_PUBLIC_KEY
+      secret-key: sk_test_YOUR_STRIPE_SECRET_KEY
+  
+  # 系统配置
+  system:
+    platform-token-symbol: PLT
+    game-creation-cost: 100.0
+    agent-upload-cost: 50.0
+    marketplace-fee-rate: 0.025
+
+# OpenAPI配置
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
