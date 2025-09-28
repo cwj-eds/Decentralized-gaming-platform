@@ -1,55 +1,45 @@
-package com.decentralized.gaming.platform.entity;
+package com.decentralized.gaming.platform.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 用户代币余额实体类
+ * 用户余额视图对象
  *
  * @author DecentralizedGamingPlatform
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@TableName("user_balances")
-public class UserBalance {
+public class UserBalanceVO {
 
     /**
      * 余额ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
      * 用户ID
      */
-    @TableField("user_id")
     private Long userId;
 
     /**
      * 代币类型
      */
-    @TableField("token_type")
     private String tokenType;
 
     /**
      * 余额
      */
-    @TableField("balance")
     private BigDecimal balance;
 
     /**
      * 创建时间
      */
-    @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
 
     /**
      * 更新时间
      */
-    @TableField(value = "updated_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedAt;
 }

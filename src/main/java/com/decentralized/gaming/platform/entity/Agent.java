@@ -4,24 +4,21 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 智能体表
+ * 智能体实体类
  *
  * @author DecentralizedGamingPlatform
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("agents")
-public class Agent implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Agent {
 
     /**
-     * 主键ID
+     * 智能体ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
@@ -90,47 +87,36 @@ public class Agent implements Serializable {
      * 状态
      */
     @TableField("status")
-    private String status;
+    private AgentStatus status;
 
     /**
      * 创建时间
      */
-    @TableField("created_at")
+    @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
 
     /**
      * 更新时间
      */
-    @TableField("updated_at")
+    @TableField(value = "updated_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedAt;
 
     /**
-     * 删除标记
+     * 智能体状态枚举
      */
-    @TableLogic
-    @TableField("deleted")
-    private Integer deleted;
-
-    // 智能体状态枚举
     public enum AgentStatus {
-        ACTIVE("ACTIVE", "活跃"),
-        INACTIVE("INACTIVE", "未激活"),
-        BANNED("BANNED", "已禁用");
+        ACTIVE("活跃"),
+        INACTIVE("非活跃"),
+        BANNED("已禁用");
 
-        private final String code;
-        private final String desc;
+        private final String description;
 
-        AgentStatus(String code, String desc) {
-            this.code = code;
-            this.desc = desc;
+        AgentStatus(String description) {
+            this.description = description;
         }
 
-        public String getCode() {
-            return code;
-        }
-
-        public String getDesc() {
-            return desc;
+        public String getDescription() {
+            return description;
         }
     }
 }

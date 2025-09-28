@@ -8,74 +8,62 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 游戏实体类
+ * 交易记录实体类
  *
  * @author DecentralizedGamingPlatform
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("games")
-public class Game {
+@TableName("transactions")
+public class Transaction {
 
     /**
-     * 游戏ID
+     * 交易ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 游戏标题
+     * 买家ID
      */
-    @TableField("title")
-    private String title;
+    @TableField("buyer_id")
+    private Long buyerId;
 
     /**
-     * 游戏描述
+     * 卖家ID
      */
-    @TableField("description")
-    private String description;
+    @TableField("seller_id")
+    private Long sellerId;
 
     /**
-     * 创建者ID
+     * 市场商品ID
      */
-    @TableField("creator_id")
-    private Long creatorId;
+    @TableField("marketplace_item_id")
+    private Long marketplaceItemId;
 
     /**
-     * 游戏代码
+     * 交易金额
      */
-    @TableField("game_code")
-    private String gameCode;
+    @TableField("amount")
+    private BigDecimal amount;
 
     /**
-     * 游戏资产URL(IPFS)
+     * 货币类型
      */
-    @TableField("game_assets_url")
-    private String gameAssetsUrl;
+    @TableField("currency")
+    private String currency;
 
     /**
-     * 合约地址
+     * 区块链交易哈希
      */
-    @TableField("contract_address")
-    private String contractAddress;
+    @TableField("tx_hash")
+    private String txHash;
 
     /**
-     * 游戏状态
+     * 交易状态
      */
     @TableField("status")
-    private GameStatus status;
-
-    /**
-     * 游戏次数
-     */
-    @TableField("play_count")
-    private Integer playCount;
-
-    /**
-     * 评分
-     */
-    @TableField("rating")
-    private BigDecimal rating;
+    private TransactionStatus status;
 
     /**
      * 创建时间
@@ -90,17 +78,16 @@ public class Game {
     private LocalDateTime updatedAt;
 
     /**
-     * 游戏状态枚举
+     * 交易状态枚举
      */
-    public enum GameStatus {
-        DRAFT("草稿"),
-        PENDING("待审核"),
-        PUBLISHED("已发布"),
-        REJECTED("已拒绝");
+    public enum TransactionStatus {
+        PENDING("待处理"),
+        COMPLETED("已完成"),
+        FAILED("失败");
 
         private final String description;
 
-        GameStatus(String description) {
+        TransactionStatus(String description) {
             this.description = description;
         }
 

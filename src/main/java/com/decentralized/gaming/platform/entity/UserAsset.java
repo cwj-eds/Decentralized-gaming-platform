@@ -4,60 +4,71 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 市场商品实体类
+ * 用户资产实体类 (统一管理各类资产所有权)
  *
  * @author DecentralizedGamingPlatform
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("marketplace_items")
-public class MarketplaceItem {
+@TableName("user_assets")
+public class UserAsset {
 
     /**
-     * 商品ID
+     * 资产ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 卖家ID
+     * 用户ID
      */
-    @TableField("seller_id")
-    private Long sellerId;
+    @TableField("user_id")
+    private Long userId;
 
     /**
-     * 商品类型
+     * 资产类型
      */
-    @TableField("item_type")
-    private ItemType itemType;
+    @TableField("asset_type")
+    private AssetType assetType;
 
     /**
-     * 商品ID
+     * 资产ID
      */
-    @TableField("item_id")
-    private Long itemId;
+    @TableField("asset_id")
+    private Long assetId;
 
     /**
-     * 价格
+     * NFT合约地址
      */
-    @TableField("price")
-    private BigDecimal price;
+    @TableField("contract_address")
+    private String contractAddress;
 
     /**
-     * 货币类型
+     * NFT Token ID
      */
-    @TableField("currency")
-    private String currency;
+    @TableField("token_id")
+    private String tokenId;
 
     /**
-     * 状态
+     * 获得时间
      */
-    @TableField("status")
-    private ItemStatus status;
+    @TableField("acquired_at")
+    private LocalDateTime acquiredAt;
+
+    /**
+     * 获得方式
+     */
+    @TableField("acquisition_type")
+    private AcquisitionType acquisitionType;
+
+    /**
+     * 是否可交易
+     */
+    @TableField("is_tradeable")
+    private Boolean isTradeable;
 
     /**
      * 创建时间
@@ -72,16 +83,16 @@ public class MarketplaceItem {
     private LocalDateTime updatedAt;
 
     /**
-     * 商品类型枚举
+     * 资产类型枚举
      */
-    public enum ItemType {
+    public enum AssetType {
         GAME("游戏"),
         AGENT("智能体"),
         GAME_ITEM("游戏道具");
 
         private final String description;
 
-        ItemType(String description) {
+        AssetType(String description) {
             this.description = description;
         }
 
@@ -91,16 +102,17 @@ public class MarketplaceItem {
     }
 
     /**
-     * 商品状态枚举
+     * 获得方式枚举
      */
-    public enum ItemStatus {
-        ACTIVE("活跃"),
-        SOLD("已售出"),
-        CANCELLED("已取消");
+    public enum AcquisitionType {
+        CREATED("创建"),
+        PURCHASED("购买"),
+        REWARDED("奖励"),
+        TRANSFERRED("转移");
 
         private final String description;
 
-        ItemStatus(String description) {
+        AcquisitionType(String description) {
             this.description = description;
         }
 

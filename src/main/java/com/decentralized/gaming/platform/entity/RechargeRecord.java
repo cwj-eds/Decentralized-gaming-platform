@@ -8,74 +8,62 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 游戏实体类
+ * 充值记录实体类
  *
  * @author DecentralizedGamingPlatform
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("games")
-public class Game {
+@TableName("recharge_records")
+public class RechargeRecord {
 
     /**
-     * 游戏ID
+     * 充值记录ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 游戏标题
+     * 用户ID
      */
-    @TableField("title")
-    private String title;
+    @TableField("user_id")
+    private Long userId;
 
     /**
-     * 游戏描述
+     * 充值金额
      */
-    @TableField("description")
-    private String description;
+    @TableField("amount")
+    private BigDecimal amount;
 
     /**
-     * 创建者ID
+     * 货币类型
      */
-    @TableField("creator_id")
-    private Long creatorId;
+    @TableField("currency")
+    private String currency;
 
     /**
-     * 游戏代码
+     * 支付方式
      */
-    @TableField("game_code")
-    private String gameCode;
+    @TableField("payment_method")
+    private String paymentMethod;
 
     /**
-     * 游戏资产URL(IPFS)
+     * 第三方支付ID
      */
-    @TableField("game_assets_url")
-    private String gameAssetsUrl;
+    @TableField("payment_id")
+    private String paymentId;
 
     /**
-     * 合约地址
+     * 区块链交易哈希
      */
-    @TableField("contract_address")
-    private String contractAddress;
+    @TableField("tx_hash")
+    private String txHash;
 
     /**
-     * 游戏状态
+     * 充值状态
      */
     @TableField("status")
-    private GameStatus status;
-
-    /**
-     * 游戏次数
-     */
-    @TableField("play_count")
-    private Integer playCount;
-
-    /**
-     * 评分
-     */
-    @TableField("rating")
-    private BigDecimal rating;
+    private RechargeStatus status;
 
     /**
      * 创建时间
@@ -90,17 +78,17 @@ public class Game {
     private LocalDateTime updatedAt;
 
     /**
-     * 游戏状态枚举
+     * 充值状态枚举
      */
-    public enum GameStatus {
-        DRAFT("草稿"),
-        PENDING("待审核"),
-        PUBLISHED("已发布"),
-        REJECTED("已拒绝");
+    public enum RechargeStatus {
+        PENDING("待处理"),
+        COMPLETED("已完成"),
+        FAILED("失败"),
+        CANCELLED("已取消");
 
         private final String description;
 
-        GameStatus(String description) {
+        RechargeStatus(String description) {
             this.description = description;
         }
 
