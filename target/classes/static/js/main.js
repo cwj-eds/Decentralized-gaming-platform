@@ -8,13 +8,13 @@ let isWalletConnected = false;
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
     console.log('去中心化游戏平台已加载');
-    
+
     // 初始化Web3
     initWeb3();
-    
+
     // 检查钱包连接状态
     checkWalletConnection();
-    
+
     // 绑定事件
     bindEvents();
 });
@@ -44,7 +44,7 @@ async function connectWallet() {
 
     try {
         showLoading('正在连接钱包...');
-        
+
         // 请求账户访问权限
         const accounts = await window.ethereum.request({
             method: 'eth_requestAccounts'
@@ -53,13 +53,13 @@ async function connectWallet() {
         if (accounts.length > 0) {
             userAccount = accounts[0];
             isWalletConnected = true;
-            
+
             // 更新UI
             updateWalletUI();
-            
+
             // 执行钱包登录
             await walletLogin();
-            
+
             showNotification('钱包连接成功！', 'success');
         }
     } catch (error) {
@@ -76,7 +76,7 @@ function disconnect() {
     isWalletConnected = false;
     updateWalletUI();
     showNotification('已断开钱包连接', 'info');
-    
+
     // 刷新页面
     setTimeout(() => {
         location.reload();
@@ -86,10 +86,21 @@ function disconnect() {
 // 钱包登录
 async function walletLogin() {
     try {
-        const message = `登录到去中心化游戏平台\n时间戳: ${Date.now()}`;
+        // 获取登录消息
+        const messageResponse = await fetch('/api/wallet/login-message');
+        const messageResult = await messageResponse.json();
+
+        if (!messageResult.success) {
+            throw new Error('获取登录消息失败');
+        }
+
+        const message = messageResult.data;
+
+        // 签名消息
         const signature = await web3.eth.personal.sign(message, userAccount);
-        
-        const response = await fetch('/api/users/wallet-login', {
+
+        // 发送登录请求
+        const response = await fetch('/api/wallet/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -101,17 +112,18 @@ async function walletLogin() {
             })
         });
 
-        if (response.ok) {
-            const result = await response.json();
+        const result = await response.json();
+
+        if (result.success) {
             console.log('用户登录成功:', result.data);
-            
+
             // 存储用户信息到本地存储
             localStorage.setItem('user', JSON.stringify(result.data));
-            
+
             // 更新页面用户信息
             updateUserInfo(result.data);
         } else {
-            throw new Error('登录请求失败');
+            throw new Error(result.message || '登录失败');
         }
     } catch (error) {
         console.error('登录失败:', error);
@@ -126,14 +138,21 @@ async function checkWalletConnection() {
             const accounts = await window.ethereum.request({
                 method: 'eth_accounts'
             });
-            
+
             if (accounts.length > 0) {
                 userAccount = accounts[0];
                 isWalletConnected = true;
                 updateWalletUI();
-                
-                // 自动登录
-                await walletLogin();
+
+                // 检查本地存储的用户信息
+                const storedUser = localStorage.getItem('user');
+                if (storedUser) {
+                    const user = JSON.parse(storedUser);
+                    updateUserInfo(user);
+                } else {
+                    // 自动登录
+                    await walletLogin();
+                }
             }
         } catch (error) {
             console.error('检查钱包连接状态失败:', error);
@@ -146,26 +165,26 @@ function updateWalletUI() {
     const connectButton = document.querySelector('[onclick="connectWallet()"]');
     const userDropdown = document.querySelector('.dropdown');
     const walletStatus = document.querySelector('.wallet-status');
-    
+
     if (isWalletConnected && userAccount) {
         // 隐藏连接按钮，显示用户信息
         if (connectButton) {
             connectButton.style.display = 'none';
         }
-        
+
         // 显示钱包状态
         if (walletStatus) {
             walletStatus.textContent = `已连接: ${formatAddress(userAccount)}`;
             walletStatus.classList.add('connected');
         }
-        
+
         console.log('钱包UI已更新');
     } else {
         // 显示连接按钮，隐藏用户信息
         if (connectButton) {
             connectButton.style.display = 'block';
         }
-        
+
         // 隐藏钱包状态
         if (walletStatus) {
             walletStatus.classList.remove('connected');
@@ -218,7 +237,7 @@ function bindEvents() {
 // 处理游戏生成
 async function handleGameGeneration(event) {
     event.preventDefault();
-    
+
     if (!isWalletConnected) {
         showNotification('请先连接钱包', 'warning');
         return;
@@ -226,7 +245,7 @@ async function handleGameGeneration(event) {
 
     const description = document.getElementById('gameDescription').value;
     const title = document.getElementById('gameTitle').value;
-    
+
     if (!description.trim()) {
         showNotification('请输入游戏描述', 'warning');
         return;
@@ -236,13 +255,13 @@ async function handleGameGeneration(event) {
         // 显示生成进度
         document.getElementById('generationProgress').style.display = 'block';
         document.getElementById('generationResult').style.display = 'none';
-        
+
         // 模拟进度更新
         updateProgress(0);
         setTimeout(() => updateProgress(30), 1000);
         setTimeout(() => updateProgress(60), 2000);
         setTimeout(() => updateProgress(90), 3000);
-        
+
         // 这里应该调用实际的AI生成API
         setTimeout(() => {
             updateProgress(100);
@@ -252,7 +271,7 @@ async function handleGameGeneration(event) {
                 description: '基于您的描述生成的游戏'
             });
         }, 4000);
-        
+
     } catch (error) {
         console.error('游戏生成失败:', error);
         showNotification('游戏生成失败: ' + error.message, 'error');
@@ -271,7 +290,7 @@ function updateProgress(percent) {
 function showGenerationResult(gameData) {
     document.getElementById('generationProgress').style.display = 'none';
     document.getElementById('generationResult').style.display = 'block';
-    
+
     document.getElementById('generatedGameTitle').textContent = gameData.title;
     document.getElementById('generatedGameType').textContent = gameData.type;
     document.getElementById('generatedGameDesc').textContent = gameData.description;
@@ -283,7 +302,7 @@ function saveGame() {
         showNotification('请先连接钱包', 'warning');
         return;
     }
-    
+
     showNotification('游戏保存成功！', 'success');
     setTimeout(() => {
         window.location.href = '/assets';
@@ -308,14 +327,14 @@ function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
     notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    
+
     notification.innerHTML = `
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     // 自动移除通知
     setTimeout(() => {
         if (notification.parentNode) {
@@ -327,7 +346,7 @@ function showNotification(message, type = 'info') {
 // 显示加载状态
 function showLoading(message = '加载中...') {
     let loadingOverlay = document.getElementById('loadingOverlay');
-    
+
     if (!loadingOverlay) {
         loadingOverlay = document.createElement('div');
         loadingOverlay.id = 'loadingOverlay';
@@ -340,7 +359,7 @@ function showLoading(message = '加载中...') {
         `;
         document.body.appendChild(loadingOverlay);
     }
-    
+
     loadingOverlay.style.display = 'flex';
 }
 
@@ -358,12 +377,12 @@ const Utils = {
     formatTokenAmount: function(amount, decimals = 18) {
         return parseFloat(amount / Math.pow(10, decimals)).toFixed(4);
     },
-    
+
     // 格式化时间
     formatTime: function(timestamp) {
         return new Date(timestamp * 1000).toLocaleString();
     },
-    
+
     // 复制到剪贴板
     copyToClipboard: function(text) {
         navigator.clipboard.writeText(text).then(() => {
@@ -373,7 +392,7 @@ const Utils = {
             showNotification('复制失败', 'error');
         });
     },
-    
+
     // 验证以太坊地址
     isValidAddress: function(address) {
         return /^0x[a-fA-F0-9]{40}$/.test(address);

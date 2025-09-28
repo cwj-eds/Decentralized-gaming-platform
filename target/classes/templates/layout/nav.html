@@ -1,60 +1,84 @@
-<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-dark bg-primary">
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>导航栏</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
         <a class="navbar-brand" th:href="@{/}">
             <i class="fas fa-gamepad me-2"></i>去中心化游戏平台
         </a>
-        
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/}">首页</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/games}">游戏中心</a>
+                    <a class="nav-link" th:href="@{/games}">游戏</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/agents}">智能体</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/marketplace}">市场</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/assets}">资产</a>
                 </li>
             </ul>
-            
+
             <ul class="navbar-nav">
+                <!-- 钱包连接状态 -->
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/agents}">
-                        <i class="fas fa-robot me-1"></i>智能体平台
-                    </a>
+                    <span class="navbar-text wallet-status me-3"></span>
                 </li>
+
+                <!-- 连接钱包按钮 -->
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/marketplace}">
-                        <i class="fas fa-store me-1"></i>交易平台
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/assets}">
-                        <i class="fas fa-wallet me-1"></i>资产管理
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/payment/recharge}">
-                        <i class="fas fa-credit-card me-1"></i>充值
-                    </a>
-                </li>
-                <li class="nav-item" th:if="${user == null}">
                     <button class="btn btn-outline-light" onclick="connectWallet()">
-                        <i class="fas fa-plug me-1"></i>连接钱包
+                        <i class="fas fa-wallet me-1"></i>连接钱包
                     </button>
                 </li>
-                <li class="nav-item dropdown" th:if="${user != null}">
+
+                <!-- 断开连接按钮 -->
+                <li class="nav-item" style="display: none;">
+                    <button class="btn btn-outline-light" onclick="disconnectWallet()">
+                        <i class="fas fa-sign-out-alt me-1"></i>断开连接
+                    </button>
+                </li>
+
+                <!-- 用户下拉菜单 -->
+                <li class="nav-item dropdown user-dropdown" style="display: none;">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user me-1"></i><span th:text="${user.username}">用户</span>
+                        <img src="/static/images/default-avatar.png" alt="头像" class="user-avatar rounded-circle me-1" width="24" height="24">
+                        <span class="username"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/profile}">个人资料</a></li>
+                        <li><a class="dropdown-item" th:href="@{/profile}">
+                            <i class="fas fa-user me-2"></i>个人资料
+                        </a></li>
+                        <li><a class="dropdown-item" th:href="@{/assets}">
+                            <i class="fas fa-coins me-2"></i>我的资产
+                        </a></li>
+                        <li><a class="dropdown-item" th:href="@{/transactions}">
+                            <i class="fas fa-history me-2"></i>交易记录
+                        </a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" onclick="disconnect()">断开连接</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="disconnectWallet()">
+                            <i class="fas fa-sign-out-alt me-2"></i>断开连接
+                        </a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+</body>
+</html>

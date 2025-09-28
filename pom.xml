@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.huashidai.game</groupId>
+    <groupId>com.decentralized.gaming.platform</groupId>
     <artifactId>DecentralizedGamingPlatform</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -61,7 +61,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--        &lt;!&ndash; MyBatis Plus (用于数据库操作) &ndash;&gt;-->
+        <!--        &lt;!&ndash; MyBatis Plus (用于数据库操�? &ndash;&gt;-->
 
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -91,7 +91,7 @@
             <version>4.10.3</version>
         </dependency>
 
-        <!-- Web3j合约包装器 -->
+        <!-- Web3j合约包装�?-->
         <dependency>
             <groupId>org.web3j</groupId>
             <artifactId>contracts</artifactId>
@@ -112,7 +112,16 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
         </dependency>
+
+        <!-- Web3j核心�?-->
+        <dependency>
+            <groupId>org.web3j</groupId>
+            <artifactId>core</artifactId>
+            <version>4.10.3</version>
+        </dependency>
     </dependencies>
+
+
 
     <repositories>
         <repository>
@@ -129,19 +138,25 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Web3j插件：从ABI和BIN文件生成Java包装类 -->
+            <!-- Web3j Maven插件 -->
             <plugin>
                 <groupId>org.web3j</groupId>
                 <artifactId>web3j-maven-plugin</artifactId>
                 <version>4.10.3</version>
                 <configuration>
-                    <packageName>com.huashidai.game.contract</packageName>
-                    <sourceDestination>src/main/java</sourceDestination>
+                    <packageName>com.platform.contracts</packageName>
+                    <sourceDestination>src/main/java/generated</sourceDestination>
                     <nativeJavaType>true</nativeJavaType>
-                    <outputFormat>java,bin,abi</outputFormat>
-                    <!-- 跳过Solidity编译，只使用ABI/BIN文件 -->
-                   
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-sources-web3j</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
