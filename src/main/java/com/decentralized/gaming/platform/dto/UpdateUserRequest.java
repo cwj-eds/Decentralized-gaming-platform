@@ -31,4 +31,10 @@ public class UpdateUserRequest {
      */
     @Size(max = 255, message = "头像URL长度不能超过255个字符")
     private String avatarUrl;
+
+    /**
+     * 密码（可选，用于修改密码）
+     */
+    @Size(min = 6, max = 255, message = "密码长度必须在6-255个字符之间")
+    private String password;
 }

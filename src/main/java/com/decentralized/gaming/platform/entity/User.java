@@ -47,6 +47,12 @@ public class User {
     private String avatarUrl;
 
     /**
+     * 密码（加密存储）
+     */
+    @TableField("password")
+    private String password;
+
+    /**
      * 创建时间
      */
     @TableField(value = "created_at", fill = FieldFill.INSERT)

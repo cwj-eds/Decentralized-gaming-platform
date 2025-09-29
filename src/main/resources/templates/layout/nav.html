@@ -44,6 +44,16 @@
                         <i class="fas fa-plug me-1"></i>连接钱包
                     </button>
                 </li>
+                <li class="nav-item" th:if="${user == null}">
+                    <a class="btn btn-outline-light ms-2" th:href="@{/auth/login}">
+                        <i class="fas fa-sign-in-alt me-1"></i>登录
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${user == null}">
+                    <a class="btn btn-outline-light ms-2" th:href="@{/auth/register}">
+                        <i class="fas fa-user-plus me-1"></i>注册
+                    </a>
+                </li>
                 <li class="nav-item dropdown" th:if="${user != null}">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-user me-1"></i><span th:text="${user.username}">用户</span>

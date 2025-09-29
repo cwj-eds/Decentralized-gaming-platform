@@ -41,4 +41,9 @@ public class WalletLoginRequest {
      * 邮箱（可选）
      */
     private String email;
+
+    /**
+     * 密码（可选，用于设置登录密码）
+     */
+    private String password;
 }

@@ -11,7 +11,7 @@ spring:
 
   # 数据源配置 (使用MySQL数据库ggg)
   datasource:
-    url: jdbc:mysql://localhost:3306/ggg?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/game?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -125,6 +125,11 @@ app:
     agent-upload-cost: 50.0
     marketplace-fee-rate: 0.025
 
+# JWT配置
+  jwt:
+    secret: decentralized-gaming-platform-secret-key-2024
+    expiration: 86400
+
 # OpenAPI配置
 springdoc:
   api-docs:
@@ -133,3 +138,11 @@ springdoc:
     path: /swagger-ui.html
     tags-sorter: alpha
     operations-sorter: alpha
+
+# 静态资源配置
+  web:
+    resources:
+      static-locations: classpath:/static/
+  mvc:
+    favicon:
+      enabled: false

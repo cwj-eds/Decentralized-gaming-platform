@@ -101,17 +101,20 @@ async function walletLogin() {
             })
         });
 
-        if (response.ok) {
-            const result = await response.json();
+        if (response.ok && result.success) {
             console.log('用户登录成功:', result.data);
-            
-            // 存储用户信息到本地存储
-            localStorage.setItem('user', JSON.stringify(result.data));
-            
+
+            // 存储JWT令牌和用户信息
+            localStorage.setItem('accessToken', result.data.accessToken);
+            localStorage.setItem('user', JSON.stringify(result.data.user));
+
             // 更新页面用户信息
-            updateUserInfo(result.data);
+            updateUserInfo(result.data.user);
+
+            showNotification('登录成功！', 'success');
         } else {
-            throw new Error('登录请求失败');
+            const errorResult = await response.json();
+            throw new Error(errorResult.message || '登录请求失败');
         }
     } catch (error) {
         console.error('登录失败:', error);
@@ -132,8 +135,18 @@ async function checkWalletConnection() {
                 isWalletConnected = true;
                 updateWalletUI();
                 
-                // 自动登录
-                await walletLogin();
+                // 检查本地存储中是否有用户信息
+                const storedUser = localStorage.getItem('user');
+                const storedToken = localStorage.getItem('accessToken');
+
+                if (storedUser && storedToken) {
+                    const user = JSON.parse(storedUser);
+                    updateUserInfo(user);
+                    console.log('用户已登录');
+                } else {
+                    // 自动登录
+                    await walletLogin();
+                }
             }
         } catch (error) {
             console.error('检查钱包连接状态失败:', error);
@@ -144,28 +157,39 @@ async function checkWalletConnection() {
 // 更新钱包UI
 function updateWalletUI() {
     const connectButton = document.querySelector('[onclick="connectWallet()"]');
+    const loginButtons = document.querySelectorAll('a[href*="/auth/login"], a[href*="/auth/register"]');
     const userDropdown = document.querySelector('.dropdown');
     const walletStatus = document.querySelector('.wallet-status');
-    
+
     if (isWalletConnected && userAccount) {
-        // 隐藏连接按钮，显示用户信息
+        // 隐藏连接按钮和登录注册按钮，显示用户信息
         if (connectButton) {
-            connectButton.style.display = 'none';
+            connectButton.closest('li').style.display = 'none';
         }
-        
+
+        // 隐藏登录注册按钮
+        loginButtons.forEach(btn => {
+            btn.closest('li').style.display = 'none';
+        });
+
         // 显示钱包状态
         if (walletStatus) {
             walletStatus.textContent = `已连接: ${formatAddress(userAccount)}`;
             walletStatus.classList.add('connected');
         }
-        
+
         console.log('钱包UI已更新');
     } else {
-        // 显示连接按钮，隐藏用户信息
+        // 显示连接按钮和登录注册按钮，隐藏用户信息
         if (connectButton) {
-            connectButton.style.display = 'block';
+            connectButton.closest('li').style.display = 'inline-block';
         }
-        
+
+        // 显示登录注册按钮
+        loginButtons.forEach(btn => {
+            btn.closest('li').style.display = 'inline-block';
+        });
+
         // 隐藏钱包状态
         if (walletStatus) {
             walletStatus.classList.remove('connected');
@@ -352,18 +376,43 @@ function hideLoading() {
     }
 }
 
+// API调用辅助函数
+async function apiRequest(url, options = {}) {
+    const token = localStorage.getItem('accessToken');
+    const headers = {
+        'Content-Type': 'application/json',
+        ...options.headers
+    };
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(url, {
+        ...options,
+        headers
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP ${response.status}`);
+    }
+
+    return response.json();
+}
+
 // 工具函数
 const Utils = {
     // 格式化代币数量
     formatTokenAmount: function(amount, decimals = 18) {
         return parseFloat(amount / Math.pow(10, decimals)).toFixed(4);
     },
-    
+
     // 格式化时间
     formatTime: function(timestamp) {
         return new Date(timestamp * 1000).toLocaleString();
     },
-    
+
     // 复制到剪贴板
     copyToClipboard: function(text) {
         navigator.clipboard.writeText(text).then(() => {
@@ -373,7 +422,7 @@ const Utils = {
             showNotification('复制失败', 'error');
         });
     },
-    
+
     // 验证以太坊地址
     isValidAddress: function(address) {
         return /^0x[a-fA-F0-9]{40}$/.test(address);
