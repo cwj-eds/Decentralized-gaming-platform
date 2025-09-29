@@ -17,16 +17,7 @@ import java.util.Optional;
 public interface UserMapper extends BaseMapper<User> {
 
     /**
-     * 根据钱包地址查询用户
-     *
-     * @param walletAddress 钱包地址
-     * @return 用户信息
-     */
-    @Select("SELECT * FROM users WHERE wallet_address = #{walletAddress}")
-    Optional<User> findByWalletAddress(@Param("walletAddress") String walletAddress);
-
-    /**
-     * 根据用户名查询用户
+     * 根据用户名查找用户
      *
      * @param username 用户名
      * @return 用户信息
@@ -35,7 +26,7 @@ public interface UserMapper extends BaseMapper<User> {
     Optional<User> findByUsername(@Param("username") String username);
 
     /**
-     * 根据邮箱查询用户
+     * 根据邮箱查找用户
      *
      * @param email 邮箱
      * @return 用户信息
@@ -44,13 +35,13 @@ public interface UserMapper extends BaseMapper<User> {
     Optional<User> findByEmail(@Param("email") String email);
 
     /**
-     * 检查钱包地址是否存在
+     * 根据钱包地址查找用户
      *
      * @param walletAddress 钱包地址
-     * @return 是否存在
+     * @return 用户信息
      */
-    @Select("SELECT COUNT(1) FROM users WHERE wallet_address = #{walletAddress}")
-    boolean existsByWalletAddress(@Param("walletAddress") String walletAddress);
+    @Select("SELECT * FROM users WHERE wallet_address = #{walletAddress}")
+    Optional<User> findByWalletAddress(@Param("walletAddress") String walletAddress);
 
     /**
      * 检查用户名是否存在
@@ -58,7 +49,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param username 用户名
      * @return 是否存在
      */
-    @Select("SELECT COUNT(1) FROM users WHERE username = #{username}")
+    @Select("SELECT COUNT(*) > 0 FROM users WHERE username = #{username}")
     boolean existsByUsername(@Param("username") String username);
 
     /**
@@ -67,6 +58,16 @@ public interface UserMapper extends BaseMapper<User> {
      * @param email 邮箱
      * @return 是否存在
      */
-    @Select("SELECT COUNT(1) FROM users WHERE email = #{email}")
+    @Select("SELECT COUNT(*) > 0 FROM users WHERE email = #{email}")
     boolean existsByEmail(@Param("email") String email);
+
+    /**
+     * 检查钱包地址是否存在
+     *
+     * @param walletAddress 钱包地址
+     * @return 是否存在
+     */
+    @Select("SELECT COUNT(*) > 0 FROM users WHERE wallet_address = #{walletAddress} AND wallet_address IS NOT NULL")
+    boolean existsByWalletAddress(@Param("walletAddress") String walletAddress);
 }
+

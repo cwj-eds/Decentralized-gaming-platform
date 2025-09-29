@@ -118,31 +118,6 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
         </dependency>
-
-        <!-- JWT support -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>0.11.5</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>0.11.5</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <version>0.11.5</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- Spring Security for JWT -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
     </dependencies>
 
     <repositories>
@@ -160,25 +135,19 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Web3j Maven插件 -->
+            <!-- Web3j插件：从ABI和BIN文件生成Java包装类 -->
             <plugin>
                 <groupId>org.web3j</groupId>
                 <artifactId>web3j-maven-plugin</artifactId>
                 <version>4.10.3</version>
                 <configuration>
-                    <packageName>com.platform.contracts</packageName>
-                    <sourceDestination>src/main/java/generated</sourceDestination>
+                    <packageName>com.huashidai.game.contract</packageName>
+                    <sourceDestination>src/main/java</sourceDestination>
                     <nativeJavaType>true</nativeJavaType>
+                    <outputFormat>java,bin,abi</outputFormat>
+                    <!-- 跳过Solidity编译，只使用ABI/BIN文件 -->
+                   
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>generate-sources-web3j</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate-sources</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

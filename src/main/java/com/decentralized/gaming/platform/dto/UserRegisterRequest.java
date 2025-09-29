@@ -4,7 +4,6 @@ import lombok.Data;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
@@ -19,7 +18,7 @@ public class UserRegisterRequest {
      * 用户名
      */
     @NotBlank(message = "用户名不能为空")
-    @Size(min = 3, max = 50, message = "用户名长度必须在3-50字符之间")
+    @Size(min = 3, max = 20, message = "用户名长度必须在3-20个字符之间")
     private String username;
 
     /**
@@ -33,7 +32,7 @@ public class UserRegisterRequest {
      * 密码
      */
     @NotBlank(message = "密码不能为空")
-    @Size(min = 6, max = 100, message = "密码长度必须在6-100字符之间")
+    @Size(min = 6, max = 20, message = "密码长度必须在6-20个字符之间")
     private String password;
 
     /**
@@ -45,6 +44,11 @@ public class UserRegisterRequest {
     /**
      * 钱包地址（可选）
      */
-    @Pattern(regexp = "^0x[a-fA-F0-9]{40}$", message = "钱包地址格式不正确")
     private String walletAddress;
 }
+
+
+
+
+
+

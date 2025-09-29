@@ -245,10 +245,7 @@ INSERT INTO `system_configs` (`config_key`, `config_value`, `config_type`, `desc
 ('reward.game.create', '10.0', 'DECIMAL', '游戏创建奖励'),
 ('platform.name', '去中心化游戏平台', 'STRING', '平台名称'),
 ('platform.version', '1.0.0', 'STRING', '平台版本'),
-('blockchain.network', 'testnet', 'STRING', '区块链网络'),
-('auth.jwt.secret', 'decentralized-gaming-platform-secret-key-2024', 'STRING', 'JWT密钥'),
-('auth.jwt.expiration', '86400', 'INTEGER', 'JWT过期时间（秒）'),
-('user.default.avatar', '/images/default-avatar.png', 'STRING', '默认用户头像');
+('blockchain.network', 'testnet', 'STRING', '区块链网络');
 
 -- 为现有users表添加password字段（数据库迁移脚本）
 -- 注意：这只是示例，实际部署时需要根据具体情况执行
