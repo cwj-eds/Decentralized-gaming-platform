@@ -160,19 +160,25 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Web3j插件：从ABI和BIN文件生成Java包装类 -->
+            <!-- Web3j Maven插件 -->
             <plugin>
                 <groupId>org.web3j</groupId>
                 <artifactId>web3j-maven-plugin</artifactId>
                 <version>4.10.3</version>
                 <configuration>
-                    <packageName>com.huashidai.game.contract</packageName>
-                    <sourceDestination>src/main/java</sourceDestination>
+                    <packageName>com.platform.contracts</packageName>
+                    <sourceDestination>src/main/java/generated</sourceDestination>
                     <nativeJavaType>true</nativeJavaType>
-                    <outputFormat>java,bin,abi</outputFormat>
-                    <!-- 跳过Solidity编译，只使用ABI/BIN文件 -->
-                   
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-sources-web3j</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
