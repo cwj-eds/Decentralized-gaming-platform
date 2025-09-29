@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/base :: base(~{::title}, ~{::#content})}">
+<head>
+	<title th:text="${game.title} + ' - 试玩'">试玩</title>
+</head>
+<body>
+	<div id="content">
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-lg-10 offset-lg-1">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="mb-0" th:text="${game.title}">游戏标题</h4>
+						</div>
+						<div class="card-body">
+							<div class="alert alert-info">
+								这是试玩占位页面。此处可嵌入游戏 iframe、WebGL Canvas 或前端游戏逻辑。
+							</div>
+							<div class="text-center">
+								<img th:src="${#strings.isEmpty(game.gameAssetsUrl) ? '/images/default-game.png' : game.gameAssetsUrl}" alt="预览" class="img-fluid">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+

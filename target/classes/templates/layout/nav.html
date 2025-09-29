@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 <!-- 认证选项卡 -->
-                <li class="nav-item dropdown" th:if="${user == null}">
+                <li id="authMenu" class="nav-item dropdown" th:if="${user == null}">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-user me-1"></i>登录/注册
                     </a>
@@ -65,9 +65,9 @@
                 </li>
 
                 <!-- 用户菜单 -->
-                <li class="nav-item dropdown" th:if="${user != null}">
+                <li id="userMenu" class="nav-item dropdown user-dropdown" th:if="${user != null}">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user me-1"></i><span th:text="${user.username}">用户</span>
+                        <i class="fas fa-user me-1"></i><span class="username" th:text="${user.username}">用户</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" th:href="@{/profile}">个人资料</a></li>

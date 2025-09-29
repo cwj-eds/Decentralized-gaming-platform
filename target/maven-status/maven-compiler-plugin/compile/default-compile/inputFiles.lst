@@ -9,6 +9,8 @@ D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\contracts\Marketplace.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\contracts\PlatformToken.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\controller\AuthController.java
+D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\controller\GameController.java
+D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\controller\HomeController.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\controller\WalletController.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\controller\WebController.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\DecentralizedGamingPlatformApplication.java
@@ -43,9 +45,12 @@ D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\exception\BlockchainException.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\exception\BusinessException.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\exception\GlobalExceptionHandler.java
+D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\mapper\GameMapper.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\mapper\UserBalanceMapper.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\mapper\UserMapper.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\service\BlockchainService.java
+D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\service\GameService.java
+D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\service\impl\GameServiceImpl.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\service\impl\UserServiceImpl.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\service\PasswordService.java
 D:\Decentralized-gaming-platform\src\main\java\com\decentralized\gaming\platform\service\UserService.java

@@ -233,6 +233,8 @@ function updateWalletUI() {
     const disconnectButton = document.querySelector('[onclick="disconnectWallet()"]');
     const walletStatus = document.querySelector('.wallet-status');
     const userDropdown = document.querySelector('.user-dropdown');
+    const authMenu = document.getElementById('authMenu');
+    const userMenu = document.getElementById('userMenu');
 
     if (isWalletConnected && userAccount) {
         // 隐藏连接按钮，显示断开按钮
@@ -249,10 +251,10 @@ function updateWalletUI() {
             walletStatus.classList.add('connected');
         }
 
-        // 显示用户下拉菜单
-        if (userDropdown) {
-            userDropdown.style.display = 'block';
-        }
+        // 显示用户下拉菜单，隐藏登录/注册
+        if (userDropdown) userDropdown.style.display = 'block';
+        if (userMenu) userMenu.style.display = 'block';
+        if (authMenu) authMenu.style.display = 'none';
 
         console.log('钱包UI已更新');
     } else {
@@ -269,10 +271,10 @@ function updateWalletUI() {
             walletStatus.classList.remove('connected');
         }
 
-        // 隐藏用户下拉菜单
-        if (userDropdown) {
-            userDropdown.style.display = 'none';
-        }
+        // 隐藏用户下拉菜单，显示登录/注册
+        if (userDropdown) userDropdown.style.display = 'none';
+        if (userMenu) userMenu.style.display = 'none';
+        if (authMenu) authMenu.style.display = 'block';
     }
 }
 
@@ -289,6 +291,12 @@ function updateUserInfo(user) {
     if (avatarImg && user.avatarUrl) {
         avatarImg.src = user.avatarUrl;
     }
+
+    // 切换菜单可见性
+    const authMenu = document.getElementById('authMenu');
+    const userMenu = document.getElementById('userMenu');
+    if (authMenu) authMenu.style.display = 'none';
+    if (userMenu) userMenu.style.display = 'block';
 }
 
 // 格式化地址

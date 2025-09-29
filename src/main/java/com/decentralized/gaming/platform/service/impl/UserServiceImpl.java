@@ -53,9 +53,16 @@ public class UserServiceImpl implements UserService {
             // 查找用户（支持用户名或邮箱登录）
             User user = null;
             try {
-                user = userMapper.findByUsername(request.getUsername()).orElse(null);
+                // 先尝试按用户名查找
+                LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+                queryWrapper.eq(User::getUsername, request.getUsername());
+                user = userMapper.selectOne(queryWrapper);
+                
+                // 如果用户名没找到，尝试按邮箱查找
                 if (user == null) {
-                    user = userMapper.findByEmail(request.getUsername()).orElse(null);
+                    queryWrapper.clear();
+                    queryWrapper.eq(User::getEmail, request.getUsername());
+                    user = userMapper.selectOne(queryWrapper);
                 }
             } catch (Exception e) {
                 log.error("数据库查询用户失败", e);
@@ -111,18 +118,25 @@ public class UserServiceImpl implements UserService {
         }
 
         // 检查用户名是否已存在
-        if (userMapper.existsByUsername(request.getUsername())) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, request.getUsername());
+        if (userMapper.selectCount(queryWrapper) > 0) {
             throw new BusinessException("用户名已存在");
         }
 
         // 检查邮箱是否已存在
-        if (userMapper.existsByEmail(request.getEmail())) {
+        queryWrapper.clear();
+        queryWrapper.eq(User::getEmail, request.getEmail());
+        if (userMapper.selectCount(queryWrapper) > 0) {
             throw new BusinessException("邮箱已存在");
         }
 
         // 检查钱包地址是否已存在（如果提供）
         if (request.getWalletAddress() != null && !request.getWalletAddress().trim().isEmpty()) {
-            if (userMapper.existsByWalletAddress(request.getWalletAddress())) {
+            queryWrapper.clear();
+            queryWrapper.eq(User::getWalletAddress, request.getWalletAddress())
+                       .isNotNull(User::getWalletAddress);
+            if (userMapper.selectCount(queryWrapper) > 0) {
                 throw new BusinessException("钱包地址已注册");
             }
         }
@@ -160,7 +174,10 @@ public class UserServiceImpl implements UserService {
         }
 
         // 检查用户是否已存在
-        User user = userMapper.findByWalletAddress(request.getWalletAddress()).orElse(null);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getWalletAddress, request.getWalletAddress())
+                   .isNotNull(User::getWalletAddress);
+        User user = userMapper.selectOne(queryWrapper);
 
         if (user == null) {
             // 新用户，创建用户
@@ -214,18 +231,29 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User createUser(User user) {
         // 检查钱包地址是否已存在
-        if (userMapper.existsByWalletAddress(user.getWalletAddress())) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getWalletAddress, user.getWalletAddress())
+                   .isNotNull(User::getWalletAddress);
+        if (userMapper.selectCount(queryWrapper) > 0) {
             throw new BusinessException("钱包地址已注册");
         }
 
         // 检查用户名是否已存在（如果提供）
-        if (user.getUsername() != null && userMapper.existsByUsername(user.getUsername())) {
-            throw new BusinessException("用户名已存在");
+        if (user.getUsername() != null) {
+            queryWrapper.clear();
+            queryWrapper.eq(User::getUsername, user.getUsername());
+            if (userMapper.selectCount(queryWrapper) > 0) {
+                throw new BusinessException("用户名已存在");
+            }
         }
 
         // 检查邮箱是否已存在（如果提供）
-        if (user.getEmail() != null && userMapper.existsByEmail(user.getEmail())) {
-            throw new BusinessException("邮箱已存在");
+        if (user.getEmail() != null) {
+            queryWrapper.clear();
+            queryWrapper.eq(User::getEmail, user.getEmail());
+            if (userMapper.selectCount(queryWrapper) > 0) {
+                throw new BusinessException("邮箱已存在");
+            }
         }
 
         user.setCreatedAt(LocalDateTime.now());
@@ -252,17 +280,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByWalletAddress(String walletAddress) {
-        return userMapper.findByWalletAddress(walletAddress).orElse(null);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getWalletAddress, walletAddress)
+                   .isNotNull(User::getWalletAddress);
+        return userMapper.selectOne(queryWrapper);
     }
 
     @Override
     public User findByUsername(String username) {
-        return userMapper.findByUsername(username).orElse(null);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, username);
+        return userMapper.selectOne(queryWrapper);
     }
 
     @Override
     public User findByEmail(String email) {
-        return userMapper.findByEmail(email).orElse(null);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getEmail, email);
+        return userMapper.selectOne(queryWrapper);
     }
 
     @Override
@@ -272,17 +307,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isWalletRegistered(String walletAddress) {
-        return userMapper.existsByWalletAddress(walletAddress);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getWalletAddress, walletAddress)
+                   .isNotNull(User::getWalletAddress);
+        return userMapper.selectCount(queryWrapper) > 0;
     }
 
     @Override
     public boolean isUsernameExists(String username) {
-        return userMapper.existsByUsername(username);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, username);
+        return userMapper.selectCount(queryWrapper) > 0;
     }
 
     @Override
     public boolean isEmailExists(String email) {
-        return userMapper.existsByEmail(email);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getEmail, email);
+        return userMapper.selectCount(queryWrapper) > 0;
     }
 
     @Override

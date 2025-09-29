@@ -149,6 +149,7 @@ com\decentralized\gaming\platform\contracts\GameNFT$Game.class
 com\decentralized\gaming\platform\contracts\GameItemNFT$56.class
 com\decentralized\gaming\platform\contracts\Marketplace$Transaction.class
 com\decentralized\gaming\platform\contracts\AgentNFT$25.class
+com\decentralized\gaming\platform\controller\GameController.class
 com\decentralized\gaming\platform\contracts\AgentNFT$32.class
 com\decentralized\gaming\platform\contracts\GameItemNFT$UnpausedEventResponse.class
 com\decentralized\gaming\platform\contracts\GameItemNFT$3.class

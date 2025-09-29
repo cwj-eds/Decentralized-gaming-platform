@@ -3,71 +3,15 @@ package com.decentralized.gaming.platform.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.decentralized.gaming.platform.entity.User;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.Optional;
 
 /**
- * 用户Mapper接口
+ * 用户数据访问层
+ * 使用 MyBatis-Plus 内置查询接口，复杂查询通过 LambdaQueryWrapper 实现
  *
  * @author DecentralizedGamingPlatform
  */
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
-
-    /**
-     * 根据用户名查找用户
-     *
-     * @param username 用户名
-     * @return 用户信息
-     */
-    @Select("SELECT * FROM users WHERE username = #{username}")
-    Optional<User> findByUsername(@Param("username") String username);
-
-    /**
-     * 根据邮箱查找用户
-     *
-     * @param email 邮箱
-     * @return 用户信息
-     */
-    @Select("SELECT * FROM users WHERE email = #{email}")
-    Optional<User> findByEmail(@Param("email") String email);
-
-    /**
-     * 根据钱包地址查找用户
-     *
-     * @param walletAddress 钱包地址
-     * @return 用户信息
-     */
-    @Select("SELECT * FROM users WHERE wallet_address = #{walletAddress}")
-    Optional<User> findByWalletAddress(@Param("walletAddress") String walletAddress);
-
-    /**
-     * 检查用户名是否存在
-     *
-     * @param username 用户名
-     * @return 是否存在
-     */
-    @Select("SELECT COUNT(*) > 0 FROM users WHERE username = #{username}")
-    boolean existsByUsername(@Param("username") String username);
-
-    /**
-     * 检查邮箱是否存在
-     *
-     * @param email 邮箱
-     * @return 是否存在
-     */
-    @Select("SELECT COUNT(*) > 0 FROM users WHERE email = #{email}")
-    boolean existsByEmail(@Param("email") String email);
-
-    /**
-     * 检查钱包地址是否存在
-     *
-     * @param walletAddress 钱包地址
-     * @return 是否存在
-     */
-    @Select("SELECT COUNT(*) > 0 FROM users WHERE wallet_address = #{walletAddress} AND wallet_address IS NOT NULL")
-    boolean existsByWalletAddress(@Param("walletAddress") String walletAddress);
+    // 所有查询方法已迁移到 UserServiceImpl 中使用 MyBatis-Plus 的 LambdaQueryWrapper
+    // 如需复杂多表查询，可在此处添加自定义方法或使用 XML 映射文件
 }
-
