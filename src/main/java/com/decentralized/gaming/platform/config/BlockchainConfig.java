@@ -34,8 +34,8 @@ public class BlockchainConfig {
         private String platformToken;
         private String gameNft;
         private String agentNft;
-        private String gameItemNft;
         private String marketplace;
+        private String rewards;
     }
 
     /**
@@ -105,18 +105,18 @@ public class BlockchainConfig {
     }
 
     /**
-     * 游戏道具NFT合约
-     */
-    @Bean
-    public GameItemNFT gameItemNftContract(Web3j web3j, ContractGasProvider gasProvider) {
-        return GameItemNFT.load(contracts.getGameItemNft(), web3j, Credentials.create("0"), gasProvider);
-    }
-
-    /**
      * 交易市场合约
      */
     @Bean
     public Marketplace marketplaceContract(Web3j web3j, ContractGasProvider gasProvider) {
         return Marketplace.load(contracts.getMarketplace(), web3j, Credentials.create("0"), gasProvider);
+    }
+
+    /**
+     * 奖励合约
+     */
+    @Bean
+    public Rewards rewardsContract(Web3j web3j, ContractGasProvider gasProvider) {
+        return Rewards.load(contracts.getRewards(), web3j, Credentials.create("0"), gasProvider);
     }
 }

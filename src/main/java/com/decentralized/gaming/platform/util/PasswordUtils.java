@@ -1,8 +1,10 @@
 package com.decentralized.gaming.platform.util;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 /**
  * 密码工具类
@@ -13,7 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PasswordUtils {
 
-    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+    private static final String SALT_PREFIX = "$2a$12$";
+    private static final SecureRandom random = new SecureRandom();
 
     /**
      * 加密密码
@@ -25,7 +28,26 @@ public class PasswordUtils {
         if (rawPassword == null || rawPassword.trim().isEmpty()) {
             throw new IllegalArgumentException("密码不能为空");
         }
-        return passwordEncoder.encode(rawPassword);
+        
+        try {
+            // 生成随机盐
+            byte[] salt = new byte[16];
+            random.nextBytes(salt);
+            
+            // 使用SHA-256进行哈希
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(salt);
+            byte[] hashedPassword = md.digest(rawPassword.getBytes());
+            
+            // 组合盐和哈希值
+            byte[] combined = new byte[salt.length + hashedPassword.length];
+            System.arraycopy(salt, 0, combined, 0, salt.length);
+            System.arraycopy(hashedPassword, 0, combined, salt.length, hashedPassword.length);
+            
+            return SALT_PREFIX + Base64.getEncoder().encodeToString(combined);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("密码加密失败", e);
+        }
     }
 
     /**
@@ -39,7 +61,37 @@ public class PasswordUtils {
         if (rawPassword == null || encodedPassword == null) {
             return false;
         }
-        return passwordEncoder.matches(rawPassword, encodedPassword);
+        
+        try {
+            // 检查是否是我们的格式
+            if (!encodedPassword.startsWith(SALT_PREFIX)) {
+                return false;
+            }
+            
+            // 解码
+            String encoded = encodedPassword.substring(SALT_PREFIX.length());
+            byte[] combined = Base64.getDecoder().decode(encoded);
+            
+            if (combined.length < 16) {
+                return false;
+            }
+            
+            // 提取盐和哈希值
+            byte[] salt = new byte[16];
+            byte[] storedHash = new byte[combined.length - 16];
+            System.arraycopy(combined, 0, salt, 0, 16);
+            System.arraycopy(combined, 16, storedHash, 0, storedHash.length);
+            
+            // 重新计算哈希
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(salt);
+            byte[] computedHash = md.digest(rawPassword.getBytes());
+            
+            // 比较哈希值
+            return MessageDigest.isEqual(storedHash, computedHash);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -123,7 +175,7 @@ public class PasswordUtils {
             return true;
         }
 
-        // 检查是否是旧版本的BCrypt密码（版本标识符）
-        return !encodedPassword.startsWith("$2a$") && !encodedPassword.startsWith("$2b$") && !encodedPassword.startsWith("$2y$");
+        // 检查是否是我们新的加密格式
+        return !encodedPassword.startsWith(SALT_PREFIX);
     }
 }

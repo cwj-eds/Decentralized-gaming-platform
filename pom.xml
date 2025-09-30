@@ -106,11 +106,6 @@
 
 
 
-        <!-- Spring Security for password encryption -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-crypto</artifactId>
-        </dependency>
 
         <!-- Jakarta EE Validation API -->
         <dependency>
@@ -138,11 +133,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Spring Security for JWT -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
     </dependencies>
 
     <repositories>
@@ -160,7 +150,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Web3j Maven插件 -->
+            <!--&lt;!&ndash; Web3j Maven插件 &ndash;&gt;
             <plugin>
                 <groupId>org.web3j</groupId>
                 <artifactId>web3j-maven-plugin</artifactId>
@@ -179,7 +169,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 

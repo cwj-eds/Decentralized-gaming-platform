@@ -15,7 +15,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 2024
  */
 @SpringBootApplication(exclude = {
-    org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration.class
+    org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration.class,
+    org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
 })
 @MapperScan("com.decentralized.gaming.platform.mapper")
 @EnableAsync

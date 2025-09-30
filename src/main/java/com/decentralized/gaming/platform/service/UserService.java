@@ -104,6 +104,14 @@ public interface UserService {
     void initializeUserBalance(Long userId);
 
     /**
+     * 根据ID获取用户VO
+     *
+     * @param id 用户ID
+     * @return 用户VO
+     */
+    UserVO getUserById(Long id);
+
+    /**
      * 实体转VO
      *
      * @param user 用户实体

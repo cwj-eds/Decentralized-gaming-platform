@@ -9,11 +9,11 @@ import com.decentralized.gaming.platform.entity.UserBalance;
 import com.decentralized.gaming.platform.exception.BusinessException;
 import com.decentralized.gaming.platform.mapper.UserBalanceMapper;
 import com.decentralized.gaming.platform.mapper.UserMapper;
+import com.decentralized.gaming.platform.service.blockchain.BlockchainService;
 import com.decentralized.gaming.platform.service.PasswordService;
 import com.decentralized.gaming.platform.service.UserService;
 import com.decentralized.gaming.platform.util.JwtUtils;
 import com.decentralized.gaming.platform.vo.UserVO;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,13 +29,22 @@ import java.time.LocalDateTime;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class UserServiceImpl implements UserService {
 
-    private final UserMapper userMapper;
-    private final UserBalanceMapper userBalanceMapper;
-    private final PasswordService passwordService;
-    private final JwtUtils jwtUtils;
+    @Autowired
+    private UserMapper userMapper;
+    
+    @Autowired
+    private UserBalanceMapper userBalanceMapper;
+    
+    @Autowired
+    private PasswordService passwordService;
+    
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Autowired
+    private BlockchainService blockchainService;
 
     @Override
     @Transactional
@@ -134,15 +143,13 @@ public class UserServiceImpl implements UserService {
                 return false;
             }
 
-            // 简单的签名验证 - 在实际项目中应该使用Web3j的正确API
-            log.warn("签名验证功能暂未完全实现，使用简化验证");
-
             // 验证签名长度（65字节的签名）
             if (signature == null || !signature.startsWith("0x") || signature.length() != 132) {
                 return false;
             }
 
-            return true; // 临时返回true，实际应该验证签名
+            // 使用BlockchainService进行真实的签名验证
+            return blockchainService.verifySignature(message, signature, walletAddress);
 
         } catch (Exception e) {
             log.error("钱包签名验证失败", e);
@@ -253,6 +260,12 @@ public class UserServiceImpl implements UserService {
         balance.setBalance(BigDecimal.ZERO);
 
         userBalanceMapper.insert(balance);
+    }
+
+    @Override
+    public UserVO getUserById(Long id) {
+        User user = findById(id);
+        return convertToVO(user);
     }
 
     @Override

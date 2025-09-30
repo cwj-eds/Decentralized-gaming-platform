@@ -11,7 +11,7 @@ spring:
 
   # 数据源配置 (使用MySQL数据库ggg)
   datasource:
-    url: jdbc:mysql://localhost:3306/game?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/ggg?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -58,6 +58,14 @@ spring:
     time-zone: GMT+8
     default-property-inclusion: non_null
 
+  # 静态资源配置
+  web:
+    resources:
+      static-locations: classpath:/static/
+  mvc:
+    favicon:
+      enabled: false
+
 # MyBatis-Plus配置
 mybatis-plus:
   configuration:
@@ -89,19 +97,59 @@ logging:
 app:
   # 区块链配置
   blockchain:
-    network-url: http://localhost:8545
-    chain-id: 31337
-    gas-limit: 300000
-    gas-price: 20000000000
+    network:
+      name: localhost
+      url: http://localhost:8545
+      chain-id: 31337
+    gas:
+      limit: 300000
+      price: 20000000000
     # 合约地址配置
     contracts:
       platform-token: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-      game-nft: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
-      agent-nft: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
-      game-item-nft: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
-
-      marketplace: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
-
+      game-nft: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+      agent-nft: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+      marketplace: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+      rewards: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+    # 重试配置
+    retry:
+      max-attempts: 3
+      delay-ms: 1000
+      backoff-multiplier: 2
+    # 缓存配置
+    cache:
+      balance-ttl: 300      # 余额缓存5分钟
+      gas-price-ttl: 60     # Gas价格缓存1分钟
+      block-number-ttl: 10  # 区块号缓存10秒
+    
+    # 合约信息配置
+    contract-info:
+      platform-token:
+        name: "Platform Token"
+        symbol: "PLT"
+        decimals: 18
+        type: "ERC20"
+        total-supply: "1000000000000000000000000000"  # 1 billion tokens
+        base-uri: "https://api.gaming-platform.com/metadata/token/"
+      game-nft:
+        name: "Game NFT"
+        symbol: "GAME"
+        type: "ERC721"
+        base-uri: "https://api.gaming-platform.com/metadata/game/"
+      agent-nft:
+        name: "Agent NFT"
+        symbol: "AGENT"
+        type: "ERC721"
+        base-uri: "https://api.gaming-platform.com/metadata/agent/"
+      marketplace:
+        name: "Marketplace"
+        type: "Marketplace"
+        fee-rate: "250"  # 2.5% fee (250 basis points)
+        fee-recipient: "0x0000000000000000000000000000000000000000"
+      rewards:
+        name: "Rewards"
+        type: "Rewards"
+  
   # IPFS配置
   ipfs:
     gateway-url: https://ipfs.io/ipfs/
@@ -127,10 +175,11 @@ app:
     agent-upload-cost: 50.0
     marketplace-fee-rate: 0.025
 
-# JWT配置
+  # JWT配置
   jwt:
     secret: decentralized-gaming-platform-secret-key-2024
     expiration: 86400
+
 
 # OpenAPI配置
 springdoc:
@@ -140,11 +189,3 @@ springdoc:
     path: /swagger-ui.html
     tags-sorter: alpha
     operations-sorter: alpha
-
-# 静态资源配置
-  web:
-    resources:
-      static-locations: classpath:/static/
-  mvc:
-    favicon:
-      enabled: false

@@ -2,14 +2,15 @@ package com.decentralized.gaming.platform.service;
 
 import com.decentralized.gaming.platform.entity.User;
 import com.decentralized.gaming.platform.exception.BusinessException;
+import com.decentralized.gaming.platform.service.blockchain.BlockchainService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.Keys;
-import org.web3j.utils.Numeric;
-
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.EthGetCode;
 import java.math.BigDecimal;
-import java.security.SignatureException;
 import java.util.regex.Pattern;
 
 /**
@@ -23,6 +24,9 @@ public class WalletService {
 
     @Autowired
     private BlockchainService blockchainService;
+
+    @Autowired
+    private Web3j web3j;
 
     // 以太坊地址正则表达式
     private static final Pattern ADDRESS_PATTERN = Pattern.compile("^0x[a-fA-F0-9]{40}$");
@@ -104,9 +108,20 @@ public class WalletService {
      */
     public boolean isContractAddress(String address) {
         try {
-            // 这里可以添加检查合约地址的逻辑
-            // 简单实现：检查地址是否有代码
-            return false; // 暂时返回false，实际应该检查合约代码
+            // 首先验证地址格式
+            if (!isValidAddress(address)) {
+                return false;
+            }
+
+            // 检查地址是否有合约代码
+            EthGetCode ethGetCode = web3j.ethGetCode(address, DefaultBlockParameterName.LATEST).send();
+            String code = ethGetCode.getCode();
+            
+            // 如果代码不为空且不是"0x"，则说明是合约地址
+            boolean isContract = code != null && !code.equals("0x") && !code.isEmpty();
+            
+            log.debug("地址 {} 的合约代码: {}, 是否为合约: {}", address, code, isContract);
+            return isContract;
         } catch (Exception e) {
             log.error("检查合约地址失败: {}", e.getMessage());
             return false;
