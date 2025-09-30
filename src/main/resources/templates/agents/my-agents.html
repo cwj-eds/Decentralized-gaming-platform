@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>我的智能体 - 智能体平台</title>
+</head>
+<body>
+	<div th:replace="~{layout/base :: base('我的智能体 - 智能体平台', ~{::#content})}">
+		<div id="content">
+			<div class="container mt-4">
+				<!-- 页面标题和操作 -->
+				<div class="d-flex justify-content-between align-items-center mb-4">
+					<div>
+						<h1 class="mb-0">我的智能体</h1>
+						<p class="text-muted mb-0">管理您创建的所有智能体</p>
+					</div>
+					<div class="d-flex gap-2">
+						<a th:href="@{/agents/upload}" class="btn btn-primary">
+							<i class="fas fa-plus me-2"></i>创建智能体
+						</a>
+						<a th:href="@{/agents/list}" class="btn btn-outline-primary">
+							<i class="fas fa-list me-2"></i>浏览所有智能体
+						</a>
+					</div>
+				</div>
+
+				<!-- 智能体列表 -->
+				<div class="row" id="myAgentsList">
+					<div class="col-lg-4 col-md-6 mb-4" th:each="agent : ${agents.records}">
+						<div class="agent-card h-100">
+							<div class="card-body">
+								<div class="d-flex align-items-center mb-3">
+									<div class="agent-avatar me-3">
+										<i class="fas fa-robot fa-2x text-primary"></i>
+									</div>
+									<div class="flex-grow-1">
+										<h5 class="card-title mb-1" th:text="${agent.name}">智能体名称</h5>
+										<small class="text-muted" th:text="${agent.agentType}">智能体类型</small>
+									</div>
+									<div class="agent-status">
+										<span class="badge bg-success" th:if="${agent.status.name() == 'ACTIVE'}">活跃</span>
+										<span class="badge bg-secondary" th:if="${agent.status.name() == 'INACTIVE'}">非活跃</span>
+										<span class="badge bg-danger" th:if="${agent.status.name() == 'BANNED'}">已禁用</span>
+									</div>
+								</div>
+								
+								<p class="card-text text-muted" th:text="${agent.description}">智能体描述</p>
+								
+								<div class="agent-meta mb-3">
+									<div class="row text-center">
+										<div class="col-4">
+											<div class="meta-item">
+												<i class="fas fa-play text-primary"></i>
+												<div class="meta-value" th:text="${agent.usageCount}">0</div>
+												<div class="meta-label">使用次数</div>
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="meta-item">
+												<i class="fas fa-star text-warning"></i>
+												<div class="meta-value" th:text="${agent.rating}">0.0</div>
+												<div class="meta-label">评分</div>
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="meta-item">
+												<i class="fas fa-dollar-sign text-success"></i>
+												<div class="meta-value" th:text="${agent.price}">¥0</div>
+												<div class="meta-label">价格</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="d-flex justify-content-between align-items-center mb-3">
+									<div class="agent-date">
+										<small class="text-muted">
+											<i class="fas fa-calendar me-1"></i>
+											<span th:text="${#temporals.format(agent.createdAt, 'yyyy-MM-dd')}">创建时间</span>
+										</small>
+									</div>
+									<div class="agent-actions">
+										<div class="dropdown">
+											<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+												<i class="fas fa-ellipsis-v"></i>
+											</button>
+											<ul class="dropdown-menu">
+												<li><a class="dropdown-item" th:href="@{/agents/{id}(id=${agent.id})}">
+													<i class="fas fa-eye me-2"></i>查看详情
+												</a></li>
+												<li><a class="dropdown-item" href="#" th:onclick="'editAgent(' + ${agent.id} + ')'">
+													<i class="fas fa-edit me-2"></i>编辑
+												</a></li>
+												<li><a class="dropdown-item" href="#" th:onclick="'toggleStatus(' + ${agent.id} + ')'">
+													<i class="fas fa-power-off me-2"></i>
+													<span th:if="${agent.status.name() == 'ACTIVE'}">停用</span>
+													<span th:if="${agent.status.name() == 'INACTIVE'}">启用</span>
+												</a></li>
+												<li><hr class="dropdown-divider"></li>
+												<li><a class="dropdown-item text-danger" href="#" th:onclick="'deleteAgent(' + ${agent.id} + ')'">
+													<i class="fas fa-trash me-2"></i>删除
+												</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+
+								<div class="d-grid gap-2">
+									<a th:href="@{/agents/{id}(id=${agent.id})}" class="btn btn-outline-primary btn-sm">
+										<i class="fas fa-info-circle me-1"></i>查看详情
+									</a>
+									<button class="btn btn-success btn-sm" th:onclick="'useAgent(' + ${agent.id} + ')'" 
+											th:if="${agent.status.name() == 'ACTIVE'}">
+										<i class="fas fa-play me-1"></i>使用智能体
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 空状态 -->
+					<div class="col-12" th:if="${agents.records.isEmpty()}">
+						<div class="text-center py-5">
+							<i class="fas fa-robot fa-4x text-muted mb-3"></i>
+							<h4 class="text-muted">您还没有创建任何智能体</h4>
+							<p class="text-muted">开始创建您的第一个智能体，分享AI的力量</p>
+							<a th:href="@{/agents/upload}" class="btn btn-primary">
+								<i class="fas fa-plus me-2"></i>创建第一个智能体
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- 分页 -->
+				<nav aria-label="Page navigation" th:if="${agents.pages > 1}">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:classappend="${agents.current == 1} ? 'disabled'">
+							<a class="page-link" th:href="@{/agents/my-agents(page=${agents.current - 1}, size=${agents.size})}">上一页</a>
+						</li>
+						<li class="page-item" th:each="i : ${#numbers.sequence(1, agents.pages)}" th:classappend="${i == agents.current} ? 'active'">
+							<a class="page-link" th:href="@{/agents/my-agents(page=${i}, size=${agents.size})}" th:text="${i}">1</a>
+						</li>
+						<li class="page-item" th:classappend="${agents.current == agents.pages} ? 'disabled'">
+							<a class="page-link" th:href="@{/agents/my-agents(page=${agents.current + 1}, size=${agents.size})}">下一页</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+	<!-- JavaScript -->
+	<script th:inline="javascript">
+		function useAgent(agentId) {
+			// 这里应该从session或token中获取用户ID
+			const userId = 1; // 临时硬编码，实际应该从认证信息中获取
+			
+			// 显示加载状态
+			const button = event.target;
+			const originalText = button.innerHTML;
+			button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>使用中...';
+			button.disabled = true;
+			
+			fetch('/agents/api/' + agentId + '/use?userId=' + userId, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					showAlert('success', '智能体使用成功！');
+					// 刷新页面以更新使用次数
+					setTimeout(() => {
+						location.reload();
+					}, 1500);
+				} else {
+					showAlert('danger', '使用失败: ' + data.message);
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				showAlert('danger', '使用失败，请稍后重试');
+			})
+			.finally(() => {
+				// 恢复按钮状态
+				button.innerHTML = originalText;
+				button.disabled = false;
+			});
+		}
+
+		function editAgent(agentId) {
+			// 跳转到编辑页面（这里可以创建一个编辑页面）
+			showAlert('info', '编辑功能开发中...');
+		}
+
+		function toggleStatus(agentId) {
+			// 切换智能体状态
+			if (confirm('确定要切换智能体状态吗？')) {
+				showAlert('info', '状态切换功能开发中...');
+			}
+		}
+
+		function deleteAgent(agentId) {
+			// 删除智能体
+			if (confirm('确定要删除这个智能体吗？此操作不可恢复！')) {
+				showAlert('info', '删除功能开发中...');
+			}
+		}
+
+		function showAlert(type, message) {
+			// 创建提示框
+			const alertDiv = document.createElement('div');
+			alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+			alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+			alertDiv.innerHTML = `
+				${message}
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+			`;
+			
+			document.body.appendChild(alertDiv);
+			
+			// 3秒后自动消失
+			setTimeout(() => {
+				if (alertDiv.parentNode) {
+					alertDiv.parentNode.removeChild(alertDiv);
+				}
+			}, 3000);
+		}
+	</script>
+</body>
+</html>

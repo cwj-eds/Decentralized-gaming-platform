@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>智能体列表 - 智能体平台</title>
+</head>
+<body>
+	<div th:replace="~{layout/base :: base('智能体列表 - 智能体平台', ~{::#content})}">
+		<div id="content">
+			<div class="container mt-4">
+				<!-- 页面标题和筛选 -->
+				<div class="d-flex justify-content-between align-items-center mb-4">
+					<div>
+						<h1 class="mb-0">智能体列表</h1>
+						<p class="text-muted mb-0" th:if="${currentType}">
+							类型: <span class="badge bg-primary" th:text="${currentType}">类型</span>
+						</p>
+					</div>
+					<div class="d-flex gap-2">
+						<div class="dropdown">
+							<button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+								<i class="fas fa-filter me-1"></i>筛选类型
+							</button>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" th:href="@{/agents/list}">全部类型</a></li>
+								<li><a class="dropdown-item" th:href="@{/agents/list(type='GAME_MAKER')}">游戏制作</a></li>
+								<li><a class="dropdown-item" th:href="@{/agents/list(type='CHAT')}">对话助手</a></li>
+								<li><a class="dropdown-item" th:href="@{/agents/list(type='TOOL')}">工具智能体</a></li>
+								<li><a class="dropdown-item" th:href="@{/agents/list(type='ANALYSIS')}">数据分析</a></li>
+							</ul>
+						</div>
+						<a th:href="@{/agents/upload}" class="btn btn-primary">
+							<i class="fas fa-plus me-2"></i>上传智能体
+						</a>
+					</div>
+				</div>
+
+				<!-- 智能体列表 -->
+				<div class="row" id="agentsList">
+					<div class="col-lg-4 col-md-6 mb-4" th:each="agent : ${agents.records}">
+						<div class="agent-card h-100">
+							<div class="card-body">
+								<div class="d-flex align-items-center mb-3">
+									<div class="agent-avatar me-3">
+										<i class="fas fa-robot fa-2x text-primary"></i>
+									</div>
+									<div class="flex-grow-1">
+										<h5 class="card-title mb-1" th:text="${agent.name}">智能体名称</h5>
+										<small class="text-muted" th:text="${agent.agentType}">智能体类型</small>
+									</div>
+									<div class="agent-status">
+										<span class="badge bg-success" th:if="${agent.status.name() == 'ACTIVE'}">活跃</span>
+										<span class="badge bg-secondary" th:if="${agent.status.name() == 'INACTIVE'}">非活跃</span>
+										<span class="badge bg-danger" th:if="${agent.status.name() == 'BANNED'}">已禁用</span>
+									</div>
+								</div>
+								
+								<p class="card-text text-muted" th:text="${agent.description}">智能体描述</p>
+								
+								<div class="agent-meta mb-3">
+									<div class="row text-center">
+										<div class="col-4">
+											<div class="meta-item">
+												<i class="fas fa-play text-primary"></i>
+												<div class="meta-value" th:text="${agent.usageCount}">0</div>
+												<div class="meta-label">使用次数</div>
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="meta-item">
+												<i class="fas fa-star text-warning"></i>
+												<div class="meta-value" th:text="${agent.rating}">0.0</div>
+												<div class="meta-label">评分</div>
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="meta-item">
+												<i class="fas fa-user text-info"></i>
+												<div class="meta-value" th:text="${agent.creatorName}">创建者</div>
+												<div class="meta-label">创建者</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="d-flex justify-content-between align-items-center mb-3">
+									<div class="agent-price" th:if="${agent.price > 0}">
+										<span class="text-success fw-bold" th:text="'¥' + ${agent.price}">¥0</span>
+									</div>
+									<div class="agent-date">
+										<small class="text-muted" th:text="${#temporals.format(agent.createdAt, 'yyyy-MM-dd')}">创建时间</small>
+									</div>
+								</div>
+
+								<div class="d-grid gap-2">
+									<a th:href="@{/agents/{id}(id=${agent.id})}" class="btn btn-outline-primary btn-sm">
+										<i class="fas fa-info-circle me-1"></i>查看详情
+									</a>
+									<button class="btn btn-success btn-sm" th:onclick="'useAgent(' + ${agent.id} + ')'" 
+											th:if="${agent.status.name() == 'ACTIVE'}">
+										<i class="fas fa-play me-1"></i>使用智能体
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 空状态 -->
+					<div class="col-12" th:if="${agents.records.isEmpty()}">
+						<div class="text-center py-5">
+							<i class="fas fa-robot fa-4x text-muted mb-3"></i>
+							<h4 class="text-muted">暂无智能体</h4>
+							<p class="text-muted">还没有找到符合条件的智能体，试试其他筛选条件</p>
+							<a th:href="@{/agents/upload}" class="btn btn-primary">
+								<i class="fas fa-plus me-2"></i>上传第一个智能体
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- 分页 -->
+				<nav aria-label="Page navigation" th:if="${agents.pages > 1}">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:classappend="${agents.current == 1} ? 'disabled'">
+							<a class="page-link" th:href="@{/agents/list(page=${agents.current - 1}, size=${agents.size}, type=${currentType})}">上一页</a>
+						</li>
+						<li class="page-item" th:each="i : ${#numbers.sequence(1, agents.pages)}" th:classappend="${i == agents.current} ? 'active'">
+							<a class="page-link" th:href="@{/agents/list(page=${i}, size=${agents.size}, type=${currentType})}" th:text="${i}">1</a>
+						</li>
+						<li class="page-item" th:classappend="${agents.current == agents.pages} ? 'disabled'">
+							<a class="page-link" th:href="@{/agents/list(page=${agents.current + 1}, size=${agents.size}, type=${currentType})}">下一页</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+	<!-- JavaScript -->
+	<script th:inline="javascript">
+		function useAgent(agentId) {
+			// 这里应该从session或token中获取用户ID
+			const userId = 1; // 临时硬编码，实际应该从认证信息中获取
+			
+			fetch('/agents/api/' + agentId + '/use?userId=' + userId, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					alert('智能体使用成功！');
+					// 刷新页面或更新使用次数
+					location.reload();
+				} else {
+					alert('使用失败: ' + data.message);
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				alert('使用失败，请稍后重试');
+			});
+		}
+	</script>
+</body>
+</html>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/base :: base(~{::title}, ~{::#content})}">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>游戏中心 - 去中心化游戏平台</title>
 </head>
 <body>
-	<div id="content">
+	<div th:replace="~{layout/base :: base('游戏中心 - 去中心化游戏平台', ~{::#content})}">
+		<div id="content">
 		<div class="container mt-4">
 			<div class="d-flex justify-content-between align-items-center mb-4">
 				<h1 class="mb-0">游戏中心</h1>
@@ -51,6 +52,7 @@
 					</li>
 				</ul>
 			</nav>
+		</div>
 		</div>
 	</div>
 </body>
