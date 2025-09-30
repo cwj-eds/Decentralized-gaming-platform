@@ -6469,3 +6469,1652 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 2025-09-30 11:37:36 [http-nio-8080-exec-6] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - <==      Total: 0
 2025-09-30 11:38:45 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-09-30 11:38:45 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-09-30 14:10:44 [main] INFO  c.d.g.p.DecentralizedGamingPlatformApplication - Starting DecentralizedGamingPlatformApplication using Java 21.0.8 with PID 22156 (D:\去中心化游戏\Decentralized-gaming-platform\target\classes started by Administrator in D:\去中心化游戏\Decentralized-gaming-platform)
+2025-09-30 14:10:44 [main] DEBUG c.d.g.p.DecentralizedGamingPlatformApplication - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-09-30 14:10:44 [main] INFO  c.d.g.p.DecentralizedGamingPlatformApplication - No active profile set, falling back to 1 default profile: "default"
+2025-09-30 14:10:45 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-09-30 14:10:45 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-09-30 14:10:45 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.30]
+2025-09-30 14:10:45 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-09-30 14:10:45 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1665 ms
+2025-09-30 14:10:46 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get /198.18.0.1 network interface 
+2025-09-30 14:10:46 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get network interface info: name:iftype53_32768 (Meta Tunnel)
+2025-09-30 14:10:46 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Initialization Sequence datacenterId:0 workerId:2
+2025-09-30 14:10:46 [main] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务初始化完成
+2025-09-30 14:10:47 [main] INFO  o.s.b.a.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-09-30 14:10:47 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-09-30 14:10:47 [main] INFO  c.d.g.p.DecentralizedGamingPlatformApplication - Started DecentralizedGamingPlatformApplication in 3.875 seconds (process running for 4.538)
+2025-09-30 14:10:49 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-30 14:10:49 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-09-30 14:10:49 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-09-30 14:10:53 [http-nio-8080-exec-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-09-30 14:10:53 [http-nio-8080-exec-5] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3127915
+2025-09-30 14:10:53 [http-nio-8080-exec-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-09-30 14:10:53 [http-nio-8080-exec-5] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE (status = ?) ORDER BY usage_count DESC,rating DESC LIMIT 6
+2025-09-30 14:10:54 [http-nio-8080-exec-5] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==> Parameters: ACTIVE(String)
+2025-09-30 14:10:54 [http-nio-8080-exec-5] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.agents' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/AgentMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at  FROM agents      WHERE  (status = ?) ORDER BY usage_count DESC,rating DESC LIMIT 6
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.agents' doesn't exist
+; bad SQL grammar []
+org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.agents' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/AgentMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at  FROM agents      WHERE  (status = ?) ORDER BY usage_count DESC,rating DESC LIMIT 6
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.agents' doesn't exist
+; bad SQL grammar []
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:246)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:92)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:439)
+	at jdk.proxy2/jdk.proxy2.$Proxy75.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:224)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.executeForMany(MybatisMapperMethod.java:164)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:77)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy80.selectList(Unknown Source)
+	at com.decentralized.gaming.platform.service.impl.AgentServiceImpl.getPopularAgents(AgentServiceImpl.java:136)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:355)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:716)
+	at com.decentralized.gaming.platform.service.impl.AgentServiceImpl$$SpringCGLIB$$0.getPopularAgents(<generated>)
+	at com.decentralized.gaming.platform.controller.AgentController.index(AgentController.java:41)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'ggg.agents' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:912)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:354)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:58)
+	at jdk.proxy3/jdk.proxy3.$Proxy116.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	... 62 common frames omitted
+2025-09-30 14:10:57 [http-nio-8080-exec-6] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: No static resource marketplace.
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource marketplace.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585)
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-09-30 14:10:59 [http-nio-8080-exec-7] INFO  c.d.gaming.platform.controller.AssetController - 访问资产管理首页
+2025-09-30 14:10:59 [http-nio-8080-exec-7] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户资产管理面板，用户ID: 1
+2025-09-30 14:10:59 [http-nio-8080-exec-7] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:10:59 [http-nio-8080-exec-7] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:10:59 [http-nio-8080-exec-7] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/UserMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+; bad SQL grammar []
+org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/UserMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+; bad SQL grammar []
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:246)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:92)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:439)
+	at jdk.proxy2/jdk.proxy2.$Proxy75.selectOne(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectOne(SqlSessionTemplate.java:160)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:87)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy82.selectById(Unknown Source)
+	at com.decentralized.gaming.platform.service.impl.AssetServiceImpl.getAssetDashboard(AssetServiceImpl.java:48)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:355)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:716)
+	at com.decentralized.gaming.platform.service.impl.AssetServiceImpl$$SpringCGLIB$$0.getAssetDashboard(<generated>)
+	at com.decentralized.gaming.platform.controller.AssetController.index(AssetController.java:42)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:912)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:354)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:58)
+	at jdk.proxy3/jdk.proxy3.$Proxy116.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectOne(DefaultSqlSession.java:75)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	... 61 common frames omitted
+2025-09-30 14:11:08 [http-nio-8080-exec-8] INFO  c.d.gaming.platform.controller.AssetController - 访问资产管理首页
+2025-09-30 14:11:08 [http-nio-8080-exec-8] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户资产管理面板，用户ID: 1
+2025-09-30 14:11:08 [http-nio-8080-exec-8] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:11:08 [http-nio-8080-exec-8] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:11:08 [http-nio-8080-exec-8] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/UserMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+; bad SQL grammar []
+org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/UserMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+; bad SQL grammar []
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:246)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:92)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:439)
+	at jdk.proxy2/jdk.proxy2.$Proxy75.selectOne(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectOne(SqlSessionTemplate.java:160)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:87)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy82.selectById(Unknown Source)
+	at com.decentralized.gaming.platform.service.impl.AssetServiceImpl.getAssetDashboard(AssetServiceImpl.java:48)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:355)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:716)
+	at com.decentralized.gaming.platform.service.impl.AssetServiceImpl$$SpringCGLIB$$0.getAssetDashboard(<generated>)
+	at com.decentralized.gaming.platform.controller.AssetController.index(AssetController.java:42)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:912)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:354)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:58)
+	at jdk.proxy3/jdk.proxy3.$Proxy116.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectOne(DefaultSqlSession.java:75)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	... 61 common frames omitted
+2025-09-30 14:11:32 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.GameMapper.selectList - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE (status = ?) ORDER BY created_at DESC
+2025-09-30 14:11:32 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.GameMapper.selectList - ==> Parameters: PUBLISHED(String)
+2025-09-30 14:11:32 [http-nio-8080-exec-9] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/GameMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at  FROM games      WHERE  (status = ?) ORDER BY created_at DESC
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+; bad SQL grammar []
+org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/GameMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at  FROM games      WHERE  (status = ?) ORDER BY created_at DESC
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+; bad SQL grammar []
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:246)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:92)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:439)
+	at jdk.proxy2/jdk.proxy2.$Proxy75.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:224)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.executeForMany(MybatisMapperMethod.java:164)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:77)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy81.selectList(Unknown Source)
+	at com.baomidou.mybatisplus.core.mapper.BaseMapper.selectPage(BaseMapper.java:432)
+	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:733)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$DefaultMethodInvoker.invoke(MybatisMapperProxy.java:166)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy81.selectPage(Unknown Source)
+	at com.decentralized.gaming.platform.service.impl.GameServiceImpl.getPublishedGames(GameServiceImpl.java:31)
+	at com.decentralized.gaming.platform.controller.GameController.list(GameController.java:26)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:912)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:354)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:58)
+	at jdk.proxy3/jdk.proxy3.$Proxy116.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	... 62 common frames omitted
+2025-09-30 14:11:36 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE (status = ?) ORDER BY usage_count DESC,rating DESC LIMIT 6
+2025-09-30 14:11:36 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==> Parameters: ACTIVE(String)
+2025-09-30 14:11:36 [http-nio-8080-exec-10] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.agents' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/AgentMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at  FROM agents      WHERE  (status = ?) ORDER BY usage_count DESC,rating DESC LIMIT 6
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.agents' doesn't exist
+; bad SQL grammar []
+org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.agents' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/AgentMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at  FROM agents      WHERE  (status = ?) ORDER BY usage_count DESC,rating DESC LIMIT 6
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.agents' doesn't exist
+; bad SQL grammar []
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:246)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:92)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:439)
+	at jdk.proxy2/jdk.proxy2.$Proxy75.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:224)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.executeForMany(MybatisMapperMethod.java:164)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:77)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy80.selectList(Unknown Source)
+	at com.decentralized.gaming.platform.service.impl.AgentServiceImpl.getPopularAgents(AgentServiceImpl.java:136)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:355)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:716)
+	at com.decentralized.gaming.platform.service.impl.AgentServiceImpl$$SpringCGLIB$$0.getPopularAgents(<generated>)
+	at com.decentralized.gaming.platform.controller.AgentController.index(AgentController.java:41)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'ggg.agents' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:912)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:354)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:58)
+	at jdk.proxy3/jdk.proxy3.$Proxy116.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	... 62 common frames omitted
+2025-09-30 14:11:38 [http-nio-8080-exec-1] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: No static resource marketplace.
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource marketplace.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585)
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-09-30 14:11:41 [http-nio-8080-exec-2] INFO  c.d.gaming.platform.controller.AssetController - 访问资产管理首页
+2025-09-30 14:11:41 [http-nio-8080-exec-2] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户资产管理面板，用户ID: 1
+2025-09-30 14:11:41 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:11:41 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:11:41 [http-nio-8080-exec-2] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/UserMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+; bad SQL grammar []
+org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/UserMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+; bad SQL grammar []
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:246)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:92)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:439)
+	at jdk.proxy2/jdk.proxy2.$Proxy75.selectOne(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectOne(SqlSessionTemplate.java:160)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:87)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy82.selectById(Unknown Source)
+	at com.decentralized.gaming.platform.service.impl.AssetServiceImpl.getAssetDashboard(AssetServiceImpl.java:48)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:355)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:716)
+	at com.decentralized.gaming.platform.service.impl.AssetServiceImpl$$SpringCGLIB$$0.getAssetDashboard(<generated>)
+	at com.decentralized.gaming.platform.controller.AssetController.index(AssetController.java:42)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'ggg.users' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:912)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:354)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:58)
+	at jdk.proxy3/jdk.proxy3.$Proxy116.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectOne(DefaultSqlSession.java:75)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	... 61 common frames omitted
+2025-09-30 14:11:43 [http-nio-8080-exec-3] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: No static resource payment/recharge.
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource payment/recharge.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585)
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-09-30 14:11:46 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:11:48 [http-nio-8080-exec-4] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: No static resource payment/recharge.
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource payment/recharge.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585)
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-09-30 14:12:19 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.GameMapper.selectList - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE (status = ?) ORDER BY created_at DESC
+2025-09-30 14:12:19 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.GameMapper.selectList - ==> Parameters: PUBLISHED(String)
+2025-09-30 14:12:19 [http-nio-8080-exec-9] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/GameMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at  FROM games      WHERE  (status = ?) ORDER BY created_at DESC
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+; bad SQL grammar []
+org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/GameMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at  FROM games      WHERE  (status = ?) ORDER BY created_at DESC
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+; bad SQL grammar []
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:246)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:92)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:439)
+	at jdk.proxy2/jdk.proxy2.$Proxy75.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:224)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.executeForMany(MybatisMapperMethod.java:164)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:77)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy81.selectList(Unknown Source)
+	at com.baomidou.mybatisplus.core.mapper.BaseMapper.selectPage(BaseMapper.java:432)
+	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:733)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$DefaultMethodInvoker.invoke(MybatisMapperProxy.java:166)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy81.selectPage(Unknown Source)
+	at com.decentralized.gaming.platform.service.impl.GameServiceImpl.getPublishedGames(GameServiceImpl.java:31)
+	at com.decentralized.gaming.platform.controller.GameController.list(GameController.java:26)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:912)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:354)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:58)
+	at jdk.proxy3/jdk.proxy3.$Proxy116.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	... 62 common frames omitted
+2025-09-30 14:12:46 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:13:46 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:14:21 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.GameMapper.selectList - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE (status = ?) ORDER BY created_at DESC
+2025-09-30 14:14:21 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.GameMapper.selectList - ==> Parameters: PUBLISHED(String)
+2025-09-30 14:14:21 [http-nio-8080-exec-1] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/GameMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at  FROM games      WHERE  (status = ?) ORDER BY created_at DESC
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+; bad SQL grammar []
+org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+### The error may exist in com/decentralized/gaming/platform/mapper/GameMapper.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at  FROM games      WHERE  (status = ?) ORDER BY created_at DESC
+### Cause: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+; bad SQL grammar []
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:246)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:92)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:439)
+	at jdk.proxy2/jdk.proxy2.$Proxy75.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:224)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.executeForMany(MybatisMapperMethod.java:164)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:77)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy81.selectList(Unknown Source)
+	at com.baomidou.mybatisplus.core.mapper.BaseMapper.selectPage(BaseMapper.java:432)
+	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:733)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$DefaultMethodInvoker.invoke(MybatisMapperProxy.java:166)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at jdk.proxy2/jdk.proxy2.$Proxy81.selectPage(Unknown Source)
+	at com.decentralized.gaming.platform.service.impl.GameServiceImpl.getPublishedGames(GameServiceImpl.java:31)
+	at com.decentralized.gaming.platform.controller.GameController.list(GameController.java:26)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'ggg.games' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:912)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:354)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:58)
+	at jdk.proxy3/jdk.proxy3.$Proxy116.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:137)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	... 62 common frames omitted
+2025-09-30 14:14:46 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:15:46 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:16:46 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:17:46 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:18:23 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 停止监听智能合约事件
+2025-09-30 14:18:23 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务已关闭
+2025-09-30 14:18:23 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-09-30 14:18:23 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-09-30 14:18:25 [main] INFO  c.d.g.p.DecentralizedGamingPlatformApplication - Starting DecentralizedGamingPlatformApplication using Java 21.0.8 with PID 20268 (D:\去中心化游戏\Decentralized-gaming-platform\target\classes started by Administrator in D:\去中心化游戏\Decentralized-gaming-platform)
+2025-09-30 14:18:25 [main] DEBUG c.d.g.p.DecentralizedGamingPlatformApplication - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-09-30 14:18:25 [main] INFO  c.d.g.p.DecentralizedGamingPlatformApplication - No active profile set, falling back to 1 default profile: "default"
+2025-09-30 14:18:27 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-09-30 14:18:27 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-09-30 14:18:27 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.30]
+2025-09-30 14:18:27 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-09-30 14:18:27 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1823 ms
+2025-09-30 14:18:27 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get /198.18.0.1 network interface 
+2025-09-30 14:18:27 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get network interface info: name:iftype53_32768 (Meta Tunnel)
+2025-09-30 14:18:27 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Initialization Sequence datacenterId:0 workerId:6
+2025-09-30 14:18:28 [main] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务初始化完成
+2025-09-30 14:18:28 [main] INFO  o.s.b.a.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-09-30 14:18:29 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-09-30 14:18:29 [main] INFO  c.d.g.p.DecentralizedGamingPlatformApplication - Started DecentralizedGamingPlatformApplication in 4.04 seconds (process running for 4.727)
+2025-09-30 14:18:31 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-30 14:18:31 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-09-30 14:18:31 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-09-30 14:18:33 [http-nio-8080-exec-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-09-30 14:18:33 [http-nio-8080-exec-5] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4ab60bec
+2025-09-30 14:18:33 [http-nio-8080-exec-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-09-30 14:18:33 [http-nio-8080-exec-5] DEBUG c.d.gaming.platform.mapper.GameMapper.selectList - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE (status = ?) ORDER BY created_at DESC
+2025-09-30 14:18:33 [http-nio-8080-exec-5] DEBUG c.d.gaming.platform.mapper.GameMapper.selectList - ==> Parameters: PUBLISHED(String)
+2025-09-30 14:18:33 [http-nio-8080-exec-5] DEBUG c.d.gaming.platform.mapper.GameMapper.selectList - <==      Total: 10
+2025-09-30 14:18:40 [http-nio-8080-exec-6] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE id=?
+2025-09-30 14:18:40 [http-nio-8080-exec-6] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:18:40 [http-nio-8080-exec-6] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - <==      Total: 1
+2025-09-30 14:18:44 [http-nio-8080-exec-7] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE id=?
+2025-09-30 14:18:44 [http-nio-8080-exec-7] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:18:44 [http-nio-8080-exec-7] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - <==      Total: 1
+2025-09-30 14:18:46 [http-nio-8080-exec-8] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE id=?
+2025-09-30 14:18:46 [http-nio-8080-exec-8] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:18:46 [http-nio-8080-exec-8] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - <==      Total: 1
+2025-09-30 14:18:48 [http-nio-8080-exec-9] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: No static resource marketplace.
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource marketplace.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585)
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE (status = ?) ORDER BY usage_count DESC,rating DESC LIMIT 6
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==> Parameters: ACTIVE(String)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - <==      Total: 6
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 3(Long)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 2(Long)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 2(Long)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 5(Long)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 4(Long)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 6(Long)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM agents
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==> Parameters: 
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - <==      Total: 1
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM agents WHERE (status = ?)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==> Parameters: ACTIVE(String)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - <==      Total: 1
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM agents WHERE (agent_type = ? AND status = ?)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==> Parameters: GAME_MAKER(String), ACTIVE(String)
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - <==      Total: 1
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==> Parameters: 
+2025-09-30 14:18:51 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - <==      Total: 8
+2025-09-30 14:18:53 [http-nio-8080-exec-1] INFO  c.d.gaming.platform.controller.AssetController - 访问资产管理首页
+2025-09-30 14:18:53 [http-nio-8080-exec-1] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户资产管理面板，用户ID: 1
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:18:53 [http-nio-8080-exec-1] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户代币余额，用户ID: 1
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserBalanceMapper.selectList - ==>  Preparing: SELECT id,user_id,token_type,balance,created_at,updated_at FROM user_balances WHERE (user_id = ?) ORDER BY updated_at DESC
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserBalanceMapper.selectList - ==> Parameters: 1(Long)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserBalanceMapper.selectList - <==      Total: 2
+2025-09-30 14:18:53 [http-nio-8080-exec-1] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户资产统计，用户ID: 1
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM user_assets WHERE (user_id = ?)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==> Parameters: 1(Long)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - <==      Total: 1
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM user_assets WHERE (user_id = ? AND asset_type = ?)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==> Parameters: 1(Long), GAME(String)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - <==      Total: 1
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM user_assets WHERE (user_id = ? AND asset_type = ?)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==> Parameters: 1(Long), AGENT(String)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - <==      Total: 1
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM user_assets WHERE (user_id = ? AND asset_type = ?)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==> Parameters: 1(Long), GAME_ITEM(String)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - <==      Total: 1
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM user_assets WHERE (user_id = ? AND is_tradeable = ?)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==> Parameters: 1(Long), true(Boolean)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - <==      Total: 1
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - ==>  Preparing: SELECT id,user_id,asset_type,asset_id,contract_address,token_id,acquired_at,acquisition_type,is_tradeable,created_at,updated_at FROM user_assets WHERE (user_id = ?) ORDER BY created_at DESC
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - ==> Parameters: 1(Long)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - <==      Total: 4
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE id=?
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==> Parameters: 5(Long)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - <==      Total: 1
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE id=?
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==> Parameters: 15(Long)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - <==      Total: 0
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==>  Preparing: SELECT id,game_id,item_name,item_type,rarity,attributes,contract_address,token_id,created_at FROM game_items WHERE id=?
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==> Parameters: 19(Long)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - <==      Total: 0
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==>  Preparing: SELECT id,game_id,item_name,item_type,rarity,attributes,contract_address,token_id,created_at FROM game_items WHERE id=?
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==> Parameters: 20(Long)
+2025-09-30 14:18:53 [http-nio-8080-exec-1] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - <==      Total: 0
+2025-09-30 14:18:56 [http-nio-8080-exec-3] INFO  c.d.gaming.platform.controller.AssetController - 访问我的智能体页面，页码: 1, 大小: 10
+2025-09-30 14:18:56 [http-nio-8080-exec-3] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户资产，用户ID: 1, 资产类型: AGENT, 页码: 1, 大小: 10
+2025-09-30 14:18:56 [http-nio-8080-exec-3] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - ==>  Preparing: SELECT id,user_id,asset_type,asset_id,contract_address,token_id,acquired_at,acquisition_type,is_tradeable,created_at,updated_at FROM user_assets WHERE (user_id = ? AND asset_type = ?) ORDER BY created_at DESC
+2025-09-30 14:18:56 [http-nio-8080-exec-3] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - ==> Parameters: 1(Long), AGENT(String)
+2025-09-30 14:18:56 [http-nio-8080-exec-3] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - <==      Total: 1
+2025-09-30 14:18:56 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE id=?
+2025-09-30 14:18:56 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==> Parameters: 15(Long)
+2025-09-30 14:18:56 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - <==      Total: 0
+2025-09-30 14:18:57 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE id=?
+2025-09-30 14:18:57 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==> Parameters: 15(Long)
+2025-09-30 14:18:57 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - <==      Total: 0
+2025-09-30 14:18:57 [http-nio-8080-exec-2] WARN  c.d.g.platform.exception.GlobalExceptionHandler - 业务异常: 智能体不存在
+2025-09-30 14:19:02 [http-nio-8080-exec-4] INFO  c.d.gaming.platform.controller.AssetController - 访问我的游戏页面，页码: 1, 大小: 10
+2025-09-30 14:19:02 [http-nio-8080-exec-4] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户资产，用户ID: 1, 资产类型: GAME, 页码: 1, 大小: 10
+2025-09-30 14:19:02 [http-nio-8080-exec-4] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - ==>  Preparing: SELECT id,user_id,asset_type,asset_id,contract_address,token_id,acquired_at,acquisition_type,is_tradeable,created_at,updated_at FROM user_assets WHERE (user_id = ? AND asset_type = ?) ORDER BY created_at DESC
+2025-09-30 14:19:02 [http-nio-8080-exec-4] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - ==> Parameters: 1(Long), GAME(String)
+2025-09-30 14:19:02 [http-nio-8080-exec-4] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - <==      Total: 1
+2025-09-30 14:19:02 [http-nio-8080-exec-4] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE id=?
+2025-09-30 14:19:02 [http-nio-8080-exec-4] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==> Parameters: 5(Long)
+2025-09-30 14:19:02 [http-nio-8080-exec-4] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - <==      Total: 1
+2025-09-30 14:19:04 [http-nio-8080-exec-5] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE id=?
+2025-09-30 14:19:04 [http-nio-8080-exec-5] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==> Parameters: 5(Long)
+2025-09-30 14:19:04 [http-nio-8080-exec-5] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - <==      Total: 1
+2025-09-30 14:19:08 [http-nio-8080-exec-6] INFO  c.d.gaming.platform.controller.AssetController - 访问我的道具页面，页码: 1, 大小: 10
+2025-09-30 14:19:08 [http-nio-8080-exec-6] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户资产，用户ID: 1, 资产类型: GAME_ITEM, 页码: 1, 大小: 10
+2025-09-30 14:19:08 [http-nio-8080-exec-6] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - ==>  Preparing: SELECT id,user_id,asset_type,asset_id,contract_address,token_id,acquired_at,acquisition_type,is_tradeable,created_at,updated_at FROM user_assets WHERE (user_id = ? AND asset_type = ?) ORDER BY created_at DESC
+2025-09-30 14:19:08 [http-nio-8080-exec-6] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - ==> Parameters: 1(Long), GAME_ITEM(String)
+2025-09-30 14:19:08 [http-nio-8080-exec-6] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - <==      Total: 2
+2025-09-30 14:19:08 [http-nio-8080-exec-6] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==>  Preparing: SELECT id,game_id,item_name,item_type,rarity,attributes,contract_address,token_id,created_at FROM game_items WHERE id=?
+2025-09-30 14:19:08 [http-nio-8080-exec-6] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==> Parameters: 19(Long)
+2025-09-30 14:19:08 [http-nio-8080-exec-6] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - <==      Total: 0
+2025-09-30 14:19:08 [http-nio-8080-exec-6] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==>  Preparing: SELECT id,game_id,item_name,item_type,rarity,attributes,contract_address,token_id,created_at FROM game_items WHERE id=?
+2025-09-30 14:19:08 [http-nio-8080-exec-6] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==> Parameters: 20(Long)
+2025-09-30 14:19:08 [http-nio-8080-exec-6] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - <==      Total: 0
+2025-09-30 14:19:13 [http-nio-8080-exec-7] INFO  c.d.gaming.platform.controller.AssetController - 访问代币管理页面
+2025-09-30 14:19:13 [http-nio-8080-exec-7] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户代币余额，用户ID: 1
+2025-09-30 14:19:13 [http-nio-8080-exec-7] DEBUG c.d.g.platform.mapper.UserBalanceMapper.selectList - ==>  Preparing: SELECT id,user_id,token_type,balance,created_at,updated_at FROM user_balances WHERE (user_id = ?) ORDER BY updated_at DESC
+2025-09-30 14:19:13 [http-nio-8080-exec-7] DEBUG c.d.g.platform.mapper.UserBalanceMapper.selectList - ==> Parameters: 1(Long)
+2025-09-30 14:19:13 [http-nio-8080-exec-7] DEBUG c.d.g.platform.mapper.UserBalanceMapper.selectList - <==      Total: 2
+2025-09-30 14:19:26 [http-nio-8080-exec-8] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: No static resource payment/recharge.
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource payment/recharge.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585)
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-09-30 14:19:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:19:29 [http-nio-8080-exec-9] INFO  c.d.gaming.platform.controller.AssetController - 访问资产管理首页
+2025-09-30 14:19:29 [http-nio-8080-exec-9] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户资产管理面板，用户ID: 1
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:19:29 [http-nio-8080-exec-9] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户代币余额，用户ID: 1
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserBalanceMapper.selectList - ==>  Preparing: SELECT id,user_id,token_type,balance,created_at,updated_at FROM user_balances WHERE (user_id = ?) ORDER BY updated_at DESC
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserBalanceMapper.selectList - ==> Parameters: 1(Long)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserBalanceMapper.selectList - <==      Total: 2
+2025-09-30 14:19:29 [http-nio-8080-exec-9] INFO  c.d.gaming.platform.service.impl.AssetServiceImpl - 获取用户资产统计，用户ID: 1
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM user_assets WHERE (user_id = ?)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==> Parameters: 1(Long)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - <==      Total: 1
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM user_assets WHERE (user_id = ? AND asset_type = ?)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==> Parameters: 1(Long), GAME(String)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - <==      Total: 1
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM user_assets WHERE (user_id = ? AND asset_type = ?)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==> Parameters: 1(Long), AGENT(String)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - <==      Total: 1
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM user_assets WHERE (user_id = ? AND asset_type = ?)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==> Parameters: 1(Long), GAME_ITEM(String)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - <==      Total: 1
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM user_assets WHERE (user_id = ? AND is_tradeable = ?)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - ==> Parameters: 1(Long), true(Boolean)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectCount - <==      Total: 1
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - ==>  Preparing: SELECT id,user_id,asset_type,asset_id,contract_address,token_id,acquired_at,acquisition_type,is_tradeable,created_at,updated_at FROM user_assets WHERE (user_id = ?) ORDER BY created_at DESC
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - ==> Parameters: 1(Long)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.UserAssetMapper.selectList - <==      Total: 4
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==>  Preparing: SELECT id,title,description,creator_id,game_code,game_assets_url,contract_address,status,play_count,rating,created_at,updated_at FROM games WHERE id=?
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - ==> Parameters: 5(Long)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.GameMapper.selectById - <==      Total: 1
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE id=?
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==> Parameters: 15(Long)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - <==      Total: 0
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==>  Preparing: SELECT id,game_id,item_name,item_type,rarity,attributes,contract_address,token_id,created_at FROM game_items WHERE id=?
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==> Parameters: 19(Long)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - <==      Total: 0
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==>  Preparing: SELECT id,game_id,item_name,item_type,rarity,attributes,contract_address,token_id,created_at FROM game_items WHERE id=?
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - ==> Parameters: 20(Long)
+2025-09-30 14:19:29 [http-nio-8080-exec-9] DEBUG c.d.g.platform.mapper.GameItemMapper.selectById - <==      Total: 0
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE (status = ?) ORDER BY usage_count DESC,rating DESC LIMIT 6
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==> Parameters: ACTIVE(String)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - <==      Total: 6
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 3(Long)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 2(Long)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 2(Long)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 5(Long)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 4(Long)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 6(Long)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM agents
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==> Parameters: 
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - <==      Total: 1
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM agents WHERE (status = ?)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==> Parameters: ACTIVE(String)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - <==      Total: 1
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==>  Preparing: SELECT COUNT( * ) AS total FROM agents WHERE (agent_type = ? AND status = ?)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - ==> Parameters: GAME_MAKER(String), ACTIVE(String)
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectCount - <==      Total: 1
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==> Parameters: 
+2025-09-30 14:19:32 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - <==      Total: 8
+2025-09-30 14:19:37 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE id=?
+2025-09-30 14:19:37 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==> Parameters: 6(Long)
+2025-09-30 14:19:37 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - <==      Total: 1
+2025-09-30 14:19:37 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:19:37 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 3(Long)
+2025-09-30 14:19:37 [http-nio-8080-exec-1] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:20:00 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE id=?
+2025-09-30 14:20:00 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - ==> Parameters: 6(Long)
+2025-09-30 14:20:00 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectById - <==      Total: 1
+2025-09-30 14:20:00 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:20:00 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:20:00 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:20:00 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.update - ==>  Preparing: UPDATE agents SET usage_count = usage_count + 1 WHERE (id = ?)
+2025-09-30 14:20:00 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.update - ==> Parameters: 6(Long)
+2025-09-30 14:20:00 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.update - <==    Updates: 1
+2025-09-30 14:20:00 [http-nio-8080-exec-3] INFO  c.d.gaming.platform.service.impl.AgentServiceImpl - 用户 1 使用了智能体 6
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE (status = ?) ORDER BY usage_count DESC,created_at DESC
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==> Parameters: ACTIVE(String)
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - <==      Total: 8
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 3(Long)
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 2(Long)
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 2(Long)
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 5(Long)
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 4(Long)
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 6(Long)
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 4(Long)
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:20:07 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:20:27 [http-nio-8080-exec-5] ERROR c.d.g.platform.exception.GlobalExceptionHandler - 系统异常: No static resource payment/recharge.
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource payment/recharge.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585)
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-09-30 14:20:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:21:11 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE (status = ? AND agent_type = ?) ORDER BY usage_count DESC,created_at DESC
+2025-09-30 14:21:11 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==> Parameters: ACTIVE(String), GAME_MAKER(String)
+2025-09-30 14:21:11 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - <==      Total: 1
+2025-09-30 14:21:11 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:21:11 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 2(Long)
+2025-09-30 14:21:11 [http-nio-8080-exec-10] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:21:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:21:48 [http-nio-8080-exec-3] INFO  c.d.gaming.platform.service.impl.AgentServiceImpl - 开始为用户 1 生成游戏，描述: 设计一个逻辑解谜游戏，玩家需要通过移动方块、旋转机关等方式解决谜题，包含多个关卡，难度逐渐递增。
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE (agent_type = ? AND status = ?) ORDER BY usage_count DESC LIMIT 1
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==> Parameters: GAME_MAKER(String), ACTIVE(String)
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - <==      Total: 1
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.GameMapper.insert - ==>  Preparing: INSERT INTO games ( title, description, creator_id, game_code, game_assets_url, status, play_count, rating, created_at, updated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.GameMapper.insert - ==> Parameters: AI解谜游戏(String), 设计一个逻辑解谜游戏，玩家需要通过移动方块、旋转机关等方式解决谜题，包含多个关卡，难度逐渐递增。(String), 1(Long), // AI生成的游戏代码
+// 游戏描述: 设计一个逻辑解谜游戏，玩家需要通过移动方块、旋转机关等方式解决谜题，包含多个关卡，难度逐渐递增。
+// 游戏类型: PUZZLE
+// 游戏难度: MEDIUM
+
+class Game {
+    constructor() {
+        this.score = 0;
+        this.level = 1;
+    }
+
+    start() {
+        console.log('游戏开始！');
+        this.gameLoop();
+    }
+
+    gameLoop() {
+        // 游戏主循环
+        this.update();
+        this.render();
+    }
+
+    update() {
+        // 更新游戏状态
+    }
+
+    render() {
+        // 渲染游戏画面
+    }
+}
+
+// 启动游戏
+const game = new Game();
+game.start();
+(String), /images/default-game.png(String), DRAFT(String), 0(Integer), 0(BigDecimal), 2025-09-30T14:21:48.522758800(LocalDateTime), 2025-09-30T14:21:48.522758800(LocalDateTime)
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.GameMapper.insert - <==    Updates: 1
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.update - ==>  Preparing: UPDATE agents SET usage_count = usage_count + 1 WHERE (id = ?)
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.update - ==> Parameters: 1(Long)
+2025-09-30 14:21:48 [http-nio-8080-exec-3] DEBUG c.d.gaming.platform.mapper.AgentMapper.update - <==    Updates: 1
+2025-09-30 14:21:48 [http-nio-8080-exec-3] INFO  c.d.gaming.platform.service.impl.AgentServiceImpl - 游戏生成成功，游戏ID: 11, 标题: AI解谜游戏
+2025-09-30 14:21:59 [http-nio-8080-exec-2] INFO  c.d.gaming.platform.service.impl.AgentServiceImpl - 开始为用户 1 生成游戏，描述: 设计一个逻辑解谜游戏，玩家需要通过移动方块、旋转机关等方式解决谜题，包含多个关卡，难度逐渐递增。
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,wallet_address,username,email,avatar_url,password,created_at,updated_at FROM users WHERE id=?
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - ==> Parameters: 1(Long)
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.UserMapper.selectById - <==      Total: 1
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==>  Preparing: SELECT id,name,description,creator_id,agent_type,code_url,model_url,contract_address,price,usage_count,rating,status,created_at,updated_at FROM agents WHERE (agent_type = ? AND status = ?) ORDER BY usage_count DESC LIMIT 1
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - ==> Parameters: GAME_MAKER(String), ACTIVE(String)
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.selectList - <==      Total: 1
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.GameMapper.insert - ==>  Preparing: INSERT INTO games ( title, description, creator_id, game_code, game_assets_url, status, play_count, rating, created_at, updated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.GameMapper.insert - ==> Parameters: AI解谜游戏(String), 设计一个逻辑解谜游戏，玩家需要通过移动方块、旋转机关等方式解决谜题，包含多个关卡，难度逐渐递增。(String), 1(Long), // AI生成的游戏代码
+// 游戏描述: 设计一个逻辑解谜游戏，玩家需要通过移动方块、旋转机关等方式解决谜题，包含多个关卡，难度逐渐递增。
+// 游戏类型: PUZZLE
+// 游戏难度: MEDIUM
+
+class Game {
+    constructor() {
+        this.score = 0;
+        this.level = 1;
+    }
+
+    start() {
+        console.log('游戏开始！');
+        this.gameLoop();
+    }
+
+    gameLoop() {
+        // 游戏主循环
+        this.update();
+        this.render();
+    }
+
+    update() {
+        // 更新游戏状态
+    }
+
+    render() {
+        // 渲染游戏画面
+    }
+}
+
+// 启动游戏
+const game = new Game();
+game.start();
+(String), /images/default-game.png(String), DRAFT(String), 0(Integer), 0(BigDecimal), 2025-09-30T14:21:59.008928100(LocalDateTime), 2025-09-30T14:21:59.008928100(LocalDateTime)
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.GameMapper.insert - <==    Updates: 1
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.update - ==>  Preparing: UPDATE agents SET usage_count = usage_count + 1 WHERE (id = ?)
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.update - ==> Parameters: 1(Long)
+2025-09-30 14:21:59 [http-nio-8080-exec-2] DEBUG c.d.gaming.platform.mapper.AgentMapper.update - <==    Updates: 1
+2025-09-30 14:21:59 [http-nio-8080-exec-2] INFO  c.d.gaming.platform.service.impl.AgentServiceImpl - 游戏生成成功，游戏ID: 12, 标题: AI解谜游戏
+2025-09-30 14:22:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:23:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:24:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:25:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:26:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:27:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:28:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:29:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:30:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:31:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:32:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:33:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:34:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:35:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:36:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:37:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:38:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:39:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:40:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:41:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:42:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:43:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:44:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:45:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:46:28 [pool-4-thread-1] DEBUG c.d.g.p.s.b.impl.BlockchainCacheServiceImpl - 清理过期缓存条目完成
+2025-09-30 14:47:01 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - Starting BlockchainServiceRefactoringTest using Java 21.0.8 with PID 14364 (started by Administrator in D:\去中心化游戏\Decentralized-gaming-platform)
+2025-09-30 14:47:01 [main] DEBUG c.d.g.p.s.b.BlockchainServiceRefactoringTest - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-09-30 14:47:01 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - The following 1 profile is active: "test"
+2025-09-30 14:47:04 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get /198.18.0.1 network interface 
+2025-09-30 14:47:04 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get network interface info: name:iftype53_32768 (Meta Tunnel)
+2025-09-30 14:47:04 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Initialization Sequence datacenterId:0 workerId:30
+2025-09-30 14:47:05 [main] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务初始化完成
+2025-09-30 14:47:06 [main] INFO  o.s.b.a.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-09-30 14:47:06 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - Started BlockchainServiceRefactoringTest in 6.02 seconds (process running for 7.262)
+2025-09-30 14:47:08 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 停止监听智能合约事件
+2025-09-30 14:47:08 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务已关闭
+2025-09-30 14:47:14 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 停止监听智能合约事件
+2025-09-30 14:47:14 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务已关闭
+2025-09-30 14:47:14 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-09-30 14:47:14 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-09-30 14:47:35 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - Starting BlockchainServiceRefactoringTest using Java 21.0.8 with PID 16732 (started by Administrator in D:\去中心化游戏\Decentralized-gaming-platform)
+2025-09-30 14:47:35 [main] DEBUG c.d.g.p.s.b.BlockchainServiceRefactoringTest - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-09-30 14:47:35 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - The following 1 profile is active: "test"
+2025-09-30 14:47:38 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get /198.18.0.1 network interface 
+2025-09-30 14:47:38 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get network interface info: name:iftype53_32768 (Meta Tunnel)
+2025-09-30 14:47:38 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Initialization Sequence datacenterId:0 workerId:1
+2025-09-30 14:47:39 [main] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务初始化完成
+2025-09-30 14:47:40 [main] INFO  o.s.b.a.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-09-30 14:47:41 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - Started BlockchainServiceRefactoringTest in 6.091 seconds (process running for 7.696)
+2025-09-30 14:47:42 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 停止监听智能合约事件
+2025-09-30 14:47:42 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务已关闭
+2025-09-30 14:54:49 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - Starting BlockchainServiceRefactoringTest using Java 21.0.8 with PID 15672 (started by Administrator in D:\去中心化游戏\Decentralized-gaming-platform)
+2025-09-30 14:54:49 [main] DEBUG c.d.g.p.s.b.BlockchainServiceRefactoringTest - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-09-30 14:54:49 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - The following 1 profile is active: "test"
+2025-09-30 14:54:52 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get /198.18.0.1 network interface 
+2025-09-30 14:54:52 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get network interface info: name:iftype53_32768 (Meta Tunnel)
+2025-09-30 14:54:52 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Initialization Sequence datacenterId:0 workerId:29
+2025-09-30 14:54:53 [main] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务初始化完成
+2025-09-30 14:54:53 [main] INFO  o.s.b.a.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-09-30 14:54:54 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - Started BlockchainServiceRefactoringTest in 5.993 seconds (process running for 7.531)
+2025-09-30 14:54:55 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 停止监听智能合约事件
+2025-09-30 14:54:55 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务已关闭
+2025-09-30 14:55:36 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - Starting BlockchainServiceRefactoringTest using Java 21.0.8 with PID 27456 (started by Administrator in D:\去中心化游戏\Decentralized-gaming-platform)
+2025-09-30 14:55:36 [main] DEBUG c.d.g.p.s.b.BlockchainServiceRefactoringTest - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-09-30 14:55:36 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - The following 1 profile is active: "test"
+2025-09-30 14:55:38 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get /198.18.0.1 network interface 
+2025-09-30 14:55:38 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Get network interface info: name:iftype53_32768 (Meta Tunnel)
+2025-09-30 14:55:38 [main] DEBUG com.baomidou.mybatisplus.core.toolkit.Sequence - Initialization Sequence datacenterId:0 workerId:0
+2025-09-30 14:55:39 [main] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务初始化完成
+2025-09-30 14:55:40 [main] INFO  o.s.b.a.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-09-30 14:55:40 [main] INFO  c.d.g.p.s.b.BlockchainServiceRefactoringTest - Started BlockchainServiceRefactoringTest in 5.36 seconds (process running for 6.828)
+2025-09-30 14:55:41 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 停止监听智能合约事件
+2025-09-30 14:55:41 [SpringApplicationShutdownHook] INFO  c.d.g.p.s.b.impl.EventListeningServiceImpl - 事件监听服务已关闭
