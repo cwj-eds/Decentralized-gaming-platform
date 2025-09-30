@@ -1,140 +1,59 @@
 <!DOCTYPE html>
-<html th:replace="layout/base :: base(~{::title}, ~{::#content})">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>游戏中心 - 去中心化游戏平台</title>
+	<title>游戏中心 - 去中心化游戏平台</title>
 </head>
 <body>
-    <div id="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2><i class="fas fa-gamepad me-2"></i>游戏中心</h2>
-                        <a th:href="@{/agents/game-maker}" class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>创建游戏
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 筛选器 -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="form-label">排序方式</label>
-                                    <select class="form-select">
-                                        <option value="latest">最新发布</option>
-                                        <option value="popular">最受欢迎</option>
-                                        <option value="rating">评分最高</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">游戏状态</label>
-                                    <select class="form-select">
-                                        <option value="">全部</option>
-                                        <option value="published">已发布</option>
-                                        <option value="draft">草稿</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">搜索</label>
-                                    <input type="text" class="form-control" placeholder="搜索游戏名称...">
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label">&nbsp;</label>
-                                    <button class="btn btn-outline-primary d-block w-100">
-                                        <i class="fas fa-search"></i> 搜索
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 游戏列表 -->
-            <div class="row" id="gamesList">
-                <!-- 示例游戏卡片 -->
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card game-card h-100">
-                        <div class="game-thumbnail position-relative">
-                            <img src="https://via.placeholder.com/400x200?text=游戏截图" class="card-img-top" alt="游戏截图">
-                            <div class="game-overlay">
-                                <button class="btn btn-primary">
-                                    <i class="fas fa-play me-1"></i>开始游戏
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">示例游戏</h5>
-                            <p class="card-text">这是一个示例游戏的描述，展示游戏的基本信息和特色。</p>
-                            <div class="game-meta">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="badge bg-success">已发布</span>
-                                    <div class="rating">
-                                        <i class="fas fa-star text-warning"></i>
-                                        <span>4.5</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">
-                                        <i class="fas fa-play-circle me-1"></i>999 次游玩
-                                    </small>
-                                    <small class="text-muted">
-                                        <i class="fas fa-user me-1"></i>开发者
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent">
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-outline-primary btn-sm">
-                                    <i class="fas fa-info-circle me-1"></i>查看详情
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 空状态 -->
-                <div class="col-12 text-center py-5" style="display: none;" id="emptyState">
-                    <i class="fas fa-gamepad fa-4x text-muted mb-3"></i>
-                    <h4 class="text-muted">暂无游戏</h4>
-                    <p class="text-muted">还没有游戏发布，快来创建第一个游戏吧！</p>
-                    <a th:href="@{/agents/game-maker}" class="btn btn-primary">
-                        <i class="fas fa-plus me-2"></i>创建游戏
-                    </a>
-                </div>
-            </div>
-            
-            <!-- 分页 -->
-            <div class="row">
-                <div class="col-12">
-                    <nav aria-label="游戏分页">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">上一页</a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">下一页</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div th:replace="~{layout/base :: base('游戏中心 - 去中心化游戏平台', ~{::#content})}">
+		<div id="content">
+		<div class="container mt-4">
+			<div class="d-flex justify-content-between align-items-center mb-4">
+				<h1 class="mb-0">游戏中心</h1>
+				<a th:href="@{/agents/game-maker}" class="btn btn-primary">
+					<i class="fas fa-plus me-2"></i>创建游戏
+				</a>
+			</div>
+
+			<!-- 游戏列表（仅显示已发布） -->
+			<div class="row" id="gamesList">
+				<div class="col-md-4 mb-4" th:each="game : ${games.records}">
+					<div class="card game-card h-100">
+						<img th:src="${#strings.isEmpty(game.gameAssetsUrl) ? '/images/default-game.png' : game.gameAssetsUrl}" class="card-img-top" alt="游戏封面">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${game.title}">游戏标题</h5>
+							<p class="card-text text-muted" th:text="${game.description}">游戏描述</p>
+							<div class="d-flex justify-content-between align-items-center mt-3">
+								<a th:href="@{/games/{id}(id=${game.id})}" class="btn btn-sm btn-outline-primary">
+									查看详情 <i class="fas fa-arrow-right ms-1"></i>
+								</a>
+								<a th:href="@{/games/{id}/play(id=${game.id})}" class="btn btn-sm btn-success">
+									<i class="fas fa-play me-1"></i>开始游戏
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12" th:if="${games.records.isEmpty()}">
+					<div class="alert alert-info text-center">暂无已发布的游戏</div>
+				</div>
+			</div>
+
+			<!-- 分页 -->
+			<nav aria-label="Page navigation" th:if="${games.pages > 1}">
+				<ul class="pagination justify-content-center">
+					<li class="page-item" th:classappend="${games.current == 1} ? 'disabled'">
+						<a class="page-link" th:href="@{/games(page=${games.current - 1}, size=${games.size})}">上一页</a>
+					</li>
+					<li class="page-item" th:each="i : ${#numbers.sequence(1, games.pages)}" th:classappend="${i == games.current} ? 'active'">
+						<a class="page-link" th:href="@{/games(page=${i}, size=${games.size})}" th:text="${i}">1</a>
+					</li>
+					<li class="page-item" th:classappend="${games.current == games.pages} ? 'disabled'">
+						<a class="page-link" th:href="@{/games(page=${games.current + 1}, size=${games.size})}">下一页</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		</div>
+	</div>
 </body>
 </html>

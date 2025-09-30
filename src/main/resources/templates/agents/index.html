@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>智能体平台 - 去中心化游戏平台</title>
+</head>
+<body>
+	<div th:replace="~{layout/base :: base('智能体平台 - 去中心化游戏平台', ~{::#content})}">
+		<div id="content">
+			<!-- Hero Section -->
+			<section class="hero-section bg-gradient-primary text-white py-5 mb-5">
+				<div class="container text-center">
+					<div class="row align-items-center">
+						<div class="col-lg-6">
+							<h1 class="display-4 fw-bold mb-4">
+								<i class="fas fa-robot me-3"></i>智能体平台
+							</h1>
+							<p class="lead mb-4">探索AI驱动的智能体生态，体验游戏制作、智能助手等创新功能</p>
+							<div class="d-flex flex-wrap gap-3 justify-content-center">
+								<a th:href="@{/agents/game-maker}" class="btn btn-light btn-lg">
+									<i class="fas fa-magic me-2"></i>开始制作游戏
+								</a>
+								<a th:href="@{/agents/list}" class="btn btn-outline-light btn-lg">
+									<i class="fas fa-list me-2"></i>浏览智能体
+								</a>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="text-center">
+								<i class="fas fa-robot" style="font-size: 15rem; opacity: 0.3;"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- 统计数据 -->
+			<section class="stats-section mb-5">
+				<div class="container">
+					<div class="row text-center">
+						<div class="col-md-3 col-sm-6 mb-4">
+							<div class="stat-card">
+								<i class="fas fa-robot stat-icon text-primary"></i>
+								<h3 class="stat-number" th:text="${statistics.totalAgents}">0</h3>
+								<p class="stat-label">总智能体数</p>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6 mb-4">
+							<div class="stat-card">
+								<i class="fas fa-check-circle stat-icon text-success"></i>
+								<h3 class="stat-number" th:text="${statistics.activeAgents}">0</h3>
+								<p class="stat-label">活跃智能体</p>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6 mb-4">
+							<div class="stat-card">
+								<i class="fas fa-gamepad stat-icon text-info"></i>
+								<h3 class="stat-number" th:text="${statistics.gameMakerAgents}">0</h3>
+								<p class="stat-label">游戏制作智能体</p>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6 mb-4">
+							<div class="stat-card">
+								<i class="fas fa-chart-line stat-icon text-warning"></i>
+								<h3 class="stat-number" th:text="${statistics.totalUsageCount}">0</h3>
+								<p class="stat-label">总使用次数</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- 热门智能体 -->
+			<section class="popular-agents mb-5">
+				<div class="container">
+					<div class="d-flex justify-content-between align-items-center mb-4">
+						<h2 class="section-title mb-0">热门智能体</h2>
+						<a th:href="@{/agents/list}" class="btn btn-outline-primary">
+							查看更多 <i class="fas fa-arrow-right ms-1"></i>
+						</a>
+					</div>
+					<div class="row">
+						<div class="col-lg-4 col-md-6 mb-4" th:each="agent : ${popularAgents}">
+							<div class="agent-card h-100">
+								<div class="card-body">
+									<div class="d-flex align-items-center mb-3">
+										<div class="agent-avatar me-3">
+											<i class="fas fa-robot fa-2x text-primary"></i>
+										</div>
+										<div>
+											<h5 class="card-title mb-1" th:text="${agent.name}">智能体名称</h5>
+											<small class="text-muted" th:text="${agent.agentType}">智能体类型</small>
+										</div>
+									</div>
+									<p class="card-text text-muted" th:text="${agent.description}">智能体描述</p>
+									<div class="d-flex justify-content-between align-items-center mb-3">
+										<div class="agent-stats">
+											<span class="badge bg-primary me-2">
+												<i class="fas fa-play me-1"></i>
+												<span th:text="${agent.usageCount}">0</span> 次使用
+											</span>
+											<span class="badge bg-warning" th:if="${agent.rating > 0}">
+												<i class="fas fa-star me-1"></i>
+												<span th:text="${agent.rating}">0.0</span>
+											</span>
+										</div>
+										<div class="agent-price" th:if="${agent.price > 0}">
+											<span class="text-success fw-bold" th:text="'¥' + ${agent.price}">¥0</span>
+										</div>
+									</div>
+									<div class="d-grid gap-2">
+										<a th:href="@{/agents/{id}(id=${agent.id})}" class="btn btn-outline-primary btn-sm">
+											<i class="fas fa-info-circle me-1"></i>查看详情
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- 智能体类型 -->
+			<section class="agent-types bg-light py-5">
+				<div class="container">
+					<h2 class="section-title text-center mb-5">智能体类型</h2>
+					<div class="row">
+						<div class="col-lg-4 mb-4">
+							<div class="feature-card text-center p-4 h-100">
+								<i class="fas fa-magic feature-icon text-primary mb-3"></i>
+								<h4>游戏制作智能体</h4>
+								<p>通过自然语言描述，AI智能体自动生成完整的游戏代码和资源</p>
+								<a th:href="@{/agents/game-maker}" class="btn btn-primary">
+									<i class="fas fa-play me-1"></i>开始制作
+								</a>
+							</div>
+						</div>
+						<div class="col-lg-4 mb-4">
+							<div class="feature-card text-center p-4 h-100">
+								<i class="fas fa-comments feature-icon text-success mb-3"></i>
+								<h4>对话智能体</h4>
+								<p>智能对话助手，提供游戏攻略、技术支持等专业服务</p>
+								<a th:href="@{/agents/list?type=CHAT}" class="btn btn-success">
+									<i class="fas fa-comment me-1"></i>开始对话
+								</a>
+							</div>
+						</div>
+						<div class="col-lg-4 mb-4">
+							<div class="feature-card text-center p-4 h-100">
+								<i class="fas fa-cogs feature-icon text-info mb-3"></i>
+								<h4>工具智能体</h4>
+								<p>各种实用工具智能体，帮助提升开发效率和用户体验</p>
+								<a th:href="@{/agents/list?type=TOOL}" class="btn btn-info">
+									<i class="fas fa-tools me-1"></i>使用工具
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- 快速操作 -->
+			<section class="quick-actions py-5">
+				<div class="container">
+					<h2 class="section-title text-center mb-5">快速操作</h2>
+					<div class="row justify-content-center">
+						<div class="col-lg-8">
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<a th:href="@{/agents/upload}" class="btn btn-outline-primary btn-lg w-100">
+										<i class="fas fa-upload me-2"></i>上传智能体
+									</a>
+								</div>
+								<div class="col-md-6 mb-3">
+									<a th:href="@{/agents/my-agents}" class="btn btn-outline-success btn-lg w-100">
+										<i class="fas fa-user me-2"></i>我的智能体
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</body>
+</html>
+

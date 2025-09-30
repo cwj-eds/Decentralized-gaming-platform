@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>上传智能体 - 智能体平台</title>
+</head>
+<body>
+	<div th:replace="~{layout/base :: base('上传智能体 - 智能体平台', ~{::#content})}">
+		<div id="content">
+			<div class="container mt-4">
+				<div class="row justify-content-center">
+					<div class="col-lg-8">
+						<!-- 页面标题 -->
+						<div class="text-center mb-5">
+							<h1 class="display-5 fw-bold">
+								<i class="fas fa-upload text-primary me-3"></i>上传智能体
+							</h1>
+							<p class="lead text-muted">分享您的智能体，让更多人受益于AI的力量</p>
+						</div>
+
+						<!-- 上传表单 -->
+						<div class="card shadow-sm">
+							<div class="card-header bg-primary text-white">
+								<h4 class="mb-0">
+									<i class="fas fa-plus me-2"></i>创建新智能体
+								</h4>
+							</div>
+							<div class="card-body">
+								<form id="agentUploadForm">
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="name" class="form-label fw-bold">
+												<i class="fas fa-tag me-1"></i>智能体名称 *
+											</label>
+											<input type="text" class="form-control" id="name" name="name" 
+												   placeholder="请输入智能体名称" required>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="agentType" class="form-label fw-bold">
+												<i class="fas fa-category me-1"></i>智能体类型 *
+											</label>
+											<select class="form-select" id="agentType" name="agentType" required>
+												<option value="">请选择智能体类型</option>
+												<option value="GAME_MAKER">游戏制作智能体</option>
+												<option value="CHAT">对话智能体</option>
+												<option value="TOOL">工具智能体</option>
+												<option value="ANALYSIS">数据分析智能体</option>
+												<option value="CREATIVE">创意智能体</option>
+												<option value="EDUCATION">教育智能体</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="mb-3">
+										<label for="description" class="form-label fw-bold">
+											<i class="fas fa-comment me-1"></i>智能体描述 *
+										</label>
+										<textarea class="form-control" id="description" name="description" rows="4" 
+												  placeholder="请详细描述您的智能体功能、特点和使用场景..." required></textarea>
+									</div>
+
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="codeUrl" class="form-label fw-bold">
+												<i class="fas fa-code me-1"></i>代码地址
+											</label>
+											<input type="url" class="form-control" id="codeUrl" name="codeUrl" 
+												   placeholder="https://github.com/username/repo">
+											<div class="form-text">智能体代码的GitHub或其他代码仓库地址</div>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="modelUrl" class="form-label fw-bold">
+												<i class="fas fa-brain me-1"></i>模型地址
+											</label>
+											<input type="url" class="form-control" id="modelUrl" name="modelUrl" 
+												   placeholder="https://huggingface.co/username/model">
+											<div class="form-text">AI模型文件的存储地址</div>
+										</div>
+									</div>
+
+									<div class="mb-4">
+										<label for="price" class="form-label fw-bold">
+											<i class="fas fa-dollar-sign me-1"></i>使用价格
+										</label>
+										<div class="input-group">
+											<span class="input-group-text">¥</span>
+											<input type="number" class="form-control" id="price" name="price" 
+												   placeholder="0.00" min="0" step="0.01" value="0">
+										</div>
+										<div class="form-text">设置为0表示免费使用</div>
+									</div>
+
+									<div class="d-grid gap-2">
+										<button type="submit" class="btn btn-primary btn-lg" id="uploadBtn">
+											<i class="fas fa-upload me-2"></i>上传智能体
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+
+						<!-- 上传指南 -->
+						<div class="card mt-4">
+							<div class="card-header">
+								<h5 class="mb-0">
+									<i class="fas fa-info-circle me-2"></i>上传指南
+								</h5>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-6">
+										<h6><i class="fas fa-check-circle text-success me-2"></i>上传要求</h6>
+										<ul class="list-unstyled">
+											<li><i class="fas fa-arrow-right text-primary me-2"></i>智能体名称必须唯一</li>
+											<li><i class="fas fa-arrow-right text-primary me-2"></i>描述要详细清晰</li>
+											<li><i class="fas fa-arrow-right text-primary me-2"></i>代码地址要可访问</li>
+											<li><i class="fas fa-arrow-right text-primary me-2"></i>价格设置要合理</li>
+										</ul>
+									</div>
+									<div class="col-md-6">
+										<h6><i class="fas fa-lightbulb text-warning me-2"></i>建议</h6>
+										<ul class="list-unstyled">
+											<li><i class="fas fa-arrow-right text-primary me-2"></i>提供详细的使用说明</li>
+											<li><i class="fas fa-arrow-right text-primary me-2"></i>包含示例和演示</li>
+											<li><i class="fas fa-arrow-right text-primary me-2"></i>定期更新和维护</li>
+											<li><i class="fas fa-arrow-right text-primary me-2"></i>积极响应用户反馈</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- JavaScript -->
+	<script th:inline="javascript">
+		document.getElementById('agentUploadForm').addEventListener('submit', function(e) {
+			e.preventDefault();
+			uploadAgent();
+		});
+
+		function uploadAgent() {
+			const form = document.getElementById('agentUploadForm');
+			const formData = new FormData(form);
+			
+			// 显示加载状态
+			const button = document.getElementById('uploadBtn');
+			const originalText = button.innerHTML;
+			button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>上传中...';
+			button.disabled = true;
+			
+			// 构建请求数据
+			const requestData = {
+				name: formData.get('name'),
+				description: formData.get('description'),
+				agentType: formData.get('agentType'),
+				codeUrl: formData.get('codeUrl'),
+				modelUrl: formData.get('modelUrl'),
+				price: parseFloat(formData.get('price')) || 0
+			};
+			
+			// 这里应该从session或token中获取用户ID
+			const userId = 1; // 临时硬编码，实际应该从认证信息中获取
+			
+			fetch('/agents/api/create?userId=' + userId, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(requestData)
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					showAlert('success', '智能体上传成功！');
+					// 清空表单
+					form.reset();
+					// 跳转到智能体详情页
+					setTimeout(() => {
+						window.location.href = '/agents/' + data.data.id;
+					}, 1500);
+				} else {
+					showAlert('danger', '上传失败: ' + data.message);
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				showAlert('danger', '上传失败，请稍后重试');
+			})
+			.finally(() => {
+				// 恢复按钮状态
+				button.innerHTML = originalText;
+				button.disabled = false;
+			});
+		}
+
+		function showAlert(type, message) {
+			// 创建提示框
+			const alertDiv = document.createElement('div');
+			alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+			alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+			alertDiv.innerHTML = `
+				${message}
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+			`;
+			
+			document.body.appendChild(alertDiv);
+			
+			// 3秒后自动消失
+			setTimeout(() => {
+				if (alertDiv.parentNode) {
+					alertDiv.parentNode.removeChild(alertDiv);
+				}
+			}, 3000);
+		}
+
+		// 表单验证
+		document.getElementById('agentUploadForm').addEventListener('input', function(e) {
+			const name = document.getElementById('name').value.trim();
+			const agentType = document.getElementById('agentType').value;
+			const description = document.getElementById('description').value.trim();
+			
+			const submitBtn = document.getElementById('uploadBtn');
+			if (name && agentType && description) {
+				submitBtn.disabled = false;
+			} else {
+				submitBtn.disabled = true;
+			}
+		});
+	</script>
+</body>
+</html>
+

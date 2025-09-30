@@ -3,11 +3,11 @@ server:
   servlet:
     context-path: /
 
+# Spring配置
 spring:
   application:
     name: decentralized-gaming-platform
 
-# Spring配置
 
   # 数据源配置 (使用MySQL数据库ggg)
   datasource:
@@ -121,7 +121,7 @@ app:
       balance-ttl: 300      # 余额缓存5分钟
       gas-price-ttl: 60     # Gas价格缓存1分钟
       block-number-ttl: 10  # 区块号缓存10秒
-    
+
     # 合约信息配置
     contract-info:
       platform-token:
@@ -149,7 +149,7 @@ app:
       rewards:
         name: "Rewards"
         type: "Rewards"
-  
+
   # IPFS配置
   ipfs:
     gateway-url: https://ipfs.io/ipfs/

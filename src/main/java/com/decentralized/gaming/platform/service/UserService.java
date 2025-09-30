@@ -1,6 +1,7 @@
 package com.decentralized.gaming.platform.service;
 
 import com.decentralized.gaming.platform.dto.LoginResponse;
+import com.decentralized.gaming.platform.dto.UserLoginRequest;
 import com.decentralized.gaming.platform.dto.UserRegisterRequest;
 import com.decentralized.gaming.platform.dto.WalletLoginRequest;
 import com.decentralized.gaming.platform.entity.User;
@@ -14,20 +15,28 @@ import com.decentralized.gaming.platform.vo.UserVO;
 public interface UserService {
 
     /**
-     * 钱包登录/注册
+     * 用户名密码登录
      *
-     * @param request 钱包登录请求
-     * @return 登录响应（包含JWT令牌）
+     * @param request 用户登录请求
+     * @return 登录响应
      */
-    LoginResponse walletLogin(WalletLoginRequest request);
+    LoginResponse userLogin(UserLoginRequest request);
 
     /**
      * 用户注册
      *
      * @param request 注册请求
-     * @return 登录响应（包含JWT令牌）
+     * @return 登录响应
      */
     LoginResponse register(UserRegisterRequest request);
+
+    /**
+     * 钱包登录/注册
+     *
+     * @param request 钱包登录请求
+     * @return 登录响应
+     */
+    LoginResponse walletLogin(WalletLoginRequest request);
 
     /**
      * 验证钱包签名
@@ -64,6 +73,22 @@ public interface UserService {
     User findByWalletAddress(String walletAddress);
 
     /**
+     * 根据用户名查找用户
+     *
+     * @param username 用户名
+     * @return 用户信息
+     */
+    User findByUsername(String username);
+
+    /**
+     * 根据邮箱查找用户
+     *
+     * @param email 邮箱
+     * @return 用户信息
+     */
+    User findByEmail(String email);
+
+    /**
      * 根据ID查找用户
      *
      * @param id 用户ID
@@ -78,6 +103,22 @@ public interface UserService {
      * @return 是否已注册
      */
     boolean isWalletRegistered(String walletAddress);
+
+    /**
+     * 检查用户名是否已存在
+     *
+     * @param username 用户名
+     * @return 是否已存在
+     */
+    boolean isUsernameExists(String username);
+
+    /**
+     * 检查邮箱是否已存在
+     *
+     * @param email 邮箱
+     * @return 是否已存在
+     */
+    boolean isEmailExists(String email);
 
     /**
      * 设置用户密码
@@ -119,3 +160,9 @@ public interface UserService {
      */
     UserVO convertToVO(User user);
 }
+
+
+
+
+
+

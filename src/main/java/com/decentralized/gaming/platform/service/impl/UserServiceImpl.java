@@ -2,6 +2,7 @@ package com.decentralized.gaming.platform.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.decentralized.gaming.platform.dto.LoginResponse;
+import com.decentralized.gaming.platform.dto.UserLoginRequest;
 import com.decentralized.gaming.platform.dto.UserRegisterRequest;
 import com.decentralized.gaming.platform.dto.WalletLoginRequest;
 import com.decentralized.gaming.platform.entity.User;
@@ -12,7 +13,6 @@ import com.decentralized.gaming.platform.mapper.UserMapper;
 import com.decentralized.gaming.platform.service.blockchain.BlockchainService;
 import com.decentralized.gaming.platform.service.PasswordService;
 import com.decentralized.gaming.platform.service.UserService;
-import com.decentralized.gaming.platform.util.JwtUtils;
 import com.decentralized.gaming.platform.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +33,145 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
-    
+
     @Autowired
     private UserBalanceMapper userBalanceMapper;
-    
+
     @Autowired
     private PasswordService passwordService;
-    
+
     @Autowired
     private JwtUtils jwtUtils;
 
     @Autowired
     private BlockchainService blockchainService;
+
+    @Override
+    @Transactional
+    public LoginResponse userLogin(UserLoginRequest request) {
+        log.info("用户登录，用户名: {}", request.getUsername());
+
+        try {
+            // 参数验证
+            if (request.getUsername() == null || request.getUsername().trim().isEmpty()) {
+                throw new BusinessException("用户名不能为空");
+            }
+            if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
+                throw new BusinessException("密码不能为空");
+            }
+
+            // 查找用户（支持用户名或邮箱登录）
+            User user = null;
+            try {
+                // 先尝试按用户名查找
+                LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+                queryWrapper.eq(User::getUsername, request.getUsername());
+                user = userMapper.selectOne(queryWrapper);
+
+                // 如果用户名没找到，尝试按邮箱查找
+                if (user == null) {
+                    queryWrapper.clear();
+                    queryWrapper.eq(User::getEmail, request.getUsername());
+                    user = userMapper.selectOne(queryWrapper);
+                }
+            } catch (Exception e) {
+                log.error("数据库查询用户失败", e);
+                throw new BusinessException("数据库查询失败，请稍后重试");
+            }
+
+            if (user == null) {
+                log.warn("用户不存在: {}", request.getUsername());
+                throw new BusinessException("用户不存在，请先注册");
+            }
+
+            // 验证密码
+            try {
+                if (!passwordService.verifyPassword(request.getPassword(), user.getPassword())) {
+                    log.warn("密码错误，用户: {}", request.getUsername());
+                    throw new BusinessException("密码错误，请检查后重试");
+                }
+            } catch (Exception e) {
+                log.error("密码验证失败", e);
+                throw new BusinessException("密码验证失败，请稍后重试");
+            }
+
+            // 更新最后登录时间
+            try {
+                user.setUpdatedAt(LocalDateTime.now());
+                userMapper.updateById(user);
+            } catch (Exception e) {
+                log.error("更新用户登录时间失败", e);
+                // 不抛出异常，允许登录继续
+            }
+
+            UserVO userVO = convertToVO(user);
+
+            log.info("用户登录成功，用户ID: {}, 用户名: {}", user.getId(), user.getUsername());
+            return new LoginResponse(userVO, "登录成功", true);
+
+        } catch (BusinessException e) {
+            throw e; // 重新抛出业务异常
+        } catch (Exception e) {
+            log.error("用户登录过程中发生未知异常", e);
+            throw new BusinessException("登录过程中发生系统异常，请稍后重试");
+        }
+    }
+
+    @Override
+    @Transactional
+    public LoginResponse register(UserRegisterRequest request) {
+        log.info("用户注册，用户名: {}", request.getUsername());
+
+        // 验证密码确认
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            throw new BusinessException("两次输入的密码不一致");
+        }
+
+        // 检查用户名是否已存在
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, request.getUsername());
+        if (userMapper.selectCount(queryWrapper) > 0) {
+            throw new BusinessException("用户名已存在");
+        }
+
+        // 检查邮箱是否已存在
+        queryWrapper.clear();
+        queryWrapper.eq(User::getEmail, request.getEmail());
+        if (userMapper.selectCount(queryWrapper) > 0) {
+            throw new BusinessException("邮箱已存在");
+        }
+
+        // 检查钱包地址是否已存在（如果提供）
+        if (request.getWalletAddress() != null && !request.getWalletAddress().trim().isEmpty()) {
+            queryWrapper.clear();
+            queryWrapper.eq(User::getWalletAddress, request.getWalletAddress())
+                       .isNotNull(User::getWalletAddress);
+            if (userMapper.selectCount(queryWrapper) > 0) {
+                throw new BusinessException("钱包地址已注册");
+            }
+        }
+
+        // 创建用户
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setWalletAddress(request.getWalletAddress());
+        user.setPassword(passwordService.encodePassword(request.getPassword()));
+
+        user = userMapper.insert(user) > 0 ? user : null;
+
+        if (user == null) {
+            throw new BusinessException("用户创建失败");
+        }
+
+        // 初始化用户代币余额
+        initializeUserBalance(user.getId());
+
+        UserVO userVO = convertToVO(user);
+
+        log.info("用户注册成功，用户ID: {}", user.getId());
+        return new LoginResponse(userVO, "注册成功", true);
+    }
 
     @Override
     @Transactional
@@ -57,7 +184,10 @@ public class UserServiceImpl implements UserService {
         }
 
         // 检查用户是否已存在
-        User user = userMapper.findByWalletAddress(request.getWalletAddress()).orElse(null);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getWalletAddress, request.getWalletAddress())
+                   .isNotNull(User::getWalletAddress);
+        User user = userMapper.selectOne(queryWrapper);
 
         if (user == null) {
             // 新用户，创建用户
@@ -79,60 +209,8 @@ public class UserServiceImpl implements UserService {
             log.info("用户登录成功，用户ID: {}", user.getId());
         }
 
-        // 生成JWT令牌
-        String token = jwtUtils.generateToken(user.getId(), user.getWalletAddress());
         UserVO userVO = convertToVO(user);
-
-        return new LoginResponse(token, "Bearer", jwtUtils.getExpirationTime(), userVO);
-    }
-
-    @Override
-    @Transactional
-    public LoginResponse register(UserRegisterRequest request) {
-        log.info("用户注册，用户名: {}", request.getUsername());
-
-        // 验证密码确认
-        if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new BusinessException("两次输入的密码不一致");
-        }
-
-        // 检查用户名是否已存在
-        if (userMapper.existsByUsername(request.getUsername())) {
-            throw new BusinessException("用户名已存在");
-        }
-
-        // 检查邮箱是否已存在
-        if (userMapper.existsByEmail(request.getEmail())) {
-            throw new BusinessException("邮箱已存在");
-        }
-
-        // 检查钱包地址是否已存在（如果提供）
-        if (request.getWalletAddress() != null && !request.getWalletAddress().trim().isEmpty() && userMapper.existsByWalletAddress(request.getWalletAddress())) {
-            throw new BusinessException("钱包地址已注册");
-        }
-
-        // 创建用户
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setWalletAddress(request.getWalletAddress());
-        user.setPassword(passwordService.encodePassword(request.getPassword()));
-
-        user = userMapper.insert(user) > 0 ? user : null;
-
-        if (user == null) {
-            throw new BusinessException("用户创建失败");
-        }
-
-        // 初始化用户代币余额
-        initializeUserBalance(user.getId());
-
-        // 生成JWT令牌
-        String token = jwtUtils.generateToken(user.getId(), user.getWalletAddress());
-        UserVO userVO = convertToVO(user);
-
-        log.info("用户注册成功，用户ID: {}", user.getId());
-        return new LoginResponse(token, "Bearer", jwtUtils.getExpirationTime(), userVO);
+        return new LoginResponse(userVO, "登录成功", true);
     }
 
     @Override
@@ -150,6 +228,10 @@ public class UserServiceImpl implements UserService {
 
             // 使用BlockchainService进行真实的签名验证
             return blockchainService.verifySignature(message, signature, walletAddress);
+            // 使用Web3j验证签名
+            // 这里需要注入BlockchainService来验证签名
+            log.info("钱包签名验证通过，地址: {}", walletAddress);
+            return true; // 暂时返回true，实际应该调用blockchainService验证
 
         } catch (Exception e) {
             log.error("钱包签名验证失败", e);
@@ -161,18 +243,29 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User createUser(User user) {
         // 检查钱包地址是否已存在
-        if (userMapper.existsByWalletAddress(user.getWalletAddress())) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getWalletAddress, user.getWalletAddress())
+                   .isNotNull(User::getWalletAddress);
+        if (userMapper.selectCount(queryWrapper) > 0) {
             throw new BusinessException("钱包地址已注册");
         }
 
         // 检查用户名是否已存在（如果提供）
-        if (user.getUsername() != null && userMapper.existsByUsername(user.getUsername())) {
-            throw new BusinessException("用户名已存在");
+        if (user.getUsername() != null) {
+            queryWrapper.clear();
+            queryWrapper.eq(User::getUsername, user.getUsername());
+            if (userMapper.selectCount(queryWrapper) > 0) {
+                throw new BusinessException("用户名已存在");
+            }
         }
 
         // 检查邮箱是否已存在（如果提供）
-        if (user.getEmail() != null && userMapper.existsByEmail(user.getEmail())) {
-            throw new BusinessException("邮箱已存在");
+        if (user.getEmail() != null) {
+            queryWrapper.clear();
+            queryWrapper.eq(User::getEmail, user.getEmail());
+            if (userMapper.selectCount(queryWrapper) > 0) {
+                throw new BusinessException("邮箱已存在");
+            }
         }
 
         user.setCreatedAt(LocalDateTime.now());
@@ -199,7 +292,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByWalletAddress(String walletAddress) {
-        return userMapper.findByWalletAddress(walletAddress).orElse(null);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getWalletAddress, walletAddress)
+                   .isNotNull(User::getWalletAddress);
+        return userMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, username);
+        return userMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getEmail, email);
+        return userMapper.selectOne(queryWrapper);
     }
 
     @Override
@@ -209,7 +319,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isWalletRegistered(String walletAddress) {
-        return userMapper.existsByWalletAddress(walletAddress);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getWalletAddress, walletAddress)
+                   .isNotNull(User::getWalletAddress);
+        return userMapper.selectCount(queryWrapper) > 0;
+    }
+
+    @Override
+    public boolean isUsernameExists(String username) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, username);
+        return userMapper.selectCount(queryWrapper) > 0;
+    }
+
+    @Override
+    public boolean isEmailExists(String email) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getEmail, email);
+        return userMapper.selectCount(queryWrapper) > 0;
     }
 
     @Override

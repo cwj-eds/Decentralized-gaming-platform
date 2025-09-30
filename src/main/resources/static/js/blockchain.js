@@ -4,6 +4,7 @@
 let web3;
 let userAccount;
 let isWalletConnected = false;
+let isWalletRequesting = false; // 防重入：避免并发请求钱包
 let currentUser = null;
 
 // 页面加载完成后初始化
@@ -45,6 +46,11 @@ async function connectWallet() {
     }
 
     try {
+        if (isWalletRequesting) {
+            showNotification('已有钱包请求在处理中，请在钱包中完成或稍后再试', 'warning');
+            return;
+        }
+        isWalletRequesting = true;
         showLoading('正在连接钱包...');
 
         // 请求账户访问权限
@@ -66,9 +72,14 @@ async function connectWallet() {
         }
     } catch (error) {
         console.error('钱包连接失败:', error);
-        showNotification('钱包连接失败: ' + error.message, 'error');
+        if (error && (error.code === -32002 || String(error.message || '').includes('Already processing'))) {
+            showNotification('已有钱包请求在处理中，请在钱包中完成或稍后再试', 'warning');
+        } else {
+            showNotification('钱包连接失败: ' + error.message, 'error');
+        }
     } finally {
         hideLoading();
+        isWalletRequesting = false;
     }
 }
 
@@ -85,8 +96,22 @@ async function walletLogin() {
 
         const message = messageResult.data;
 
-        // 签名消息
-        const signature = await web3.eth.personal.sign(message, userAccount);
+        // 确保 web3 已初始化
+        if (!web3 && window.ethereum) {
+            web3 = new Web3(window.ethereum);
+        }
+
+        // 签名消息（兼容 MetaMask）
+        let signature;
+        try {
+            signature = await web3.eth.personal.sign(message, userAccount);
+        } catch (e) {
+            // 回退到 ethereum.request
+            signature = await window.ethereum.request({
+                method: 'personal_sign',
+                params: [message, userAccount]
+            });
+        }
 
         // 发送登录请求
         const response = await fetch('/api/wallet/login', {
@@ -149,6 +174,30 @@ function disconnectWallet() {
     }, 1000);
 }
 
+// 退出登录
+function logout() {
+    // 清除本地存储的所有认证信息
+    localStorage.removeItem('user');
+    localStorage.removeItem('authType');
+    localStorage.removeItem('walletSignature');
+    localStorage.removeItem('walletMessage');
+
+    // 重置全局变量
+    userAccount = null;
+    isWalletConnected = false;
+    currentUser = null;
+
+    // 更新UI
+    updateWalletUI();
+
+    showNotification('已退出登录', 'info');
+
+    // 刷新页面
+    setTimeout(() => {
+        location.reload();
+    }, 1000);
+}
+
 // 检查钱包连接状态
 async function checkWalletConnection() {
     if (typeof window.ethereum !== 'undefined') {
@@ -184,6 +233,8 @@ function updateWalletUI() {
     const disconnectButton = document.querySelector('[onclick="disconnectWallet()"]');
     const walletStatus = document.querySelector('.wallet-status');
     const userDropdown = document.querySelector('.user-dropdown');
+    const authMenu = document.getElementById('authMenu');
+    const userMenu = document.getElementById('userMenu');
 
     if (isWalletConnected && userAccount) {
         // 隐藏连接按钮，显示断开按钮
@@ -200,10 +251,10 @@ function updateWalletUI() {
             walletStatus.classList.add('connected');
         }
 
-        // 显示用户下拉菜单
-        if (userDropdown) {
-            userDropdown.style.display = 'block';
-        }
+        // 显示用户下拉菜单，隐藏登录/注册
+        if (userDropdown) userDropdown.style.display = 'block';
+        if (userMenu) userMenu.style.display = 'block';
+        if (authMenu) authMenu.style.display = 'none';
 
         console.log('钱包UI已更新');
     } else {
@@ -220,10 +271,10 @@ function updateWalletUI() {
             walletStatus.classList.remove('connected');
         }
 
-        // 隐藏用户下拉菜单
-        if (userDropdown) {
-            userDropdown.style.display = 'none';
-        }
+        // 隐藏用户下拉菜单，显示登录/注册
+        if (userDropdown) userDropdown.style.display = 'none';
+        if (userMenu) userMenu.style.display = 'none';
+        if (authMenu) authMenu.style.display = 'block';
     }
 }
 
@@ -240,6 +291,12 @@ function updateUserInfo(user) {
     if (avatarImg && user.avatarUrl) {
         avatarImg.src = user.avatarUrl;
     }
+
+    // 切换菜单可见性
+    const authMenu = document.getElementById('authMenu');
+    const userMenu = document.getElementById('userMenu');
+    if (authMenu) authMenu.style.display = 'none';
+    if (userMenu) userMenu.style.display = 'block';
 }
 
 // 格式化地址
@@ -276,7 +333,7 @@ function getCurrentUser() {
 }
 
 // 检查是否已连接钱包
-function isWalletConnected() {
+function isWalletConnectedState() {
     return isWalletConnected && userAccount !== null;
 }
 
@@ -288,7 +345,8 @@ function getCurrentAccount() {
 // 导出给全局使用
 window.connectWallet = connectWallet;
 window.disconnectWallet = disconnectWallet;
+window.logout = logout;
 window.getCurrentUser = getCurrentUser;
-window.isWalletConnected = isWalletConnected;
+window.isWalletConnected = isWalletConnectedState;
 window.getCurrentAccount = getCurrentAccount;
 window.formatAddress = formatAddress;

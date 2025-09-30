@@ -41,6 +41,11 @@ public class GameGenerationResult {
     private Long generationTime;
 
     /**
+     * 消息
+     */
+    private String message;
+
+    /**
      * 错误消息
      */
     private String errorMessage;

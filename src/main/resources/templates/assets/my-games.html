@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/base :: base('我的游戏 - 去中心化游戏平台', ~{::#content})}">
+<head>
+    <title>我的游戏 - 去中心化游戏平台</title>
+</head>
+<body>
+    <div id="content">
+        <!-- 页面标题 -->
+        <div class="page-header mb-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h1 class="page-title">
+                            <i class="fas fa-gamepad me-2 text-primary"></i>我的游戏
+                        </h1>
+                        <p class="page-subtitle text-muted">管理您创建和拥有的游戏资产</p>
+                    </div>
+                    <div class="col-auto">
+                        <a th:href="@{/agents/game-maker}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>创建新游戏
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏列表 -->
+        <div class="container">
+            <!-- 筛选和搜索 -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="搜索游戏..." id="searchInput">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="statusFilter">
+                        <option value="">所有状态</option>
+                        <option value="CREATED">已创建</option>
+                        <option value="PURCHASED">已购买</option>
+                        <option value="REWARDED">奖励获得</option>
+                        <option value="TRANSFERRED">转移获得</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="sortBy">
+                        <option value="createdAt">按创建时间</option>
+                        <option value="acquiredAt">按获得时间</option>
+                        <option value="assetName">按名称</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 游戏网格 -->
+            <div class="row" th:if="${games != null and games.records != null}">
+                <div class="col-lg-4 col-md-6 mb-4" th:each="game : ${games.records}">
+                    <div class="game-card">
+                        <div class="game-image">
+                            <div class="game-placeholder">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <div class="game-overlay">
+                                <div class="game-actions">
+                                    <a th:href="@{/games/{id}(id=${game.assetId})}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-play me-1"></i>开始游戏
+                                    </a>
+                                    <button class="btn btn-outline-light btn-sm" th:onclick="'toggleTradeable(' + ${game.id} + ', ' + ${game.isTradeable} + ')'">
+                                        <i th:class="'fas ' + (${game.isTradeable} ? 'fa-lock-open' : 'fa-lock')"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="game-info">
+                            <h5 class="game-title" th:text="${game.assetName}">游戏标题</h5>
+                            <p class="game-description" th:text="${game.assetDescription}">游戏描述</p>
+                            <div class="game-meta">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="acquisition-type">
+                                        <span th:class="'badge ' + (${game.acquisitionType.name() == 'CREATED' ? 'bg-success' : 
+                                                                      ${game.acquisitionType.name() == 'PURCHASED' ? 'bg-primary' : 
+                                                                      ${game.acquisitionType.name() == 'REWARDED' ? 'bg-warning' : 'bg-info'})"
+                                              th:text="${game.acquisitionType.description}">获得方式</span>
+                                    </span>
+                                    <span class="tradeable-status">
+                                        <i th:class="'fas ' + (${game.isTradeable} ? 'fa-lock-open text-success' : 'fa-lock text-muted')" 
+                                           th:title="${game.isTradeable} ? '可交易' : '不可交易'"></i>
+                                    </span>
+                                </div>
+                                <div class="game-date mt-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        <span th:text="${#temporals.format(game.acquiredAt, 'yyyy-MM-dd')}">获得时间</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 空状态 -->
+            <div class="row" th:unless="${games != null and games.records != null}">
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fas fa-gamepad fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">暂无游戏资产</h4>
+                        <p class="text-muted">您还没有任何游戏资产，开始创建您的第一个游戏吧！</p>
+                        <a th:href="@{/agents/game-maker}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>创建游戏
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 分页 -->
+            <div class="row" th:if="${games != null and games.total > games.size}">
+                <div class="col-12">
+                    <nav aria-label="游戏分页">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:classappend="${games.current == 1} ? 'disabled'">
+                                <a class="page-link" th:href="@{/assets/games(page=${games.current - 1}, size=${games.size})}">上一页</a>
+                            </li>
+                            <li class="page-item" th:each="page : ${#numbers.sequence(1, games.pages)}" 
+                                th:classappend="${page == games.current} ? 'active'">
+                                <a class="page-link" th:href="@{/assets/games(page=${page}, size=${games.size})}" 
+                                   th:text="${page}">1</a>
+                            </li>
+                            <li class="page-item" th:classappend="${games.current == games.pages} ? 'disabled'">
+                                <a class="page-link" th:href="@{/assets/games(page=${games.current + 1}, size=${games.size})}">下一页</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自定义样式 -->
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .game-image {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .game-placeholder {
+            color: white;
+            font-size: 3rem;
+            opacity: 0.8;
+        }
+        
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .game-card:hover .game-overlay {
+            opacity: 1;
+        }
+        
+        .game-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .game-info {
+            padding: 1.5rem;
+        }
+        
+        .game-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .game-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .game-meta {
+            border-top: 1px solid #e9ecef;
+            padding-top: 1rem;
+        }
+        
+        .acquisition-type .badge {
+            font-size: 0.75rem;
+        }
+        
+        .tradeable-status {
+            font-size: 1.1rem;
+        }
+        
+        .game-date {
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .game-card {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+
+    <!-- JavaScript -->
+    <script>
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const gameCards = document.querySelectorAll('.game-card');
+            
+            gameCards.forEach(card => {
+                const title = card.querySelector('.game-title').textContent.toLowerCase();
+                const description = card.querySelector('.game-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // 状态筛选
+        document.getElementById('statusFilter').addEventListener('change', function() {
+            const selectedStatus = this.value;
+            const gameCards = document.querySelectorAll('.game-card');
+            
+            gameCards.forEach(card => {
+                const badge = card.querySelector('.badge');
+                const badgeText = badge.textContent;
+                
+                if (!selectedStatus || badgeText.includes(selectedStatus)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // 切换可交易状态
+        function toggleTradeable(assetId, currentStatus) {
+            const newStatus = !currentStatus;
+            
+            fetch(`/assets/api/assets/GAME/${assetId}/tradeable`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    isTradeable: newStatus
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 更新UI
+                    const icon = document.querySelector(`[onclick="toggleTradeable(${assetId}, ${currentStatus})"] i`);
+                    const statusIcon = document.querySelector(`[title="${currentStatus ? '可交易' : '不可交易'}"]`);
+                    
+                    if (newStatus) {
+                        icon.className = 'fas fa-lock-open';
+                        statusIcon.className = 'fas fa-lock-open text-success';
+                        statusIcon.title = '可交易';
+                    } else {
+                        icon.className = 'fas fa-lock';
+                        statusIcon.className = 'fas fa-lock text-muted';
+                        statusIcon.title = '不可交易';
+                    }
+                    
+                    // 更新onclick属性
+                    const button = document.querySelector(`[onclick="toggleTradeable(${assetId}, ${currentStatus})"]`);
+                    button.setAttribute('onclick', `toggleTradeable(${assetId}, ${newStatus})`);
+                    
+                    // 显示成功消息
+                    showToast(newStatus ? '已设置为可交易' : '已设置为不可交易', 'success');
+                } else {
+                    showToast('操作失败: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('操作失败', 'error');
+            });
+        }
+        
+        // 显示提示消息
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'} border-0`;
+            toast.setAttribute('role', 'alert');
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+            
+            toast.addEventListener('hidden.bs.toast', () => {
+                document.body.removeChild(toast);
+            });
+        }
+    </script>
+</body>
+</html>
+

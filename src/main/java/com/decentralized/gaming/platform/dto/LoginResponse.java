@@ -15,22 +15,18 @@ import lombok.NoArgsConstructor;
 public class LoginResponse {
 
     /**
-     * JWT访问令牌
-     */
-    private String accessToken;
-
-    /**
-     * 令牌类型
-     */
-    private String tokenType = "Bearer";
-
-    /**
-     * 过期时间（秒）
-     */
-    private Long expiresIn;
-
-    /**
      * 用户信息
      */
     private Object user;
+
+    /**
+     * 登录成功消息
+     */
+    private String message;
+
+    /**
+     * 登录状态
+     */
+    private boolean success;
 }
+
