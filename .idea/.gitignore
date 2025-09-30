@@ -10,3 +10,8 @@
 *.iml
 *.class
 *.log
+
+# 忽略所有 target 目录
+target/
+
+logs/
