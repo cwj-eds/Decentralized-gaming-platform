@@ -67,8 +67,8 @@
                                     <a th:href="@{/games/{id}(id=${game.assetId})}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-play me-1"></i>开始游戏
                                     </a>
-                                    <button class="btn btn-outline-light btn-sm" th:onclick="'toggleTradeable(' + ${game.id} + ', ' + ${game.isTradeable} + ')'">
-                                        <i th:class="'fas ' + (${game.isTradeable} ? 'fa-lock-open' : 'fa-lock')"></i>
+                                    <button class="btn btn-outline-light btn-sm" th:data-game-id="${game.id}" th:data-tradeable="${game.isTradeable}" onclick="toggleTradeable(this.dataset.gameId, this.dataset.tradeable === 'true')">
+                                        <i th:class="${game.isTradeable} ? 'fas fa-lock-open' : 'fas fa-lock'"></i>
                                     </button>
                                 </div>
                             </div>
@@ -79,13 +79,13 @@
                             <div class="game-meta">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="acquisition-type">
-                                        <span th:class="'badge ' + (${game.acquisitionType.name() == 'CREATED' ? 'bg-success' : 
-                                                                      ${game.acquisitionType.name() == 'PURCHASED' ? 'bg-primary' : 
-                                                                      ${game.acquisitionType.name() == 'REWARDED' ? 'bg-warning' : 'bg-info'})"
+                                        <span th:class="${game.acquisitionType.name() == 'CREATED'} ? 'badge bg-success' : 
+                                                         (${game.acquisitionType.name() == 'PURCHASED'} ? 'badge bg-primary' : 
+                                                         (${game.acquisitionType.name() == 'REWARDED'} ? 'badge bg-warning' : 'badge bg-info'))"
                                               th:text="${game.acquisitionType.description}">获得方式</span>
                                     </span>
                                     <span class="tradeable-status">
-                                        <i th:class="'fas ' + (${game.isTradeable} ? 'fa-lock-open text-success' : 'fa-lock text-muted')" 
+                                        <i th:class="${game.isTradeable} ? 'fas fa-lock-open text-success' : 'fas fa-lock text-muted'" 
                                            th:title="${game.isTradeable} ? '可交易' : '不可交易'"></i>
                                     </span>
                                 </div>

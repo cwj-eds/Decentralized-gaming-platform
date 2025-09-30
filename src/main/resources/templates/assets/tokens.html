@@ -40,9 +40,9 @@
                                 <div class="col-lg-3 col-md-6 mb-3" th:each="balance : ${balances}">
                                     <div class="balance-card">
                                         <div class="balance-icon">
-                                            <i th:class="'fas ' + (${balance.tokenType == 'PLATFORM_TOKEN'} ? 'fa-coins' : 
-                                                                   ${balance.tokenType == 'ETH'} ? 'fab fa-ethereum' : 
-                                                                   ${balance.tokenType == 'USDT'} ? 'fas fa-dollar-sign' : 'fa-coins')"></i>
+                                            <i th:class="${balance.tokenType == 'PLATFORM_TOKEN'} ? 'fas fa-coins' : 
+                                                          (${balance.tokenType == 'ETH'} ? 'fab fa-ethereum' : 
+                                                          (${balance.tokenType == 'USDT'} ? 'fas fa-dollar-sign' : 'fas fa-coins'))"></i>
                                         </div>
                                         <div class="balance-content">
                                             <h4 class="balance-amount" th:text="${balance.balance}">0.00</h4>
@@ -50,7 +50,7 @@
                                             <small class="balance-type" th:text="${balance.tokenType}">PLATFORM_TOKEN</small>
                                         </div>
                                         <div class="balance-actions">
-                                            <button class="btn btn-sm btn-outline-primary" th:onclick="'rechargeToken(\'' + ${balance.tokenType} + '\')'">
+                                            <button class="btn btn-sm btn-outline-primary" th:data-token-type="${balance.tokenType}" onclick="rechargeToken(this.dataset.tokenType)">
                                                 <i class="fas fa-plus me-1"></i>充值
                                             </button>
                                         </div>
@@ -88,9 +88,9 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="token-icon me-2">
-                                                        <i th:class="'fas ' + (${balance.tokenType == 'PLATFORM_TOKEN'} ? 'fa-coins text-warning' : 
-                                                                           ${balance.tokenType == 'ETH'} ? 'fab fa-ethereum text-primary' : 
-                                                                           ${balance.tokenType == 'USDT'} ? 'fas fa-dollar-sign text-success' : 'fa-coins text-muted')"></i>
+                                                        <i th:class="${balance.tokenType == 'PLATFORM_TOKEN'} ? 'fas fa-coins text-warning' : 
+                                                                      (${balance.tokenType == 'ETH'} ? 'fab fa-ethereum text-primary' : 
+                                                                      (${balance.tokenType == 'USDT'} ? 'fas fa-dollar-sign text-success' : 'fas fa-coins text-muted'))"></i>
                                                     </div>
                                                     <span th:text="${balance.tokenType}">PLATFORM_TOKEN</span>
                                                 </div>
@@ -106,10 +106,10 @@
                                             </td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-outline-primary" th:onclick="'rechargeToken(\'' + ${balance.tokenType} + '\')'">
+                                                    <button class="btn btn-outline-primary" th:data-token-type="${balance.tokenType}" onclick="rechargeToken(this.dataset.tokenType)">
                                                         <i class="fas fa-plus me-1"></i>充值
                                                     </button>
-                                                    <button class="btn btn-outline-info" th:onclick="'viewHistory(\'' + ${balance.tokenType} + '\')'">
+                                                    <button class="btn btn-outline-info" th:data-token-type="${balance.tokenType}" onclick="viewHistory(this.dataset.tokenType)">
                                                         <i class="fas fa-history me-1"></i>历史
                                                     </button>
                                                 </div>
