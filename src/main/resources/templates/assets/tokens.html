@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/base :: base('代币管理 - 去中心化游戏平台', ~{::#content})}">
+<head>
+    <title>代币管理 - 去中心化游戏平台</title>
+</head>
+<body>
+    <div id="content">
+        <!-- 页面标题 -->
+        <div class="page-header mb-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h1 class="page-title">
+                            <i class="fas fa-coins me-2 text-warning"></i>代币管理
+                        </h1>
+                        <p class="page-subtitle text-muted">管理您的代币余额和交易记录</p>
+                    </div>
+                    <div class="col-auto">
+                        <a th:href="@{/payment/recharge}" class="btn btn-warning">
+                            <i class="fas fa-plus me-2"></i>充值代币
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 代币余额 -->
+        <div class="container">
+            <!-- 余额概览 -->
+            <div class="row mb-4" th:if="${balances != null}">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white border-0">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-wallet me-2 text-primary"></i>代币余额概览
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 mb-3" th:each="balance : ${balances}">
+                                    <div class="balance-card">
+                                        <div class="balance-icon">
+                                            <i th:class="'fas ' + (${balance.tokenType == 'PLATFORM_TOKEN'} ? 'fa-coins' : 
+                                                                   ${balance.tokenType == 'ETH'} ? 'fab fa-ethereum' : 
+                                                                   ${balance.tokenType == 'USDT'} ? 'fas fa-dollar-sign' : 'fa-coins')"></i>
+                                        </div>
+                                        <div class="balance-content">
+                                            <h4 class="balance-amount" th:text="${balance.balance}">0.00</h4>
+                                            <p class="balance-symbol" th:text="${balance.tokenSymbol}">PLT</p>
+                                            <small class="balance-type" th:text="${balance.tokenType}">PLATFORM_TOKEN</small>
+                                        </div>
+                                        <div class="balance-actions">
+                                            <button class="btn btn-sm btn-outline-primary" th:onclick="'rechargeToken(\'' + ${balance.tokenType} + '\')'">
+                                                <i class="fas fa-plus me-1"></i>充值
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 代币详情表格 -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white border-0">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-list me-2 text-info"></i>代币详情
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>代币类型</th>
+                                            <th>代币符号</th>
+                                            <th>余额</th>
+                                            <th>最后更新</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="balance : ${balances}">
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="token-icon me-2">
+                                                        <i th:class="'fas ' + (${balance.tokenType == 'PLATFORM_TOKEN'} ? 'fa-coins text-warning' : 
+                                                                           ${balance.tokenType == 'ETH'} ? 'fab fa-ethereum text-primary' : 
+                                                                           ${balance.tokenType == 'USDT'} ? 'fas fa-dollar-sign text-success' : 'fa-coins text-muted')"></i>
+                                                    </div>
+                                                    <span th:text="${balance.tokenType}">PLATFORM_TOKEN</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-light text-dark" th:text="${balance.tokenSymbol}">PLT</span>
+                                            </td>
+                                            <td>
+                                                <span class="balance-display" th:text="${balance.balance}">0.00</span>
+                                            </td>
+                                            <td>
+                                                <small class="text-muted" th:text="${#temporals.format(balance.updatedAt, 'yyyy-MM-dd HH:mm')}">更新时间</small>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-primary" th:onclick="'rechargeToken(\'' + ${balance.tokenType} + '\')'">
+                                                        <i class="fas fa-plus me-1"></i>充值
+                                                    </button>
+                                                    <button class="btn btn-outline-info" th:onclick="'viewHistory(\'' + ${balance.tokenType} + '\')'">
+                                                        <i class="fas fa-history me-1"></i>历史
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 空状态 -->
+            <div class="row" th:unless="${balances != null}">
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fas fa-coins fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">暂无代币余额</h4>
+                        <p class="text-muted">您还没有任何代币余额，开始充值吧！</p>
+                        <a th:href="@{/payment/recharge}" class="btn btn-warning">
+                            <i class="fas fa-plus me-2"></i>充值代币
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 代币说明 -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white border-0">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-info-circle me-2 text-info"></i>代币说明
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="token-info">
+                                        <div class="token-info-icon">
+                                            <i class="fas fa-coins text-warning"></i>
+                                        </div>
+                                        <h6>平台代币 (PLT)</h6>
+                                        <p class="text-muted small">平台原生代币，用于游戏创建、智能体上传等平台内消费</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="token-info">
+                                        <div class="token-info-icon">
+                                            <i class="fab fa-ethereum text-primary"></i>
+                                        </div>
+                                        <h6>以太坊 (ETH)</h6>
+                                        <p class="text-muted small">用于支付区块链交易手续费和智能合约交互</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="token-info">
+                                        <div class="token-info-icon">
+                                            <i class="fas fa-dollar-sign text-success"></i>
+                                        </div>
+                                        <h6>USDT</h6>
+                                        <p class="text-muted small">稳定币，用于资产交易和价格锚定</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自定义样式 -->
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .balance-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .balance-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .balance-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .balance-content {
+            flex-grow: 1;
+        }
+        
+        .balance-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: #2c3e50;
+        }
+        
+        .balance-symbol {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #495057;
+        }
+        
+        .balance-type {
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+        
+        .balance-actions {
+            margin-left: 1rem;
+        }
+        
+        .token-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+        
+        .balance-display {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .token-info {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .token-info-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+        
+        .token-info h6 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .balance-card {
+                margin-bottom: 1rem;
+            }
+            
+            .balance-actions {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+
+    <!-- JavaScript -->
+    <script>
+        // 充值代币
+        function rechargeToken(tokenType) {
+            // 跳转到充值页面，并传递代币类型参数
+            window.location.href = `/payment/recharge?tokenType=${tokenType}`;
+        }
+        
+        // 查看交易历史
+        function viewHistory(tokenType) {
+            // 这里可以实现查看交易历史的逻辑
+            showToast(`查看 ${tokenType} 交易历史功能待实现`, 'info');
+        }
+        
+        // 显示提示消息
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} border-0`;
+            toast.setAttribute('role', 'alert');
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+            
+            toast.addEventListener('hidden.bs.toast', () => {
+                document.body.removeChild(toast);
+            });
+        }
+        
+        // 页面加载完成后刷新余额数据
+        document.addEventListener('DOMContentLoaded', function() {
+            // 可以在这里添加自动刷新余额的逻辑
+            console.log('代币管理页面加载完成');
+        });
+    </script>
+</body>
+</html>
+

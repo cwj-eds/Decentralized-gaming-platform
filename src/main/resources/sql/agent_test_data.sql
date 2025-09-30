@@ -19,3 +19,4 @@ INSERT INTO agents (name, description, creator_id, agent_type, code_url, model_u
 ('营销助手', '游戏营销智能体，提供市场分析、推广策略、用户获取等营销相关服务。', 1, 'ANALYSIS', 'https://github.com/example/marketing-agent', 'https://huggingface.co/example/marketing-model', 80.00, 19, 4.0, 'ACTIVE', NOW(), NOW()),
 
 ('本地化专家', '游戏本地化智能体，支持多语言翻译、文化适配、本地化测试等功能。', 3, 'TOOL', 'https://github.com/example/localization-agent', 'https://huggingface.co/example/localization-model', 40.00, 15, 4.2, 'ACTIVE', NOW(), NOW());
+

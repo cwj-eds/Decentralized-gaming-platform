@@ -39,3 +39,4 @@ public class AgentStatistics {
         this.totalUsageCount = totalUsageCount;
     }
 }
+

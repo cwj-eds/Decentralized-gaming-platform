@@ -1,6 +1,7 @@
 package com.decentralized.gaming.platform.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.decentralized.gaming.platform.common.PageResult;
@@ -45,36 +46,127 @@ public class AgentServiceImpl implements AgentService {
 
     @Override
     public PageResult<AgentVO> getActiveAgents(int page, int size) {
-        Page<AgentVO> pageParam = new Page<>(page, size);
-        IPage<AgentVO> result = agentMapper.selectActiveAgentsWithCreator(pageParam);
-        return PageResult.of(result.getRecords(), result.getTotal(), result.getCurrent(), result.getSize());
+        Page<Agent> pageParam = new Page<>(page, size);
+        LambdaQueryWrapper<Agent> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Agent::getStatus, Agent.AgentStatus.ACTIVE)
+                   .orderByDesc(Agent::getUsageCount)
+                   .orderByDesc(Agent::getCreatedAt);
+        
+        IPage<Agent> result = agentMapper.selectPage(pageParam, queryWrapper);
+        
+        // 转换为AgentVO并填充创建者信息
+        List<AgentVO> agentVOs = result.getRecords().stream().map(agent -> {
+            AgentVO agentVO = new AgentVO();
+            BeanUtils.copyProperties(agent, agentVO);
+            
+            // 获取创建者信息
+            User creator = userMapper.selectById(agent.getCreatorId());
+            if (creator != null) {
+                agentVO.setCreatorName(creator.getUsername());
+            }
+            
+            return agentVO;
+        }).collect(Collectors.toList());
+        
+        return PageResult.of(agentVOs, result.getTotal(), result.getCurrent(), result.getSize());
     }
 
     @Override
     public PageResult<AgentVO> getAgentsByCreator(Long creatorId, int page, int size) {
-        Page<AgentVO> pageParam = new Page<>(page, size);
-        IPage<AgentVO> result = agentMapper.selectAgentsByCreator(pageParam, creatorId);
-        return PageResult.of(result.getRecords(), result.getTotal(), result.getCurrent(), result.getSize());
+        Page<Agent> pageParam = new Page<>(page, size);
+        LambdaQueryWrapper<Agent> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Agent::getCreatorId, creatorId)
+                   .orderByDesc(Agent::getCreatedAt);
+        
+        IPage<Agent> result = agentMapper.selectPage(pageParam, queryWrapper);
+        
+        // 转换为AgentVO并填充创建者信息
+        List<AgentVO> agentVOs = result.getRecords().stream().map(agent -> {
+            AgentVO agentVO = new AgentVO();
+            BeanUtils.copyProperties(agent, agentVO);
+            
+            // 获取创建者信息
+            User creator = userMapper.selectById(agent.getCreatorId());
+            if (creator != null) {
+                agentVO.setCreatorName(creator.getUsername());
+            }
+            
+            return agentVO;
+        }).collect(Collectors.toList());
+        
+        return PageResult.of(agentVOs, result.getTotal(), result.getCurrent(), result.getSize());
     }
 
     @Override
     public PageResult<AgentVO> getAgentsByType(String agentType, int page, int size) {
-        Page<AgentVO> pageParam = new Page<>(page, size);
-        IPage<AgentVO> result = agentMapper.selectAgentsByType(pageParam, agentType);
-        return PageResult.of(result.getRecords(), result.getTotal(), result.getCurrent(), result.getSize());
+        Page<Agent> pageParam = new Page<>(page, size);
+        LambdaQueryWrapper<Agent> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Agent::getStatus, Agent.AgentStatus.ACTIVE)
+                   .eq(Agent::getAgentType, agentType)
+                   .orderByDesc(Agent::getUsageCount)
+                   .orderByDesc(Agent::getCreatedAt);
+        
+        IPage<Agent> result = agentMapper.selectPage(pageParam, queryWrapper);
+        
+        // 转换为AgentVO并填充创建者信息
+        List<AgentVO> agentVOs = result.getRecords().stream().map(agent -> {
+            AgentVO agentVO = new AgentVO();
+            BeanUtils.copyProperties(agent, agentVO);
+            
+            // 获取创建者信息
+            User creator = userMapper.selectById(agent.getCreatorId());
+            if (creator != null) {
+                agentVO.setCreatorName(creator.getUsername());
+            }
+            
+            return agentVO;
+        }).collect(Collectors.toList());
+        
+        return PageResult.of(agentVOs, result.getTotal(), result.getCurrent(), result.getSize());
     }
 
     @Override
     public List<AgentVO> getPopularAgents(int limit) {
-        return agentMapper.selectPopularAgents(limit);
+        LambdaQueryWrapper<Agent> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Agent::getStatus, Agent.AgentStatus.ACTIVE)
+                   .orderByDesc(Agent::getUsageCount)
+                   .orderByDesc(Agent::getRating)
+                   .last("LIMIT " + limit);
+        
+        List<Agent> agents = agentMapper.selectList(queryWrapper);
+        
+        // 转换为AgentVO并填充创建者信息
+        return agents.stream().map(agent -> {
+            AgentVO agentVO = new AgentVO();
+            BeanUtils.copyProperties(agent, agentVO);
+            
+            // 获取创建者信息
+            User creator = userMapper.selectById(agent.getCreatorId());
+            if (creator != null) {
+                agentVO.setCreatorName(creator.getUsername());
+            }
+            
+            return agentVO;
+        }).collect(Collectors.toList());
     }
 
     @Override
     public AgentVO getAgentDetail(Long id) {
-        AgentVO agentVO = agentMapper.selectAgentDetailById(id);
-        if (agentVO == null) {
+        Agent agent = agentMapper.selectById(id);
+        if (agent == null) {
             throw new BusinessException("智能体不存在");
         }
+        
+        // 转换为AgentVO并填充创建者信息
+        AgentVO agentVO = new AgentVO();
+        BeanUtils.copyProperties(agent, agentVO);
+        
+        // 获取创建者信息
+        User creator = userMapper.selectById(agent.getCreatorId());
+        if (creator != null) {
+            agentVO.setCreatorName(creator.getUsername());
+        }
+        
         return agentVO;
     }
 
@@ -197,7 +289,12 @@ public class AgentServiceImpl implements AgentService {
 
     @Override
     public void incrementUsageCount(Long agentId) {
-        agentMapper.incrementUsageCount(agentId);
+        // 使用MyBatis-Plus的UpdateWrapper来更新使用次数
+        LambdaUpdateWrapper<Agent> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Agent::getId, agentId)
+                    .setSql("usage_count = usage_count + 1");
+        
+        agentMapper.update(null, updateWrapper);
     }
 
     @Override
