@@ -13,6 +13,7 @@ import com.decentralized.gaming.platform.mapper.UserMapper;
 import com.decentralized.gaming.platform.service.blockchain.BlockchainService;
 import com.decentralized.gaming.platform.service.PasswordService;
 import com.decentralized.gaming.platform.service.UserService;
+import com.decentralized.gaming.platform.util.JwtUtils;
 import com.decentralized.gaming.platform.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -227,11 +228,13 @@ public class UserServiceImpl implements UserService {
             }
 
             // 使用BlockchainService进行真实的签名验证
-            return blockchainService.verifySignature(message, signature, walletAddress);
-            // 使用Web3j验证签名
-            // 这里需要注入BlockchainService来验证签名
-            log.info("钱包签名验证通过，地址: {}", walletAddress);
-            return true; // 暂时返回true，实际应该调用blockchainService验证
+            boolean isValid = blockchainService.verifySignature(message, signature, walletAddress);
+            if (isValid) {
+                log.info("钱包签名验证通过，地址: {}", walletAddress);
+            } else {
+                log.warn("钱包签名验证失败，地址: {}", walletAddress);
+            }
+            return isValid;
 
         } catch (Exception e) {
             log.error("钱包签名验证失败", e);
