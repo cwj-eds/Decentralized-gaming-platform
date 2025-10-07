@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>充值 - 去中心化游戏平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{layout/nav :: nav}"></nav>
+<main class="container py-4 recharge-bg">
+    <h2 class="mb-3"><i class="fas fa-credit-card me-2"></i>充值</h2>
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card glass">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <div>当前代币余额：<span id="balance">--</span> PLT</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">金额 (PLT)</label>
+                        <input id="amount" type="number" step="0.0001" min="0.0001" class="form-control" value="10">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">货币</label>
+                        <select id="currency" class="form-select">
+                            <option value="PLATFORM_TOKEN">PLATFORM_TOKEN</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">支付方式</label>
+                        <ul class="nav nav-tabs" id="payTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="bank-tab" data-bs-toggle="tab" data-bs-target="#bank" type="button" role="tab">银行转账</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="qr-tab" data-bs-toggle="tab" data-bs-target="#qr" type="button" role="tab">二维码支付</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content border border-top-0 p-3" id="payContent">
+                            <div class="tab-pane fade show active" id="bank" role="tabpanel">
+                                <div class="row g-2">
+                                    <div class="col-6"><input id="bankName" class="form-control" placeholder="银行名称"></div>
+                                    <div class="col-6"><input id="accountName" class="form-control" placeholder="收款户名"></div>
+                                    <div class="col-8"><input id="accountNo" class="form-control" placeholder="收款账号"></div>
+                                    <div class="col-4"><input id="referenceNo" class="form-control" placeholder="转账备注"></div>
+                                </div>
+                                <button class="btn btn-success mt-2" onclick="bankRecharge()"><i class="fas fa-university me-1"></i>提交银行充值</button>
+                            </div>
+                            <div class="tab-pane fade" id="qr" role="tabpanel">
+                                <div class="d-flex gap-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pm" id="pmWx" value="WECHAT" checked>
+                                        <label class="form-check-label" for="pmWx">微信支付</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pm" id="pmAli" value="ALIPAY">
+                                        <label class="form-check-label" for="pmAli">支付宝</label>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mt-2" onclick="createOrder()"><i class="fas fa-qrcode me-1"></i>生成二维码</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card h-100 glass">
+                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <div id="qrcode" class="border rounded p-3"></div>
+                    <div id="orderInfo" class="mt-3 text-muted small"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="my-4">
+    <h4>我的充值记录</h4>
+    <div id="records"></div>
+    </main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<style>
+    .recharge-bg { background: linear-gradient(135deg, #e0f3ff 0%, #f3e8ff 100%); border-radius: 16px; }
+    .glass { backdrop-filter: blur(8px); background: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+</style>
+<script>
+    let polling = null;
+    function loadBalance(){
+        fetch('/assets/api/balances/PLATFORM_TOKEN').then(r=>r.json()).then(res=>{
+            if(res.code===0){ document.getElementById('balance').innerText = res.data.balance; }
+        });
+    }
+    function createOrder(){
+        const amount = Number(document.getElementById('amount').value);
+        const currency = document.getElementById('currency').value;
+        const pm = document.querySelector('input[name="pm"]:checked').value;
+        fetch('/payment/api/recharge',{
+            method:'POST',headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({amount, currency, paymentMethod: pm})
+        }).then(r=>r.json()).then(res=>{
+            if(res.code===0){
+                const rec = res.data;
+                document.getElementById('orderInfo').innerText = `订单: ${rec.id}  金额: ${rec.amount} ${rec.currency}`;
+                document.getElementById('qrcode').innerHTML='';
+                QRCode.toCanvas(document.getElementById('qrcode'), rec.paymentId, {width:220});
+                startPolling(rec.id);
+            }else{alert(res.message||'下单失败');}
+        }).catch(()=>alert('网络异常'));
+    }
+    function bankRecharge(){
+        const amount = Number(document.getElementById('amount').value);
+        const currency = document.getElementById('currency').value;
+        const body = {
+            amount, currency,
+            bankName: document.getElementById('bankName').value || '示例银行',
+            accountNo: document.getElementById('accountNo').value || '6222 **** **** 0000',
+            accountName: document.getElementById('accountName').value || '去中心化游戏平台',
+            referenceNo: document.getElementById('referenceNo').value || ('REF-' + Date.now())
+        };
+        fetch('/payment/api/recharge/bank',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)})
+            .then(r=>r.json()).then(res=>{
+                if(res.code===0){ alert('银行充值提交成功，已自动入账演示'); loadRecords(); loadBalance(); }
+                else { alert(res.message||'提交失败'); }
+            }).catch(()=>alert('网络异常'));
+    }
+    function startPolling(orderId){
+        if(polling){clearInterval(polling);}    
+        polling = setInterval(()=>{
+            // 模拟回调：为便于演示，3次后自动确认
+        }, 3000);
+        // 提供一个“我已支付”按钮的体验：调用确认接口
+        setTimeout(()=>{ fetch(`/payment/api/recharge/${orderId}/confirm`,{method:'POST'})
+            .then(()=>loadRecords()); }, 9000);
+    }
+    function loadRecords(){
+        fetch('/payment/api/recharge/user/1?page=1&size=10').then(r=>r.json()).then(res=>{
+            if(res.code===0){
+                const list = res.data.records||[];
+                document.getElementById('records').innerHTML = `
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                        <thead><tr><th>ID</th><th>金额</th><th>方式</th><th>状态</th><th>时间</th></tr></thead>
+                        <tbody>
+                          ${list.map(x=>`<tr><td>${x.id}</td><td>${x.amount} ${x.currency}</td><td>${x.paymentMethod}</td><td>${x.status}</td><td>${x.createdAt||''}</td></tr>`).join('')}
+                        </tbody>
+                      </table>
+                    </div>`;
+            }
+        });
+    }
+    loadBalance();
+    loadRecords();
+</script>
+</body>
+</html>
+
+

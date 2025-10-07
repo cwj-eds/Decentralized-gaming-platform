@@ -28,5 +28,10 @@ public class LoginResponse {
      * 登录状态
      */
     private boolean success;
+
+    /**
+     * JWT令牌
+     */
+    private String token;
 }
 

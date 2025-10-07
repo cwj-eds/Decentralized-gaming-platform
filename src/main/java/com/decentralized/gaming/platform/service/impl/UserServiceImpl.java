@@ -106,9 +106,10 @@ public class UserServiceImpl implements UserService {
             }
 
             UserVO userVO = convertToVO(user);
+            String token = jwtUtils.generateToken(user.getId(), user.getUsername());
 
             log.info("用户登录成功，用户ID: {}, 用户名: {}", user.getId(), user.getUsername());
-            return new LoginResponse(userVO, "登录成功", true);
+            return new LoginResponse(userVO, "登录成功", true, token);
 
         } catch (BusinessException e) {
             throw e; // 重新抛出业务异常
@@ -169,9 +170,10 @@ public class UserServiceImpl implements UserService {
         initializeUserBalance(user.getId());
 
         UserVO userVO = convertToVO(user);
-
+        String token = jwtUtils.generateToken(user.getId(), user.getUsername());
+        
         log.info("用户注册成功，用户ID: {}", user.getId());
-        return new LoginResponse(userVO, "注册成功", true);
+        return new LoginResponse(userVO, "注册成功", true, token);
     }
 
     @Override
@@ -211,7 +213,8 @@ public class UserServiceImpl implements UserService {
         }
 
         UserVO userVO = convertToVO(user);
-        return new LoginResponse(userVO, "登录成功", true);
+        String token = jwtUtils.generateToken(user.getId(), user.getUsername());
+        return new LoginResponse(userVO, "登录成功", true, token);
     }
 
     @Override

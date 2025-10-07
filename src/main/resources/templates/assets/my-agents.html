@@ -70,6 +70,9 @@
                                     <button class="btn btn-outline-light btn-sm" th:data-agent-id="${agent.id}" th:data-tradeable="${agent.isTradeable}" onclick="toggleTradeable(this.dataset.agentId, this.dataset.tradeable === 'true')">
                                         <i th:class="${agent.isTradeable} ? 'fas fa-lock-open' : 'fas fa-lock'"></i>
                                     </button>
+                                    <button class="btn btn-primary btn-sm" th:attr="data-id=${agent.assetId}" onclick="listToMarketplace(this, 'AGENT')">
+                                        <i class="fas fa-store me-1"></i>上架
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -359,6 +362,22 @@
             toast.addEventListener('hidden.bs.toast', () => {
                 document.body.removeChild(toast);
             });
+        }
+        function listToMarketplace(btn, type){
+            const id = btn.getAttribute('data-id');
+            const price = prompt('请输入上架价格 (PLT)：');
+            if(!price){return;}
+            fetch('/marketplace/api/items',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body: JSON.stringify({itemType:type, itemId: Number(id), price: Number(price), currency:'PLATFORM_TOKEN'})
+            }).then(r=>r.json()).then(res=>{
+                if(res && res.code===0){
+                    showToast('上架成功','success');
+                } else {
+                    showToast(res.message||'上架失败','error');
+                }
+            }).catch(()=>showToast('网络异常','error'));
         }
     </script>
 </body>
