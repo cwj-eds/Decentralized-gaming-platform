@@ -25,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class RewardsServiceImpl implements RewardsService {
 
-    @Autowired
+    @Autowired(required = false)
     private Rewards rewardsContract;
 
     @Autowired
@@ -34,7 +34,7 @@ public class RewardsServiceImpl implements RewardsService {
     @Autowired
     private ContractGasProvider gasProvider;
 
-    @Autowired
+    @Autowired(required = false)
     private org.web3j.protocol.Web3j web3j;
 
     @Override

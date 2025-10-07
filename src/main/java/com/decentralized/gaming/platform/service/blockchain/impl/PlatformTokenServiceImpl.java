@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class PlatformTokenServiceImpl implements PlatformTokenService {
 
-    @Autowired
+    @Autowired(required = false)
     private PlatformToken platformTokenContract;
 
     @Autowired
@@ -37,12 +37,25 @@ public class PlatformTokenServiceImpl implements PlatformTokenService {
     private org.web3j.protocol.Web3j web3j;
 
     /**
+     * 检查合约是否可用
+     */
+    private void checkContractAvailable() {
+        if (platformTokenContract == null) {
+            throw new BlockchainException(BlockchainException.ErrorCodes.CONTRACT_NOT_AVAILABLE, "platformToken", "平台代币合约不可用", null);
+        }
+    }
+
+    /**
      * 获取代币名称
      *
      * @return 代币名称
      */
     @Override
     public String getName() {
+        if (platformTokenContract == null) {
+            log.warn("⚠️  平台代币合约不可用，返回默认名称");
+            return "Platform Token";
+        }
         try {
             return platformTokenContract.name().send();
         } catch (Exception e) {

@@ -368,11 +368,23 @@ public class BlockchainController {
             feeInfo.put("feeRecipient", feeRecipient);
             feeInfo.put("platformToken", platformToken);
             feeInfo.put("timestamp", System.currentTimeMillis());
+            feeInfo.put("blockchainAvailable", true);
             
             return Result.success(feeInfo, "查询游戏NFT铸造费用成功");
         } catch (Exception e) {
-            log.error("查询游戏NFT铸造费用失败", e);
-            return Result.error("查询游戏NFT铸造费用失败: " + e.getMessage());
+            log.error("查询游戏NFT铸造费用失败，使用降级模式", e);
+            
+            // 降级处理：返回默认费用信息
+            java.util.Map<String, Object> fallbackInfo = new java.util.HashMap<>();
+            fallbackInfo.put("creationFee", BigInteger.valueOf(2000000000000000000L)); // 2 ETH
+            fallbackInfo.put("creationFeeString", "2000000000000000000");
+            fallbackInfo.put("feeRecipient", "0x0000000000000000000000000000000000000000");
+            fallbackInfo.put("platformToken", "0x0000000000000000000000000000000000000000");
+            fallbackInfo.put("timestamp", System.currentTimeMillis());
+            fallbackInfo.put("blockchainAvailable", false);
+            fallbackInfo.put("warning", "区块链服务不可用，返回默认费用信息");
+            
+            return Result.success(fallbackInfo, "查询游戏NFT铸造费用成功（降级模式）");
         }
     }
 
@@ -390,11 +402,23 @@ public class BlockchainController {
             feeInfo.put("feeRecipient", feeRecipient);
             feeInfo.put("platformToken", platformToken);
             feeInfo.put("timestamp", System.currentTimeMillis());
+            feeInfo.put("blockchainAvailable", true);
             
             return Result.success(feeInfo, "查询智能体NFT铸造费用成功");
         } catch (Exception e) {
-            log.error("查询智能体NFT铸造费用失败", e);
-            return Result.error("查询智能体NFT铸造费用失败: " + e.getMessage());
+            log.error("查询智能体NFT铸造费用失败，使用降级模式", e);
+            
+            // 降级处理：返回默认费用信息
+            java.util.Map<String, Object> fallbackInfo = new java.util.HashMap<>();
+            fallbackInfo.put("uploadFee", BigInteger.valueOf(1000000000000000000L)); // 1 ETH
+            fallbackInfo.put("uploadFeeString", "1000000000000000000");
+            fallbackInfo.put("feeRecipient", "0x0000000000000000000000000000000000000000");
+            fallbackInfo.put("platformToken", "0x0000000000000000000000000000000000000000");
+            fallbackInfo.put("timestamp", System.currentTimeMillis());
+            fallbackInfo.put("blockchainAvailable", false);
+            fallbackInfo.put("warning", "区块链服务不可用，返回默认费用信息");
+            
+            return Result.success(fallbackInfo, "查询智能体NFT铸造费用成功（降级模式）");
         }
     }
 

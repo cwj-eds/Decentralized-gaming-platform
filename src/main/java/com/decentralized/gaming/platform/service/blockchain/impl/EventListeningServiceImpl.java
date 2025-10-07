@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 @Service
 public class EventListeningServiceImpl implements EventListeningService {
 
-    @Autowired
+    @Autowired(required = false)
     private Web3j web3j;
 
     @Autowired

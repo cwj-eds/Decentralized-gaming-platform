@@ -51,10 +51,16 @@ public class BlockchainConfig {
     public void validateConfig() {
         log.info("=== 区块链配置验证开始 ===");
         
+        // 检查是否启用区块链功能
+        if (!enabled) {
+            log.warn("⚠️  区块链功能已禁用，跳过配置验证");
+            return;
+        }
+        
         // 验证网络URL配置
         if (networkUrl == null || networkUrl.trim().isEmpty()) {
-            log.error("❌ 区块链网络URL未配置");
-            throw new IllegalStateException("区块链网络URL未配置");
+            log.error("❌ 区块链网络URL未配置，区块链功能将被禁用");
+            return;
         }
         log.info("✅ 区块链网络URL配置成功: {}", networkUrl);
         
@@ -85,46 +91,46 @@ public class BlockchainConfig {
         log.info("--- 合约地址配置验证 ---");
         
         if (contracts == null) {
-            log.error("❌ 合约地址配置对象为空");
-            throw new IllegalStateException("合约地址配置对象为空");
+            log.error("❌ 合约地址配置对象为空，所有合约将被禁用");
+            return;
         }
         
         // 验证平台代币合约
         if (contracts.getPlatformToken() == null || contracts.getPlatformToken().trim().isEmpty()) {
-            log.error("❌ 平台代币合约地址未配置");
-            throw new IllegalStateException("平台代币合约地址未配置");
+            log.error("❌ 平台代币合约地址未配置，该合约将被禁用");
+        } else {
+            log.info("✅ 平台代币合约地址: {}", contracts.getPlatformToken());
         }
-        log.info("✅ 平台代币合约地址: {}", contracts.getPlatformToken());
         
         // 验证游戏NFT合约
         if (contracts.getGameNft() == null || contracts.getGameNft().trim().isEmpty()) {
-            log.error("❌ 游戏NFT合约地址未配置");
-            throw new IllegalStateException("游戏NFT合约地址未配置");
+            log.error("❌ 游戏NFT合约地址未配置，该合约将被禁用");
+        } else {
+            log.info("✅ 游戏NFT合约地址: {}", contracts.getGameNft());
         }
-        log.info("✅ 游戏NFT合约地址: {}", contracts.getGameNft());
         
         // 验证智能体NFT合约
         if (contracts.getAgentNft() == null || contracts.getAgentNft().trim().isEmpty()) {
-            log.error("❌ 智能体NFT合约地址未配置");
-            throw new IllegalStateException("智能体NFT合约地址未配置");
+            log.error("❌ 智能体NFT合约地址未配置，该合约将被禁用");
+        } else {
+            log.info("✅ 智能体NFT合约地址: {}", contracts.getAgentNft());
         }
-        log.info("✅ 智能体NFT合约地址: {}", contracts.getAgentNft());
         
         // 验证市场合约
         if (contracts.getMarketplace() == null || contracts.getMarketplace().trim().isEmpty()) {
-            log.error("❌ 市场合约地址未配置");
-            throw new IllegalStateException("市场合约地址未配置");
+            log.error("❌ 市场合约地址未配置，该合约将被禁用");
+        } else {
+            log.info("✅ 市场合约地址: {}", contracts.getMarketplace());
         }
-        log.info("✅ 市场合约地址: {}", contracts.getMarketplace());
         
         // 验证奖励合约
         if (contracts.getRewards() == null || contracts.getRewards().trim().isEmpty()) {
-            log.error("❌ 奖励合约地址未配置");
-            throw new IllegalStateException("奖励合约地址未配置");
+            log.error("❌ 奖励合约地址未配置，该合约将被禁用");
+        } else {
+            log.info("✅ 奖励合约地址: {}", contracts.getRewards());
         }
-        log.info("✅ 奖励合约地址: {}", contracts.getRewards());
         
-        log.info("--- 所有合约地址配置验证完成 ---");
+        log.info("--- 合约地址配置验证完成 ---");
     }
 
     /**
@@ -142,8 +148,8 @@ public class BlockchainConfig {
         
         // 检查networkUrl是否为空
         if (networkUrl == null || networkUrl.trim().isEmpty()) {
-            log.error("❌ 区块链网络URL未配置");
-            throw new IllegalStateException("区块链网络URL未配置");
+            log.error("❌ 区块链网络URL未配置，区块链功能将被禁用");
+            return null;
         }
         
         try {
@@ -170,7 +176,8 @@ public class BlockchainConfig {
             log.error("   2. 端口8545是否被占用");
             log.error("   3. 防火墙是否阻止了连接");
             log.error("   4. 网络配置是否正确");
-            throw new IllegalStateException("无法连接到区块链节点: " + networkUrl, e);
+            log.warn("⚠️  区块链功能将被禁用，应用将以降级模式启动");
+            return null;
         }
     }
     
@@ -269,10 +276,16 @@ public class BlockchainConfig {
     public PlatformToken platformTokenContract(Web3j web3j, ContractGasProvider gasProvider) {
         log.info("=== 平台代币合约初始化开始 ===");
         
+        // 检查Web3j是否可用
+        if (web3j == null) {
+            log.warn("⚠️  Web3j不可用，平台代币合约将被禁用");
+            return null;
+        }
+        
         // 检查合约地址是否为空
         if (contracts.getPlatformToken() == null || contracts.getPlatformToken().trim().isEmpty()) {
-            log.error("❌ 平台代币合约地址未配置");
-            throw new IllegalStateException("平台代币合约地址未配置");
+            log.error("❌ 平台代币合约地址未配置，合约将被禁用");
+            return null;
         }
         
         try {
@@ -288,7 +301,8 @@ public class BlockchainConfig {
             
         } catch (Exception e) {
             log.error("❌ 平台代币合约加载失败: {}", contracts.getPlatformToken(), e);
-            throw new IllegalStateException("平台代币合约加载失败", e);
+            log.warn("⚠️  平台代币合约将被禁用");
+            return null;
         }
     }
 
@@ -305,7 +319,8 @@ public class BlockchainConfig {
             
         } catch (Exception e) {
             log.error("❌ {}连接测试失败", contractName, e);
-            throw new RuntimeException(contractName + "连接测试失败", e);
+            // 不再抛出异常，允许合约在连接失败时被禁用
+            log.warn("⚠️  {}将使用降级模式", contractName);
         }
     }
 
@@ -316,10 +331,16 @@ public class BlockchainConfig {
     public GameNFT gameNftContract(Web3j web3j, ContractGasProvider gasProvider) {
         log.info("=== 游戏NFT合约初始化开始 ===");
         
+        // 检查Web3j是否可用
+        if (web3j == null) {
+            log.warn("⚠️  Web3j不可用，游戏NFT合约将被禁用");
+            return null;
+        }
+        
         // 检查合约地址是否为空
         if (contracts.getGameNft() == null || contracts.getGameNft().trim().isEmpty()) {
-            log.error("❌ 游戏NFT合约地址未配置");
-            throw new IllegalStateException("游戏NFT合约地址未配置");
+            log.error("❌ 游戏NFT合约地址未配置，合约将被禁用");
+            return null;
         }
         
         try {
@@ -335,7 +356,8 @@ public class BlockchainConfig {
             
         } catch (Exception e) {
             log.error("❌ 游戏NFT合约加载失败: {}", contracts.getGameNft(), e);
-            throw new IllegalStateException("游戏NFT合约加载失败", e);
+            log.warn("⚠️  游戏NFT合约将被禁用");
+            return null;
         }
     }
 
@@ -346,10 +368,16 @@ public class BlockchainConfig {
     public AgentNFT agentNftContract(Web3j web3j, ContractGasProvider gasProvider) {
         log.info("=== 智能体NFT合约初始化开始 ===");
         
+        // 检查Web3j是否可用
+        if (web3j == null) {
+            log.warn("⚠️  Web3j不可用，智能体NFT合约将被禁用");
+            return null;
+        }
+        
         // 检查合约地址是否为空
         if (contracts.getAgentNft() == null || contracts.getAgentNft().trim().isEmpty()) {
-            log.error("❌ 智能体NFT合约地址未配置");
-            throw new IllegalStateException("智能体NFT合约地址未配置");
+            log.error("❌ 智能体NFT合约地址未配置，合约将被禁用");
+            return null;
         }
         
         try {
@@ -365,7 +393,8 @@ public class BlockchainConfig {
             
         } catch (Exception e) {
             log.error("❌ 智能体NFT合约加载失败: {}", contracts.getAgentNft(), e);
-            throw new IllegalStateException("智能体NFT合约加载失败", e);
+            log.warn("⚠️  智能体NFT合约将被禁用");
+            return null;
         }
     }
 
@@ -376,10 +405,16 @@ public class BlockchainConfig {
     public Marketplace marketplaceContract(Web3j web3j, ContractGasProvider gasProvider) {
         log.info("=== 交易市场合约初始化开始 ===");
         
+        // 检查Web3j是否可用
+        if (web3j == null) {
+            log.warn("⚠️  Web3j不可用，交易市场合约将被禁用");
+            return null;
+        }
+        
         // 检查合约地址是否为空
         if (contracts.getMarketplace() == null || contracts.getMarketplace().trim().isEmpty()) {
-            log.error("❌ 交易市场合约地址未配置");
-            throw new IllegalStateException("交易市场合约地址未配置");
+            log.error("❌ 交易市场合约地址未配置，合约将被禁用");
+            return null;
         }
         
         try {
@@ -395,7 +430,8 @@ public class BlockchainConfig {
             
         } catch (Exception e) {
             log.error("❌ 交易市场合约加载失败: {}", contracts.getMarketplace(), e);
-            throw new IllegalStateException("交易市场合约加载失败", e);
+            log.warn("⚠️  交易市场合约将被禁用");
+            return null;
         }
     }
 
@@ -406,10 +442,16 @@ public class BlockchainConfig {
     public Rewards rewardsContract(Web3j web3j, ContractGasProvider gasProvider) {
         log.info("=== 奖励合约初始化开始 ===");
         
+        // 检查Web3j是否可用
+        if (web3j == null) {
+            log.warn("⚠️  Web3j不可用，奖励合约将被禁用");
+            return null;
+        }
+        
         // 检查合约地址是否为空
         if (contracts.getRewards() == null || contracts.getRewards().trim().isEmpty()) {
-            log.error("❌ 奖励合约地址未配置");
-            throw new IllegalStateException("奖励合约地址未配置");
+            log.error("❌ 奖励合约地址未配置，合约将被禁用");
+            return null;
         }
         
         try {
@@ -425,7 +467,8 @@ public class BlockchainConfig {
             
         } catch (Exception e) {
             log.error("❌ 奖励合约加载失败: {}", contracts.getRewards(), e);
-            throw new IllegalStateException("奖励合约加载失败", e);
+            log.warn("⚠️  奖励合约将被禁用");
+            return null;
         }
     }
 }

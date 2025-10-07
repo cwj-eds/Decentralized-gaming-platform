@@ -30,7 +30,7 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class BlockchainServiceImpl implements BlockchainService {
 
-    @Autowired
+    @Autowired(required = false)
     private Web3j web3j;
 
     @Autowired

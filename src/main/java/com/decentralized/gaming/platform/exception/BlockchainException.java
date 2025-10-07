@@ -44,6 +44,7 @@ public class BlockchainException extends RuntimeException {
         public static final String INSUFFICIENT_BALANCE = "BLOCKCHAIN_INSUFFICIENT_BALANCE";
         public static final String GAS_ESTIMATION_FAILED = "BLOCKCHAIN_GAS_ESTIMATION_FAILED";
         public static final String CONTRACT_CALL_FAILED = "BLOCKCHAIN_CONTRACT_CALL_FAILED";
+        public static final String CONTRACT_NOT_AVAILABLE = "BLOCKCHAIN_CONTRACT_NOT_AVAILABLE";
         public static final String SIGNATURE_VERIFICATION_FAILED = "BLOCKCHAIN_SIGNATURE_VERIFICATION_FAILED";
         public static final String TIMEOUT = "BLOCKCHAIN_TIMEOUT";
     }

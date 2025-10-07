@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class GameNFTServiceImpl implements GameNFTService {
 
-    @Autowired
+    @Autowired(required = false)
     private GameNFT gameNftContract;
 
     @Autowired

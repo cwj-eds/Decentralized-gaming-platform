@@ -25,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class MarketplaceServiceImpl implements MarketplaceService {
 
-    @Autowired
+    @Autowired(required = false)
     private Marketplace marketplaceContract;
 
     @Autowired
@@ -34,7 +34,7 @@ public class MarketplaceServiceImpl implements MarketplaceService {
     @Autowired
     private ContractGasProvider gasProvider;
 
-    @Autowired
+    @Autowired(required = false)
     private org.web3j.protocol.Web3j web3j;
 
     @Override

@@ -28,7 +28,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class ContractDeploymentServiceImpl implements ContractDeploymentService {
 
-    @Autowired
+    @Autowired(required = false)
     private Web3j web3j;
 
     @Autowired

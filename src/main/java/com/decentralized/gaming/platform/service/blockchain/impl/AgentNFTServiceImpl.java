@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class AgentNFTServiceImpl implements AgentNFTService {
 
-    @Autowired
+    @Autowired(required = false)
     private AgentNFT agentNftContract;
 
     @Autowired

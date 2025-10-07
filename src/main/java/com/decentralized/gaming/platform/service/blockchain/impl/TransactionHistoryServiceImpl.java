@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 public class TransactionHistoryServiceImpl implements TransactionHistoryService {
 
-    @Autowired
+    @Autowired(required = false)
     private Web3j web3j;
 
     @Autowired
