@@ -87,11 +87,12 @@ logging:
     com.decentralized.gaming.platform: DEBUG
     org.springframework.web: INFO
     com.baomidou.mybatisplus.core: DEBUG
+    root: INFO
   pattern:
-    console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'
-    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n'
-  file:
-    name: logs/gaming-platform.log
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n'
+  # 禁用文件日志输出，只输出到控制台
+  # file:
+  #   name: logs/gaming-platform.log
 
 # 应用配置
 app:
