@@ -357,6 +357,134 @@ public class BatchOperationController {
         }
     }
 
+    // ==================== NFT批量铸造操作 ====================
+
+    @PostMapping("/nft/game/mint")
+    @Operation(summary = "批量铸造游戏NFT", description = "批量创建并铸造游戏NFT")
+    public Result<Object> batchMintGameNFTs(
+            @Parameter(description = "创建者私钥") @RequestParam String creatorPrivateKey,
+            @Parameter(description = "游戏名称列表") @RequestParam List<String> gameNames,
+            @Parameter(description = "游戏描述列表") @RequestParam List<String> gameDescriptions,
+            @Parameter(description = "游戏图片URL列表") @RequestParam List<String> gameImageUrls,
+            @Parameter(description = "游戏URL列表") @RequestParam List<String> gameUrls) {
+        try {
+            if (gameNames.size() != gameDescriptions.size() || 
+                gameDescriptions.size() != gameImageUrls.size() || 
+                gameImageUrls.size() != gameUrls.size()) {
+                return Result.error("游戏信息列表数量不匹配");
+            }
+
+            Credentials credentials = getCredentialsFromPrivateKey(creatorPrivateKey);
+            List<Map<String, Object>> results = new ArrayList<>();
+            List<String> txHashes = new ArrayList<>();
+            int successCount = 0;
+
+            for (int i = 0; i < gameNames.size(); i++) {
+                try {
+                    BigInteger creationFee = gameNFTService.getCreationFee();
+                    TransactionReceipt receipt = gameNFTService.createGame(
+                        credentials, gameNames.get(i), gameDescriptions.get(i), 
+                        gameImageUrls.get(i), gameUrls.get(i), creationFee);
+                    
+                    txHashes.add(receipt.getTransactionHash());
+                    successCount++;
+
+                    Map<String, Object> result = new HashMap<>();
+                    result.put("gameName", gameNames.get(i));
+                    result.put("gameDescription", gameDescriptions.get(i));
+                    result.put("gameImageUrl", gameImageUrls.get(i));
+                    result.put("gameUrl", gameUrls.get(i));
+                    result.put("txHash", receipt.getTransactionHash());
+                    result.put("creationFee", creationFee);
+                    result.put("success", true);
+                    results.add(result);
+                } catch (Exception e) {
+                    log.error("批量铸造游戏NFT失败，游戏名称: {}", gameNames.get(i), e);
+                    Map<String, Object> result = new HashMap<>();
+                    result.put("gameName", gameNames.get(i));
+                    result.put("success", false);
+                    result.put("error", e.getMessage());
+                    results.add(result);
+                }
+            }
+
+            Map<String, Object> batchResult = new HashMap<>();
+            batchResult.put("totalCount", gameNames.size());
+            batchResult.put("successCount", successCount);
+            batchResult.put("failureCount", gameNames.size() - successCount);
+            batchResult.put("txHashes", txHashes);
+            batchResult.put("results", results);
+
+            return Result.success(batchResult, "批量铸造游戏NFT完成");
+        } catch (Exception e) {
+            log.error("批量铸造游戏NFT失败", e);
+            return Result.error("批量铸造游戏NFT失败: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/nft/agent/mint")
+    @Operation(summary = "批量铸造智能体NFT", description = "批量创建并铸造智能体NFT")
+    public Result<Object> batchMintAgentNFTs(
+            @Parameter(description = "创建者私钥") @RequestParam String creatorPrivateKey,
+            @Parameter(description = "智能体名称列表") @RequestParam List<String> agentNames,
+            @Parameter(description = "智能体描述列表") @RequestParam List<String> agentDescriptions,
+            @Parameter(description = "智能体图片URL列表") @RequestParam List<String> agentImageUrls,
+            @Parameter(description = "智能体URL列表") @RequestParam List<String> agentUrls) {
+        try {
+            if (agentNames.size() != agentDescriptions.size() || 
+                agentDescriptions.size() != agentImageUrls.size() || 
+                agentImageUrls.size() != agentUrls.size()) {
+                return Result.error("智能体信息列表数量不匹配");
+            }
+
+            Credentials credentials = getCredentialsFromPrivateKey(creatorPrivateKey);
+            List<Map<String, Object>> results = new ArrayList<>();
+            List<String> txHashes = new ArrayList<>();
+            int successCount = 0;
+
+            for (int i = 0; i < agentNames.size(); i++) {
+                try {
+                    BigInteger uploadFee = agentNFTService.getUploadFee();
+                    TransactionReceipt receipt = agentNFTService.createAgent(
+                        credentials, agentNames.get(i), agentDescriptions.get(i), 
+                        agentImageUrls.get(i), agentUrls.get(i), uploadFee);
+                    
+                    txHashes.add(receipt.getTransactionHash());
+                    successCount++;
+
+                    Map<String, Object> result = new HashMap<>();
+                    result.put("agentName", agentNames.get(i));
+                    result.put("agentDescription", agentDescriptions.get(i));
+                    result.put("agentImageUrl", agentImageUrls.get(i));
+                    result.put("agentUrl", agentUrls.get(i));
+                    result.put("txHash", receipt.getTransactionHash());
+                    result.put("uploadFee", uploadFee);
+                    result.put("success", true);
+                    results.add(result);
+                } catch (Exception e) {
+                    log.error("批量铸造智能体NFT失败，智能体名称: {}", agentNames.get(i), e);
+                    Map<String, Object> result = new HashMap<>();
+                    result.put("agentName", agentNames.get(i));
+                    result.put("success", false);
+                    result.put("error", e.getMessage());
+                    results.add(result);
+                }
+            }
+
+            Map<String, Object> batchResult = new HashMap<>();
+            batchResult.put("totalCount", agentNames.size());
+            batchResult.put("successCount", successCount);
+            batchResult.put("failureCount", agentNames.size() - successCount);
+            batchResult.put("txHashes", txHashes);
+            batchResult.put("results", results);
+
+            return Result.success(batchResult, "批量铸造智能体NFT完成");
+        } catch (Exception e) {
+            log.error("批量铸造智能体NFT失败", e);
+            return Result.error("批量铸造智能体NFT失败: " + e.getMessage());
+        }
+    }
+
     // ==================== 市场批量操作 ====================
 
     @PostMapping("/marketplace/list")

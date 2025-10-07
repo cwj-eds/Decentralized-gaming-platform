@@ -214,6 +214,238 @@ public class BlockchainController {
         }
     }
 
+    // ==================== NFT铸造功能 ====================
+
+    @PostMapping("/game/mint")
+    @Operation(summary = "铸造游戏NFT", description = "创建并铸造游戏NFT")
+    public Result<Object> mintGameNFT(
+            @Parameter(description = "创建者私钥") @RequestParam String creatorPrivateKey,
+            @Parameter(description = "游戏名称") @RequestParam String gameName,
+            @Parameter(description = "游戏描述") @RequestParam String gameDescription,
+            @Parameter(description = "游戏图片URL") @RequestParam String gameImageUrl,
+            @Parameter(description = "游戏URL") @RequestParam String gameUrl) {
+        try {
+            org.web3j.crypto.Credentials credentials = getCredentialsFromPrivateKey(creatorPrivateKey);
+            
+            // 获取创建费用
+            BigInteger creationFee = gameNFTService.getCreationFee();
+            
+            org.web3j.protocol.core.methods.response.TransactionReceipt receipt = 
+                gameNFTService.createGame(credentials, gameName, gameDescription, gameImageUrl, gameUrl, creationFee);
+            
+            java.util.Map<String, Object> result = new java.util.HashMap<>();
+            result.put("txHash", receipt.getTransactionHash());
+            result.put("creator", credentials.getAddress());
+            result.put("gameName", gameName);
+            result.put("gameDescription", gameDescription);
+            result.put("gameImageUrl", gameImageUrl);
+            result.put("gameUrl", gameUrl);
+            result.put("creationFee", creationFee);
+            result.put("blockNumber", receipt.getBlockNumber());
+            result.put("gasUsed", receipt.getGasUsed());
+            
+            return Result.success(result, "游戏NFT铸造成功");
+        } catch (Exception e) {
+            log.error("铸造游戏NFT失败", e);
+            return Result.error("铸造游戏NFT失败: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/agent/mint")
+    @Operation(summary = "铸造智能体NFT", description = "创建并铸造智能体NFT")
+    public Result<Object> mintAgentNFT(
+            @Parameter(description = "创建者私钥") @RequestParam String creatorPrivateKey,
+            @Parameter(description = "智能体名称") @RequestParam String agentName,
+            @Parameter(description = "智能体描述") @RequestParam String agentDescription,
+            @Parameter(description = "智能体图片URL") @RequestParam String agentImageUrl,
+            @Parameter(description = "智能体URL") @RequestParam String agentUrl) {
+        try {
+            org.web3j.crypto.Credentials credentials = getCredentialsFromPrivateKey(creatorPrivateKey);
+            
+            // 获取上传费用
+            BigInteger uploadFee = agentNFTService.getUploadFee();
+            
+            org.web3j.protocol.core.methods.response.TransactionReceipt receipt = 
+                agentNFTService.createAgent(credentials, agentName, agentDescription, agentImageUrl, agentUrl, uploadFee);
+            
+            java.util.Map<String, Object> result = new java.util.HashMap<>();
+            result.put("txHash", receipt.getTransactionHash());
+            result.put("creator", credentials.getAddress());
+            result.put("agentName", agentName);
+            result.put("agentDescription", agentDescription);
+            result.put("agentImageUrl", agentImageUrl);
+            result.put("agentUrl", agentUrl);
+            result.put("uploadFee", uploadFee);
+            result.put("blockNumber", receipt.getBlockNumber());
+            result.put("gasUsed", receipt.getGasUsed());
+            
+            return Result.success(result, "智能体NFT铸造成功");
+        } catch (Exception e) {
+            log.error("铸造智能体NFT失败", e);
+            return Result.error("铸造智能体NFT失败: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/game/admin-mint")
+    @Operation(summary = "管理员铸造游戏NFT", description = "管理员直接铸造游戏NFT给指定地址")
+    public Result<Object> adminMintGameNFT(
+            @Parameter(description = "管理员私钥") @RequestParam String adminPrivateKey,
+            @Parameter(description = "接收者地址") @RequestParam String to,
+            @Parameter(description = "游戏名称") @RequestParam String gameName,
+            @Parameter(description = "游戏描述") @RequestParam String gameDescription,
+            @Parameter(description = "游戏图片URL") @RequestParam String gameImageUrl,
+            @Parameter(description = "游戏URL") @RequestParam String gameUrl) {
+        try {
+            org.web3j.crypto.Credentials credentials = getCredentialsFromPrivateKey(adminPrivateKey);
+            
+            org.web3j.protocol.core.methods.response.TransactionReceipt receipt = 
+                gameNFTService.adminMint(credentials, to, gameName, gameDescription, gameImageUrl, gameUrl);
+            
+            java.util.Map<String, Object> result = new java.util.HashMap<>();
+            result.put("txHash", receipt.getTransactionHash());
+            result.put("admin", credentials.getAddress());
+            result.put("recipient", to);
+            result.put("gameName", gameName);
+            result.put("gameDescription", gameDescription);
+            result.put("gameImageUrl", gameImageUrl);
+            result.put("gameUrl", gameUrl);
+            result.put("blockNumber", receipt.getBlockNumber());
+            result.put("gasUsed", receipt.getGasUsed());
+            
+            return Result.success(result, "管理员铸造游戏NFT成功");
+        } catch (Exception e) {
+            log.error("管理员铸造游戏NFT失败", e);
+            return Result.error("管理员铸造游戏NFT失败: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/agent/admin-mint")
+    @Operation(summary = "管理员铸造智能体NFT", description = "管理员直接铸造智能体NFT给指定地址")
+    public Result<Object> adminMintAgentNFT(
+            @Parameter(description = "管理员私钥") @RequestParam String adminPrivateKey,
+            @Parameter(description = "接收者地址") @RequestParam String to,
+            @Parameter(description = "智能体名称") @RequestParam String agentName,
+            @Parameter(description = "智能体描述") @RequestParam String agentDescription,
+            @Parameter(description = "智能体图片URL") @RequestParam String agentImageUrl,
+            @Parameter(description = "智能体URL") @RequestParam String agentUrl) {
+        try {
+            org.web3j.crypto.Credentials credentials = getCredentialsFromPrivateKey(adminPrivateKey);
+            
+            org.web3j.protocol.core.methods.response.TransactionReceipt receipt = 
+                agentNFTService.adminMintAgent(credentials, to, agentName, agentDescription, agentImageUrl, agentUrl);
+            
+            java.util.Map<String, Object> result = new java.util.HashMap<>();
+            result.put("txHash", receipt.getTransactionHash());
+            result.put("admin", credentials.getAddress());
+            result.put("recipient", to);
+            result.put("agentName", agentName);
+            result.put("agentDescription", agentDescription);
+            result.put("agentImageUrl", agentImageUrl);
+            result.put("agentUrl", agentUrl);
+            result.put("blockNumber", receipt.getBlockNumber());
+            result.put("gasUsed", receipt.getGasUsed());
+            
+            return Result.success(result, "管理员铸造智能体NFT成功");
+        } catch (Exception e) {
+            log.error("管理员铸造智能体NFT失败", e);
+            return Result.error("管理员铸造智能体NFT失败: " + e.getMessage());
+        }
+    }
+
+    // ==================== NFT铸造状态查询 ====================
+
+    @GetMapping("/game/mint/fee")
+    @Operation(summary = "查询游戏NFT铸造费用", description = "查询当前游戏NFT的铸造费用")
+    public Result<Object> getGameMintFee() {
+        try {
+            BigInteger creationFee = gameNFTService.getCreationFee();
+            String feeRecipient = gameNFTService.getFeeRecipient();
+            String platformToken = gameNFTService.getPlatformToken();
+            
+            java.util.Map<String, Object> feeInfo = new java.util.HashMap<>();
+            feeInfo.put("creationFee", creationFee);
+            feeInfo.put("creationFeeString", creationFee.toString());
+            feeInfo.put("feeRecipient", feeRecipient);
+            feeInfo.put("platformToken", platformToken);
+            feeInfo.put("timestamp", System.currentTimeMillis());
+            
+            return Result.success(feeInfo, "查询游戏NFT铸造费用成功");
+        } catch (Exception e) {
+            log.error("查询游戏NFT铸造费用失败", e);
+            return Result.error("查询游戏NFT铸造费用失败: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/agent/mint/fee")
+    @Operation(summary = "查询智能体NFT铸造费用", description = "查询当前智能体NFT的铸造费用")
+    public Result<Object> getAgentMintFee() {
+        try {
+            BigInteger uploadFee = agentNFTService.getUploadFee();
+            String feeRecipient = agentNFTService.getFeeRecipient();
+            String platformToken = agentNFTService.getPlatformToken();
+            
+            java.util.Map<String, Object> feeInfo = new java.util.HashMap<>();
+            feeInfo.put("uploadFee", uploadFee);
+            feeInfo.put("uploadFeeString", uploadFee.toString());
+            feeInfo.put("feeRecipient", feeRecipient);
+            feeInfo.put("platformToken", platformToken);
+            feeInfo.put("timestamp", System.currentTimeMillis());
+            
+            return Result.success(feeInfo, "查询智能体NFT铸造费用成功");
+        } catch (Exception e) {
+            log.error("查询智能体NFT铸造费用失败", e);
+            return Result.error("查询智能体NFT铸造费用失败: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/game/mint/status/{txHash}")
+    @Operation(summary = "查询游戏NFT铸造状态", description = "查询指定交易的游戏NFT铸造状态")
+    public Result<Object> getGameMintStatus(
+            @Parameter(description = "交易哈希") @PathVariable String txHash) {
+        try {
+            boolean isSuccessful = gameNFTService.isTransactionSuccessful(txHash);
+            org.web3j.protocol.core.methods.response.TransactionReceipt receipt = 
+                gameNFTService.waitForTransactionReceipt(txHash, 30);
+            
+            java.util.Map<String, Object> status = new java.util.HashMap<>();
+            status.put("txHash", txHash);
+            status.put("isSuccessful", isSuccessful);
+            status.put("blockNumber", receipt != null ? receipt.getBlockNumber() : null);
+            status.put("gasUsed", receipt != null ? receipt.getGasUsed() : null);
+            status.put("status", receipt != null ? receipt.getStatus() : null);
+            status.put("timestamp", System.currentTimeMillis());
+            
+            return Result.success(status, "查询游戏NFT铸造状态成功");
+        } catch (Exception e) {
+            log.error("查询游戏NFT铸造状态失败", e);
+            return Result.error("查询游戏NFT铸造状态失败: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/agent/mint/status/{txHash}")
+    @Operation(summary = "查询智能体NFT铸造状态", description = "查询指定交易的智能体NFT铸造状态")
+    public Result<Object> getAgentMintStatus(
+            @Parameter(description = "交易哈希") @PathVariable String txHash) {
+        try {
+            boolean isSuccessful = agentNFTService.isTransactionSuccessful(txHash);
+            org.web3j.protocol.core.methods.response.TransactionReceipt receipt = 
+                agentNFTService.waitForTransactionReceipt(txHash, 30);
+            
+            java.util.Map<String, Object> status = new java.util.HashMap<>();
+            status.put("txHash", txHash);
+            status.put("isSuccessful", isSuccessful);
+            status.put("blockNumber", receipt != null ? receipt.getBlockNumber() : null);
+            status.put("gasUsed", receipt != null ? receipt.getGasUsed() : null);
+            status.put("status", receipt != null ? receipt.getStatus() : null);
+            status.put("timestamp", System.currentTimeMillis());
+            
+            return Result.success(status, "查询智能体NFT铸造状态成功");
+        } catch (Exception e) {
+            log.error("查询智能体NFT铸造状态失败", e);
+            return Result.error("查询智能体NFT铸造状态失败: " + e.getMessage());
+        }
+    }
+
     // ==================== NFT转账功能 ====================
 
     @PostMapping("/game/transfer")
