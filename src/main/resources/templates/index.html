@@ -134,5 +134,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- 自定义JS -->
     <script th:src="@{/js/main.js}"></script>
+    <script>
+        (function(){
+            const params = new URLSearchParams(window.location.search);
+            if(params.get('login') === 'success'){
+                // 使用主站提示方法
+                if(typeof showNotification === 'function'){
+                    showNotification('登录成功！', 'success');
+                } else {
+                    alert('登录成功！');
+                }
+                // 清除参数避免刷新重复提示
+                const url = new URL(window.location);
+                url.searchParams.delete('login');
+                window.history.replaceState({}, '', url);
+            }
+        })();
+    </script>
 </body>
 </html>

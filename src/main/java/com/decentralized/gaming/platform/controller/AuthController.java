@@ -39,7 +39,15 @@ public class AuthController {
             LoginResponse loginResponse = userService.userLogin(request);
 
             if (loginResponse.isSuccess()) {
-                // 登录成功，返回用户信息
+                if (loginResponse.getToken() != null) {
+                    // 设置 HttpOnly Cookie，前端页面可自动携带
+                    jakarta.servlet.http.Cookie cookie = new jakarta.servlet.http.Cookie("TOKEN", loginResponse.getToken());
+                    cookie.setPath("/");
+                    cookie.setHttpOnly(true);
+                    // 可选：设置安全标记，若启用 HTTPS 则打开
+                    // cookie.setSecure(true);
+                    response.addCookie(cookie);
+                }
                 log.info("用户登录成功: {}", request.getUsername());
             }
 

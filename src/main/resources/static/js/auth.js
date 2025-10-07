@@ -58,16 +58,18 @@ async function handleAccountLogin(event) {
 
         const result = await response.json();
 
-        if (result.success) {
+        if (result && result.code === 200) {
+            const payload = result.data || {};
+            const user = payload.user || payload; // 兼容两种返回结构
             // 登录成功，保存用户信息
-            localStorage.setItem('user', JSON.stringify(result.data.user));
+            localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('authType', 'account');
 
             showNotification('登录成功！', 'success');
 
-            // 延迟跳转到首页
+            // 延迟跳转到首页并提示
             setTimeout(() => {
-                window.location.href = '/';
+                window.location.href = '/?login=success';
             }, 1500);
         } else {
             showNotification(result.message || '登录失败', 'error');
@@ -117,16 +119,18 @@ async function handleAccountRegister(event) {
 
         const result = await response.json();
 
-        if (result.success) {
+        if (result && result.code === 200) {
+            const payload = result.data || {};
+            const user = payload.user || payload;
             // 注册成功，保存用户信息
-            localStorage.setItem('user', JSON.stringify(result.data.user));
+            localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('authType', 'account');
 
             showNotification('注册成功！', 'success');
 
-            // 延迟跳转到首页
+            // 延迟跳转到首页并提示
             setTimeout(() => {
-                window.location.href = '/';
+                window.location.href = '/?login=success';
             }, 1500);
         } else {
             showNotification(result.message || '注册失败', 'error');

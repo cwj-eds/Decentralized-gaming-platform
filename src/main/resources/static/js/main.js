@@ -383,6 +383,20 @@ const Utils = {
 // 导出给全局使用
 window.connectWallet = connectWallet;
 window.disconnect = disconnect;
+window.logout = async function logout(){
+    try{
+        // 调用后端登出（可选）
+        await fetch('/api/auth/logout',{method:'POST'}).catch(()=>{});
+    }finally{
+        // 清除本地信息
+        localStorage.removeItem('user');
+        localStorage.removeItem('authType');
+        // 清除TOKEN Cookie
+        document.cookie = 'TOKEN=; Max-Age=0; path=/';
+        showNotification('已退出登录','success');
+        setTimeout(()=>{ window.location.href = '/auth/login?from=' + encodeURIComponent(window.location.pathname + window.location.search); }, 800);
+    }
+}
 window.saveGame = saveGame;
 window.playGame = playGame;
 window.regenerateGame = regenerateGame;
