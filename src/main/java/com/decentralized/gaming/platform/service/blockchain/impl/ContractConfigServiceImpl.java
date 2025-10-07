@@ -18,86 +18,86 @@ import java.util.Map;
 @Service
 public class ContractConfigServiceImpl implements ContractConfigService {
 
-    @Value("${blockchain.contracts.platform-token:}")
+    @Value("${app.blockchain.contracts.platformToken:}")
     private String platformTokenAddress;
 
-    @Value("${blockchain.contracts.game-nft:}")
+    @Value("${app.blockchain.contracts.gameNft:}")
     private String gameNFTAddress;
 
-    @Value("${blockchain.contracts.agent-nft:}")
+    @Value("${app.blockchain.contracts.agentNft:}")
     private String agentNFTAddress;
 
-    @Value("${blockchain.contracts.marketplace:}")
+    @Value("${app.blockchain.contracts.marketplace:}")
     private String marketplaceAddress;
 
-    @Value("${blockchain.contracts.rewards:}")
+    @Value("${app.blockchain.contracts.rewards:}")
     private String rewardsAddress;
 
-    @Value("${blockchain.network.name:localhost}")
-    private String networkName;
+    @Value("${app.blockchain.networkUrl:http://localhost:8545}")
+    private String networkUrl;
 
-    @Value("${blockchain.network.chain-id:1337}")
+    @Value("${app.blockchain.chainId:31337}")
     private String chainId;
 
     // 合约信息配置
-    @Value("${blockchain.contract-info.platform-token.name:Platform Token}")
+    @Value("${app.blockchain.contract-info.platform-token.name:Platform Token}")
     private String platformTokenName;
 
-    @Value("${blockchain.contract-info.platform-token.symbol:PLT}")
+    @Value("${app.blockchain.contract-info.platform-token.symbol:PLT}")
     private String platformTokenSymbol;
 
-    @Value("${blockchain.contract-info.platform-token.decimals:18}")
+    @Value("${app.blockchain.contract-info.platform-token.decimals:18}")
     private Integer platformTokenDecimals;
 
-    @Value("${blockchain.contract-info.platform-token.type:ERC20}")
+    @Value("${app.blockchain.contract-info.platform-token.type:ERC20}")
     private String platformTokenType;
 
-    @Value("${blockchain.contract-info.platform-token.total-supply:1000000000000000000000000000}")
+    @Value("${app.blockchain.contract-info.platform-token.total-supply:1000000000000000000000000000}")
     private String platformTokenTotalSupply;
 
-    @Value("${blockchain.contract-info.platform-token.base-uri:https://api.gaming-platform.com/metadata/token/}")
+    @Value("${app.blockchain.contract-info.platform-token.base-uri:https://api.gaming-platform.com/metadata/token/}")
     private String platformTokenBaseUri;
 
-    @Value("${blockchain.contract-info.game-nft.name:Game NFT}")
+    @Value("${app.blockchain.contract-info.game-nft.name:Game NFT}")
     private String gameNFTName;
 
-    @Value("${blockchain.contract-info.game-nft.symbol:GAME}")
+    @Value("${app.blockchain.contract-info.game-nft.symbol:GAME}")
     private String gameNFTSymbol;
 
-    @Value("${blockchain.contract-info.game-nft.type:ERC721}")
+    @Value("${app.blockchain.contract-info.game-nft.type:ERC721}")
     private String gameNFTType;
 
-    @Value("${blockchain.contract-info.game-nft.base-uri:https://api.gaming-platform.com/metadata/game/}")
+    @Value("${app.blockchain.contract-info.game-nft.base-uri:https://api.gaming-platform.com/metadata/game/}")
     private String gameNFTBaseUri;
 
-    @Value("${blockchain.contract-info.agent-nft.name:Agent NFT}")
+    @Value("${app.blockchain.contract-info.agent-nft.name:Agent NFT}")
     private String agentNFTName;
 
-    @Value("${blockchain.contract-info.agent-nft.symbol:AGENT}")
+    @Value("${app.blockchain.contract-info.agent-nft.symbol:AGENT}")
     private String agentNFTSymbol;
 
-    @Value("${blockchain.contract-info.agent-nft.type:ERC721}")
+    @Value("${app.blockchain.contract-info.agent-nft.type:ERC721}")
     private String agentNFTType;
 
-    @Value("${blockchain.contract-info.agent-nft.base-uri:https://api.gaming-platform.com/metadata/agent/}")
+    @Value("${app.blockchain.contract-info.agent-nft.base-uri:https://api.gaming-platform.com/metadata/agent/}")
     private String agentNFTBaseUri;
 
-    @Value("${blockchain.contract-info.marketplace.name:Marketplace}")
+    @Value("${app.blockchain.contract-info.marketplace.name:Marketplace}")
     private String marketplaceName;
 
-    @Value("${blockchain.contract-info.marketplace.type:Marketplace}")
+    @Value("${app.blockchain.contract-info.marketplace.type:Marketplace}")
     private String marketplaceType;
 
-    @Value("${blockchain.contract-info.marketplace.fee-rate:250}")
+    @Value("${app.blockchain.contract-info.marketplace.fee-rate:250}")
     private String marketplaceFeeRate;
 
-    @Value("${blockchain.contract-info.marketplace.fee-recipient:0x0000000000000000000000000000000000000000}")
+    @Value("${app.blockchain.contract-info.marketplace.fee-recipient:0x0000000000000000000000000000000000000000}")
     private String marketplaceFeeRecipient;
 
-    @Value("${blockchain.contract-info.rewards.name:Rewards}")
+    @Value("${app.blockchain.contract-info.rewards.name:Rewards}")
     private String rewardsName;
 
-    @Value("${blockchain.contract-info.rewards.type:Rewards}")
+    @Value("${app.blockchain.contract-info.rewards.type:Rewards}")
     private String rewardsType;
 
     @Override
@@ -150,7 +150,7 @@ public class ContractConfigServiceImpl implements ContractConfigService {
 
         // 网络信息
         Map<String, Object> networkInfo = new HashMap<>();
-        networkInfo.put("name", networkName);
+        networkInfo.put("url", networkUrl);
         networkInfo.put("chainId", chainId);
         contractsInfo.put("network", networkInfo);
 

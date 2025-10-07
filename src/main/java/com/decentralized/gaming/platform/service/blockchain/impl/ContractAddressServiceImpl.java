@@ -23,25 +23,25 @@ public class ContractAddressServiceImpl implements ContractAddressService {
     private final Map<String, ContractConfig> contractConfigs = new ConcurrentHashMap<>();
 
     // 从配置文件读取的默认合约地址
-    @Value("${blockchain.contracts.platform-token:}")
+    @Value("${app.blockchain.contracts.platformToken:}")
     private String defaultPlatformTokenAddress;
 
-    @Value("${blockchain.contracts.game-nft:}")
+    @Value("${app.blockchain.contracts.gameNft:}")
     private String defaultGameNFTAddress;
 
-    @Value("${blockchain.contracts.agent-nft:}")
+    @Value("${app.blockchain.contracts.agentNft:}")
     private String defaultAgentNFTAddress;
 
-    @Value("${blockchain.contracts.marketplace:}")
+    @Value("${app.blockchain.contracts.marketplace:}")
     private String defaultMarketplaceAddress;
 
-    @Value("${blockchain.contracts.rewards:}")
+    @Value("${app.blockchain.contracts.rewards:}")
     private String defaultRewardsAddress;
 
-    @Value("${blockchain.network.name:localhost}")
-    private String networkName;
+    @Value("${app.blockchain.networkUrl:http://localhost:8545}")
+    private String networkUrl;
 
-    @Value("${blockchain.network.chain-id:1337}")
+    @Value("${app.blockchain.chainId:31337}")
     private String chainId;
 
     @Override
@@ -57,7 +57,7 @@ public class ContractAddressServiceImpl implements ContractAddressService {
         if (address != null && !address.isEmpty()) {
             // 将配置文件的地址加载到内存中
             ContractConfig defaultConfig = new ContractConfig(contractType, address);
-            defaultConfig.setNetworkName(networkName);
+            defaultConfig.setNetworkName(networkUrl);
             defaultConfig.setChainId(chainId);
             contractConfigs.put(contractType, defaultConfig);
             return address;
@@ -84,7 +84,7 @@ public class ContractAddressServiceImpl implements ContractAddressService {
                 config.setDeployedAt(System.currentTimeMillis());
             }
 
-            config.setNetworkName(networkName);
+            config.setNetworkName(networkUrl);
             config.setChainId(chainId);
             config.setActive(true);
 
@@ -193,7 +193,7 @@ public class ContractAddressServiceImpl implements ContractAddressService {
         String address = getDefaultContractAddress(contractType);
         if (address != null && !address.isEmpty()) {
             config = new ContractConfig(contractType, address);
-            config.setNetworkName(networkName);
+            config.setNetworkName(networkUrl);
             config.setChainId(chainId);
             contractConfigs.put(contractType, config);
             return config;
@@ -210,7 +210,7 @@ public class ContractAddressServiceImpl implements ContractAddressService {
             }
 
             config.setContractType(contractType);
-            config.setNetworkName(networkName);
+            config.setNetworkName(networkUrl);
             config.setChainId(chainId);
             
             contractConfigs.put(contractType, config);
@@ -230,10 +230,13 @@ public class ContractAddressServiceImpl implements ContractAddressService {
     private String getDefaultContractAddress(String contractType) {
         switch (contractType.toLowerCase()) {
             case "platform-token":
+            case "platformtoken":
                 return defaultPlatformTokenAddress;
             case "game-nft":
+            case "gamenft":
                 return defaultGameNFTAddress;
             case "agent-nft":
+            case "agentnft":
                 return defaultAgentNFTAddress;
             case "marketplace":
                 return defaultMarketplaceAddress;
@@ -255,7 +258,7 @@ public class ContractAddressServiceImpl implements ContractAddressService {
             String address = getDefaultContractAddress(contractType);
             if (address != null && !address.isEmpty()) {
                 ContractConfig config = new ContractConfig(contractType, address);
-                config.setNetworkName(networkName);
+                config.setNetworkName(networkUrl);
                 config.setChainId(chainId);
                 contractConfigs.put(contractType, config);
                 log.info("加载默认合约配置: type={}, address={}", contractType, address);
@@ -285,7 +288,7 @@ public class ContractAddressServiceImpl implements ContractAddressService {
         stats.put("totalContracts", totalContracts);
         stats.put("activeContracts", activeContracts);
         stats.put("deployedContracts", deployedContracts);
-        stats.put("networkName", networkName);
+        stats.put("networkUrl", networkUrl);
         stats.put("chainId", chainId);
         stats.put("lastUpdateTime", System.currentTimeMillis());
         
