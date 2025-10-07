@@ -98,18 +98,16 @@ logging:
 app:
   # 区块链配置
   blockchain:
-    network:
-      name: localhost
-      url: http://localhost:8545
-      chain-id: 31337
-    gas:
-      limit: 300000
-      price: 20000000000
+    enabled: true  # 是否启用区块链功能 (临时禁用以便应用启动)
+    networkUrl: http://localhost:8545
+    chainId: 31337
+    gasLimit: 300000
+    gasPrice: 20000000000
     # 合约地址配置
     contracts:
-      platform-token: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-      game-nft: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
-      agent-nft: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+      platformToken: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+      gameNft: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+      agentNft: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
       marketplace: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
       rewards: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
     # 重试配置
@@ -179,7 +177,7 @@ app:
   # JWT配置
   jwt:
     secret: decentralized-gaming-platform-secret-key-2024
-    expiration: 86400
+    expiration: 86400000  # 86400000毫秒 = 24小时
 
 
 # OpenAPI配置

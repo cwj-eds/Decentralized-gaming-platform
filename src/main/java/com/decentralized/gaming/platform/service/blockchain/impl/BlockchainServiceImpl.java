@@ -1,5 +1,6 @@
 package com.decentralized.gaming.platform.service.blockchain.impl;
 
+import com.decentralized.gaming.platform.exception.BlockchainException;
 import com.decentralized.gaming.platform.service.blockchain.BlockchainService;
 import com.decentralized.gaming.platform.service.blockchain.BlockchainRetryService;
 import com.decentralized.gaming.platform.service.blockchain.BlockchainCacheService;
@@ -93,6 +94,11 @@ public class BlockchainServiceImpl implements BlockchainService {
         // 从区块链获取余额
         return retryService.executeWithRetry(() -> {
             try {
+                // 检查web3j实例是否为空
+                if (web3j == null) {
+                    throw new RuntimeException("Web3j实例未初始化");
+                }
+                
                 EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
                 BigInteger balance = ethGetBalance.getBalance();
                 BigDecimal ethBalance = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
@@ -118,6 +124,11 @@ public class BlockchainServiceImpl implements BlockchainService {
     @Override
     public TransactionReceipt waitForTransactionReceipt(String transactionHash, int maxWaitTime) {
         try {
+            // 检查web3j实例是否为空
+            if (web3j == null) {
+                throw new RuntimeException("Web3j实例未初始化");
+            }
+            
             return web3j.ethGetTransactionReceipt(transactionHash)
                     .send()
                     .getTransactionReceipt()
@@ -156,6 +167,18 @@ public class BlockchainServiceImpl implements BlockchainService {
         // 从区块链获取区块号
         return retryService.executeWithRetry(() -> {
             try {
+                // 检查web3j实例是否为空
+                if (web3j == null) {
+                    log.error("Web3j实例未初始化，可能是因为区块链节点URL配置错误");
+                    throw new RuntimeException("Web3j实例未初始化，可能是因为区块链节点URL配置错误");
+                }
+                
+                // 检查web3j服务是否正确初始化
+                if (web3j.ethBlockNumber() == null) {
+                    log.error("无法创建区块号请求，可能是因为区块链节点URL配置错误");
+                    throw new RuntimeException("无法创建区块号请求，可能是因为区块链节点URL配置错误");
+                }
+                
                 BigInteger blockNumber = web3j.ethBlockNumber().send().getBlockNumber();
                 
                 // 缓存结果
@@ -163,7 +186,7 @@ public class BlockchainServiceImpl implements BlockchainService {
                 
                 return blockNumber;
             } catch (Exception e) {
-                log.error("获取当前区块号失败: {}", e.getMessage());
+                log.error("获取当前区块号失败: {}", e.getMessage(), e);
                 throw new RuntimeException("获取当前区块号失败", e);
             }
         }, "获取当前区块号");
@@ -177,6 +200,12 @@ public class BlockchainServiceImpl implements BlockchainService {
     @Override
     public boolean isConnected() {
         try {
+            // 检查web3j实例是否为空
+            if (web3j == null) {
+                log.error("Web3j实例未初始化，可能是因为区块链节点URL配置错误");
+                return false;
+            }
+            
             return web3j.ethBlockNumber().send().getBlockNumber().compareTo(BigInteger.ZERO) >= 0;
         } catch (Exception e) {
             log.error("网络连接检查失败: {}", e.getMessage());
@@ -201,6 +230,12 @@ public class BlockchainServiceImpl implements BlockchainService {
         return retryService.executeWithFallback(
             () -> {
                 try {
+                    // 检查web3j实例是否为空
+                    if (web3j == null) {
+                        log.error("Web3j实例未初始化，可能是因为区块链节点URL配置错误");
+                        throw new RuntimeException("Web3j实例未初始化，可能是因为区块链节点URL配置错误");
+                    }
+                    
                     BigInteger gasPrice = web3j.ethGasPrice().send().getGasPrice();
                     
                     // 缓存结果
