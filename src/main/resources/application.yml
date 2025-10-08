@@ -99,7 +99,7 @@ app:
   # 区块链配置
   blockchain:
     enabled: true  # 是否启用区块链功能 (临时禁用以便应用启动)
-    networkUrl: http://localhost:8545
+    networkUrl: http://192.168.110.136:8545
     chainId: 31337
     gasLimit: 300000
     gasPrice: 20000000000

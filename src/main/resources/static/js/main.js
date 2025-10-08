@@ -86,13 +86,33 @@ function disconnect() {
     }, 1000);
 }
 
-// 钱包登录
+// 钱包登录（统一为后端生成消息 + personal_sign）
 async function walletLogin() {
     try {
-        const message = `登录到去中心化游戏平台\n时间戳: ${Date.now()}`;
-        const signature = await web3.eth.personal.sign(message, userAccount);
-        
-        const response = await fetch('/api/users/wallet-login', {
+        // 1) 向后端获取用于签名的登录消息
+        const msgResp = await fetch('/api/wallet/login-message', { headers: { 'Accept': 'application/json' } });
+        if (!msgResp.ok) {
+            throw new Error('获取登录消息失败');
+        }
+        const msgBody = await msgResp.json();
+        const message = (msgBody && msgBody.data) ? msgBody.data : null;
+        if (!message) {
+            throw new Error('登录消息为空');
+        }
+
+        // 2) 使用 ethereum.request 优先签名（避免 web3.js 的参数校验问题）；失败再回退
+        let signature;
+        try {
+            signature = await window.ethereum.request({
+                method: 'personal_sign',
+                params: [message, userAccount]
+            });
+        } catch (e1) {
+            signature = await web3.eth.personal.sign(message, userAccount);
+        }
+
+        // 3) 提交到统一的后端登录接口
+        const response = await fetch('/api/wallet/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -104,17 +124,15 @@ async function walletLogin() {
             })
         });
 
-        if (response.ok) {
-            const result = await response.json();
+        const result = await response.json();
+        if (result && result.success) {
             console.log('用户登录成功:', result.data);
-            
             // 存储用户信息到本地存储
             localStorage.setItem('user', JSON.stringify(result.data));
-            
             // 更新页面用户信息
             updateUserInfo(result.data);
         } else {
-            throw new Error('登录请求失败');
+            throw new Error((result && result.message) || '登录请求失败');
         }
     } catch (error) {
         console.error('登录失败:', error);

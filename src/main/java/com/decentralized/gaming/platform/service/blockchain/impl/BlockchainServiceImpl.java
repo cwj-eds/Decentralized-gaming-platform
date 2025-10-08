@@ -60,14 +60,19 @@ public class BlockchainServiceImpl implements BlockchainService {
             byte[] signatureBytes = Numeric.hexStringToByteArray(signature);
 
             // 恢复签名者地址
+            byte v = signatureBytes[64];
+            // 将 0/1 归一到 27/28，兼容不同钱包返回
+            if (v < 27) {
+                v += 27;
+            }
             Sign.SignatureData signatureData = new Sign.SignatureData(
-                    signatureBytes[64],
+                    v,
                     java.util.Arrays.copyOfRange(signatureBytes, 0, 32),
                     java.util.Arrays.copyOfRange(signatureBytes, 32, 64)
             );
 
-            // 验证签名
-            BigInteger recoveredKey = Sign.signedMessageToKey(messageBytes, signatureData);
+            // 使用以太坊前缀的消息恢复，与 personal_sign 对齐
+            BigInteger recoveredKey = Sign.signedPrefixedMessageToKey(messageBytes, signatureData);
             String recoveredAddress = "0x" + Keys.getAddress(recoveredKey);
 
             return recoveredAddress.equalsIgnoreCase(address);

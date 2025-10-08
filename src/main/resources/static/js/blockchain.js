@@ -101,16 +101,16 @@ async function walletLogin() {
             web3 = new Web3(window.ethereum);
         }
 
-        // 签名消息（兼容 MetaMask）
+        // 签名消息（优先使用 ethereum.request，避免 web3.js 校验 /2 必填问题）
         let signature;
         try {
-            signature = await web3.eth.personal.sign(message, userAccount);
-        } catch (e) {
-            // 回退到 ethereum.request
             signature = await window.ethereum.request({
                 method: 'personal_sign',
                 params: [message, userAccount]
             });
+        } catch (e1) {
+            // 回退到 web3.eth.personal.sign（某些环境可用）
+            signature = await web3.eth.personal.sign(message, userAccount);
         }
 
         // 发送登录请求
