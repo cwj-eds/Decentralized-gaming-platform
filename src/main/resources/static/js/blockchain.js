@@ -211,14 +211,11 @@ async function checkWalletConnection() {
                 isWalletConnected = true;
                 updateWalletUI();
 
-                // 检查本地存储的用户信息
+                // 仅恢复本地已登录用户，不再自动触发签名登录
                 const storedUser = localStorage.getItem('user');
                 if (storedUser) {
                     currentUser = JSON.parse(storedUser);
                     updateUserInfo(currentUser);
-                } else {
-                    // 自动登录
-                    await walletLogin();
                 }
             }
         } catch (error) {
@@ -314,7 +311,9 @@ function bindBlockchainEvents() {
                 disconnectWallet();
             } else if (accounts[0] !== userAccount) {
                 userAccount = accounts[0];
-                walletLogin();
+                // 账户变化后不自动登录，提示用户手动登录
+                showNotification('检测到钱包账户变化，请手动重新登录', 'info');
+                updateWalletUI();
             }
         });
 

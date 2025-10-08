@@ -153,8 +153,8 @@ async function checkWalletConnection() {
                 isWalletConnected = true;
                 updateWalletUI();
                 
-                // 自动登录
-                await walletLogin();
+                // 不再自动登录，避免页面跳转或模块切换时弹窗
+                // 用户可通过显式点击“连接钱包”按钮触发登录
             }
         } catch (error) {
             console.error('检查钱包连接状态失败:', error);
@@ -218,7 +218,9 @@ function bindEvents() {
                 disconnect();
             } else if (accounts[0] !== userAccount) {
                 userAccount = accounts[0];
-                walletLogin();
+                // 不自动签名登录，提示用户手动登录
+                showNotification('检测到钱包账户变化，请手动重新登录', 'info');
+                updateWalletUI();
             }
         });
 
