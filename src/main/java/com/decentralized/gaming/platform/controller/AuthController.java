@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import com.decentralized.gaming.platform.util.JwtUtils;
+import jakarta.servlet.http.Cookie;
 
 /**
  * 认证控制器
@@ -26,6 +29,9 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     /**
      * 用户名密码登录
@@ -80,9 +86,56 @@ public class AuthController {
      */
     @PostMapping("/logout")
     @Operation(summary = "退出登录", description = "用户退出登录")
-    public Result<Void> logout() {
+    public Result<Void> logout(HttpServletResponse response) {
         log.info("用户退出登录");
+        // 覆盖并清除 TOKEN Cookie（与登录时同名同路径）
+        Cookie expired = new Cookie("TOKEN", "");
+        expired.setPath("/");
+        expired.setHttpOnly(true);
+        expired.setMaxAge(0);
+        response.addCookie(expired);
         return Result.success();
+    }
+
+    /**
+     * 获取当前登录用户信息（基于JWT）
+     * 无有效登录则返回200 + data=null，便于前端无感知处理
+     */
+    @GetMapping("/me")
+    @Operation(summary = "当前用户", description = "根据请求中的TOKEN返回当前登录用户信息")
+    public Result<UserVO> me(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String token = resolveToken(request);
+            if (token == null || !jwtUtils.validateToken(token)) {
+                return Result.success(null);
+            }
+
+            Long userId = jwtUtils.getUserIdFromToken(token);
+            if (userId == null) {
+                return Result.success(null);
+            }
+
+            UserVO user = userService.getUserById(userId);
+            return Result.success(user);
+        } catch (Exception e) {
+            log.error("获取当前用户失败", e);
+            return Result.success(null);
+        }
+    }
+
+    private String resolveToken(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if (auth != null && auth.startsWith("Bearer ")) {
+            return auth.substring(7);
+        }
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if ("TOKEN".equals(c.getName())) {
+                    return c.getValue();
+                }
+            }
+        }
+        return null;
     }
 }
 

@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 绑定事件
     bindEvents();
+
+    // 基于后端登录状态切换导航菜单
+    refreshAuthMenusFromServer();
 });
 
 // 初始化Web3
@@ -401,3 +404,35 @@ window.saveGame = saveGame;
 window.playGame = playGame;
 window.regenerateGame = regenerateGame;
 window.Utils = Utils;
+
+// 根据后端状态渲染导航的登录/用户菜单
+async function refreshAuthMenusFromServer(){
+    try{
+        const res = await fetch('/api/auth/me',{headers:{'Accept':'application/json'}});
+        if(!res.ok){
+            toggleMenus(null);
+            return;
+        }
+        const body = await res.json();
+        const user = body && (body.data || body);
+        toggleMenus(user);
+    }catch(e){
+        toggleMenus(null);
+    }
+}
+
+function toggleMenus(user){
+    const authMenu = document.getElementById('authMenu');
+    const userMenu = document.getElementById('userMenu');
+    if(authMenu && userMenu){
+        if(user){
+            authMenu.style.display = 'none';
+            userMenu.style.display = 'block';
+            const nameEl = userMenu.querySelector('.username');
+            if(nameEl){ nameEl.textContent = user.username || (user.walletAddress ? formatAddress(user.walletAddress) : '用户'); }
+        }else{
+            authMenu.style.display = 'block';
+            userMenu.style.display = 'none';
+        }
+    }
+}
