@@ -170,7 +170,7 @@ async function handleWalletRegister(event) {
 
         const result = await response.json();
 
-        if (result.success) {
+        if (result.code === 200) {
             // 注册成功，保存用户信息
             localStorage.setItem('user', JSON.stringify(result.data.user));
             localStorage.setItem('authType', 'wallet');
@@ -225,7 +225,7 @@ async function connectWalletForRegister() {
             const messageResponse = await fetch('/api/wallet/login-message');
             const messageResult = await messageResponse.json();
 
-            if (messageResult.success) {
+            if (messageResult.code === 200) {
                 const message = messageResult.data;
 
                 // 签名消息

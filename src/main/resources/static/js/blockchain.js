@@ -90,7 +90,7 @@ async function walletLogin() {
         const messageResponse = await fetch('/api/wallet/login-message');
         const messageResult = await messageResponse.json();
 
-        if (!messageResult.success) {
+        if (messageResult.code !== 200) {
             throw new Error('获取登录消息失败');
         }
 
@@ -128,7 +128,7 @@ async function walletLogin() {
 
         const result = await response.json();
 
-        if (result.success) {
+        if (result.code === 200) {
             currentUser = result.data;
             console.log('用户登录成功:', currentUser);
 

@@ -125,7 +125,7 @@ async function walletLogin() {
         });
 
         const result = await response.json();
-        if (result && result.success) {
+        if (result && result.code === 200) {
             console.log('用户登录成功:', result.data);
             // 存储用户信息到本地存储
             localStorage.setItem('user', JSON.stringify(result.data));
