@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html th:replace="layout/base :: base(~{::title}, ~{::#content})">
+<head>
+    <title>IPFS 联调测试</title>
+    <style>
+        .card { box-shadow: 0 2px 12px rgba(0,0,0,.08); border-radius: 8px; }
+        .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+        .small { font-size: 12px; color: #666; }
+        .preview { max-height: 200px; object-fit: contain; }
+    </style>
+</head>
+<body>
+<div id="content">
+    <div class="container">
+        <h2 class="mb-4">IPFS 联调测试</h2>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="card p-4">
+                    <h5 class="mb-3">表单上传 (multipart/form-data)</h5>
+                    <div class="mb-3">
+                        <input class="form-control" type="file" id="ipfsFile">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" id="btnUpload">上传到 IPFS</button>
+                        <button class="btn btn-outline-secondary" id="btnClear">清空</button>
+                    </div>
+                    <hr>
+                    <div id="uploadResult" class="mono small"></div>
+                    <div class="mt-3" id="previewWrap" style="display:none;">
+                        <img id="imgPreview" class="preview" alt="preview"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card p-4">
+                    <h5 class="mb-3">下载/查看</h5>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">CID</span>
+                        <input class="form-control" id="cidInput" placeholder="输入 CID">
+                        <button class="btn btn-success" id="btnDownload">下载</button>
+                        <button class="btn btn-outline-primary" id="btnOpen">在新标签打开</button>
+                    </div>
+                    <div id="downloadInfo" class="mono small"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const $ = (sel)=>document.querySelector(sel);
+        $('#btnUpload').addEventListener('click', async ()=>{
+            const file = $('#ipfsFile').files[0];
+            if(!file){ showMsg('#uploadResult','请先选择文件'); return; }
+            try{
+                showMsg('#uploadResult','上传中...');
+                const fd = new FormData();
+                fd.append('file', file);
+                const res = await fetch('/api/ipfs/upload', { method:'POST', body: fd });
+                const body = await res.json();
+                if(body && body.code===200){
+                    const { cid, url } = body.data;
+                    showMsg('#uploadResult', `CID: ${cid}\nURL: ${url}`);
+                    $('#cidInput').value = cid;
+                    // 预览图片类资源
+                    if(/^image\//.test(file.type)){
+                        $('#imgPreview').src = url;
+                        $('#previewWrap').style.display = 'block';
+                    }else{
+                        $('#previewWrap').style.display = 'none';
+                    }
+                }else{
+                    showMsg('#uploadResult', body && body.message ? body.message : '上传失败');
+                }
+            }catch(e){
+                showMsg('#uploadResult','上传异常: '+ e.message);
+            }
+        });
+        $('#btnClear').addEventListener('click', ()=>{
+            $('#ipfsFile').value = '';
+            showMsg('#uploadResult','');
+            $('#previewWrap').style.display='none';
+        });
+        $('#btnDownload').addEventListener('click', async ()=>{
+            const cid = $('#cidInput').value.trim();
+            if(!cid){ showMsg('#downloadInfo','请输入 CID'); return; }
+            try{
+                showMsg('#downloadInfo','下载中...');
+                const resp = await fetch(`/api/ipfs/download/${cid}`);
+                if(!resp.ok){ throw new Error('下载失败'); }
+                const blob = await resp.blob();
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = cid;
+                a.click();
+                URL.revokeObjectURL(a.href);
+                showMsg('#downloadInfo', `已下载: ${cid} (size: ${blob.size} bytes)`);
+            }catch(e){
+                showMsg('#downloadInfo','异常: '+ e.message);
+            }
+        });
+        $('#btnOpen').addEventListener('click', ()=>{
+            const cid = $('#cidInput').value.trim();
+            if(!cid){ showMsg('#downloadInfo','请输入 CID'); return; }
+            window.open(`/api/ipfs/download/${cid}`, '_blank');
+        });
+        function showMsg(sel, msg){
+            const el = document.querySelector(sel);
+            el.textContent = msg || '';
+        }
+        // 初始刷新导航菜单（如果有）
+        if(typeof refreshAuthMenusFromServer==='function'){
+            try{ refreshAuthMenusFromServer(); }catch(_){ }
+        }
+    </script>
+</div>
+</body>
+</html>
+
+

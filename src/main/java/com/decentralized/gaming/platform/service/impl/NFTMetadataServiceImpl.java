@@ -3,13 +3,13 @@ package com.decentralized.gaming.platform.service.impl;
 import com.decentralized.gaming.platform.dto.AgentMintRequest;
 import com.decentralized.gaming.platform.dto.GameMintRequest;
 import com.decentralized.gaming.platform.service.NFTMetadataService;
+import com.decentralized.gaming.platform.service.IpfsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 
 /**
@@ -23,13 +23,14 @@ import org.springframework.web.client.RestTemplate;
 public class NFTMetadataServiceImpl implements NFTMetadataService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final RestTemplate restTemplate = new RestTemplate();
+    // 如需直连 HTTP 读取可启用；当前未使用
+    // private final RestTemplate restTemplate = new RestTemplate();
+    private final IpfsService ipfsService;
 
     @Value("${app.ipfs.gateway:https://ipfs.io/ipfs/}")
     private String ipfsGateway;
 
-    @Value("${app.ipfs.upload-url:http://localhost:5001/api/v0/add}")
-    private String ipfsUploadUrl;
+    // 已由 IpfsService 统一处理上传
 
     @Override
     public String generateAgentMetadata(AgentMintRequest request) {
@@ -121,27 +122,10 @@ public class NFTMetadataServiceImpl implements NFTMetadataService {
     @Override
     public String uploadMetadataToIPFS(String metadata) {
         try {
-            // 这里应该实现真正的IPFS上传逻辑
-            // 目前返回模拟的IPFS哈希
-            String mockHash = "Qm" + System.currentTimeMillis() + "mockHash";
-            log.info("模拟上传元数据到IPFS，哈希: {}", mockHash);
-            return mockHash;
-            
-            // 真实的IPFS上传实现示例：
-            /*
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-            
-            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("file", new ByteArrayResource(metadata.getBytes()));
-            
-            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-            ResponseEntity<String> response = restTemplate.postForEntity(ipfsUploadUrl, requestEntity, String.class);
-            
-            // 解析IPFS响应获取哈希
-            ObjectNode responseJson = objectMapper.readValue(response.getBody(), ObjectNode.class);
-            return responseJson.get("Hash").asText();
-            */
+            byte[] bytes = metadata.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+            String cid = ipfsService.uploadBytes("metadata.json", bytes);
+            log.info("IPFS 上传元数据成功: {}", cid);
+            return cid;
         } catch (Exception e) {
             log.error("上传元数据到IPFS失败", e);
             throw new RuntimeException("上传元数据到IPFS失败: " + e.getMessage());
@@ -156,8 +140,8 @@ public class NFTMetadataServiceImpl implements NFTMetadataService {
     @Override
     public String getMetadataFromIPFS(String ipfsHash) {
         try {
-            String url = buildMetadataUri(ipfsHash);
-            return restTemplate.getForObject(url, String.class);
+            byte[] data = ipfsService.download(ipfsHash);
+            return new String(data, java.nio.charset.StandardCharsets.UTF_8);
         } catch (Exception e) {
             log.error("从IPFS获取元数据失败: {}", ipfsHash, e);
             throw new RuntimeException("从IPFS获取元数据失败: " + e.getMessage());

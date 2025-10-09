@@ -35,6 +35,14 @@ public class WebController {
     public String index() {
         return "index";
     }
+
+    /**
+     * IPFS 联调测试页
+     */
+    @GetMapping("/ipfs/test")
+    public String ipfsTest() {
+        return "ipfs/test";
+    }
 }
 
 
