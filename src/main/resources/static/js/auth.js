@@ -65,6 +65,26 @@ async function handleAccountLogin(event) {
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('authType', 'account');
 
+            // 更新UI状态 - 隐藏登录按钮，显示用户菜单
+            const authMenu = document.getElementById('authMenu');
+            const userMenu = document.getElementById('userMenu');
+            if (authMenu) authMenu.style.display = 'none';
+            if (userMenu) {
+                userMenu.style.display = 'block';
+                const nameEl = userMenu.querySelector('.username');
+                if (nameEl) {
+                    nameEl.textContent = user.username || '用户';
+                }
+            }
+
+            // 更新其他UI状态
+            if (typeof updateUserInfo === 'function') {
+                updateUserInfo(user);
+            }
+            if (typeof updateWalletUI === 'function') {
+                updateWalletUI();
+            }
+
             showNotification('登录成功！', 'success');
 
             // 延迟跳转到首页并提示
@@ -126,6 +146,26 @@ async function handleAccountRegister(event) {
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('authType', 'account');
 
+            // 更新UI状态 - 隐藏登录按钮，显示用户菜单
+            const authMenu = document.getElementById('authMenu');
+            const userMenu = document.getElementById('userMenu');
+            if (authMenu) authMenu.style.display = 'none';
+            if (userMenu) {
+                userMenu.style.display = 'block';
+                const nameEl = userMenu.querySelector('.username');
+                if (nameEl) {
+                    nameEl.textContent = user.username || '用户';
+                }
+            }
+
+            // 更新其他UI状态
+            if (typeof updateUserInfo === 'function') {
+                updateUserInfo(user);
+            }
+            if (typeof updateWalletUI === 'function') {
+                updateWalletUI();
+            }
+
             showNotification('注册成功！', 'success');
 
             // 延迟跳转到首页并提示
@@ -174,6 +214,26 @@ async function handleWalletRegister(event) {
             // 注册成功，保存用户信息
             localStorage.setItem('user', JSON.stringify(result.data.user));
             localStorage.setItem('authType', 'wallet');
+
+            // 更新UI状态 - 隐藏登录按钮，显示用户菜单
+            const authMenu = document.getElementById('authMenu');
+            const userMenu = document.getElementById('userMenu');
+            if (authMenu) authMenu.style.display = 'none';
+            if (userMenu) {
+                userMenu.style.display = 'block';
+                const nameEl = userMenu.querySelector('.username');
+                if (nameEl) {
+                    nameEl.textContent = result.data.user.username || '用户';
+                }
+            }
+
+            // 更新其他UI状态
+            if (typeof updateUserInfo === 'function') {
+                updateUserInfo(result.data.user);
+            }
+            if (typeof updateWalletUI === 'function') {
+                updateWalletUI();
+            }
 
             showNotification('注册成功！', 'success');
 

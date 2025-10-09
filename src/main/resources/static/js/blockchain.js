@@ -134,9 +134,13 @@ async function walletLogin() {
 
             // 存储用户信息到本地存储
             localStorage.setItem('user', JSON.stringify(currentUser));
+            localStorage.setItem('authType', 'wallet');
 
             // 更新页面用户信息
             updateUserInfo(currentUser);
+            
+            // 更新钱包UI状态
+            updateWalletUI();
 
             // 触发登录成功事件
             window.dispatchEvent(new CustomEvent('walletLoginSuccess', {
@@ -187,15 +191,29 @@ function logout() {
     isWalletConnected = false;
     currentUser = null;
 
+    // 若下拉已展开，先关闭以防视觉残留
+    const openMenus = document.querySelectorAll('.dropdown-menu.show');
+    openMenus.forEach(m => m.classList.remove('show'));
+    const openTogglers = document.querySelectorAll('.dropdown.show');
+    openTogglers.forEach(d => d.classList.remove('show'));
+
+    // 强制显示登录注册菜单，隐藏用户菜单
+    const authMenu = document.getElementById('authMenu');
+    const userMenu = document.getElementById('userMenu');
+    if (authMenu) authMenu.style.display = 'block';
+    if (userMenu) userMenu.style.display = 'none';
+
+    // 显示钱包连接按钮，隐藏断开连接按钮
+    const connectButton = document.querySelector('[onclick="connectWallet()"]');
+    const disconnectButton = document.querySelector('[onclick="disconnectWallet()"]');
+    if (connectButton) connectButton.style.display = 'block';
+    if (disconnectButton) disconnectButton.style.display = 'none';
+
     // 更新UI
     updateWalletUI();
 
-    showNotification('已退出登录', 'info');
-
-    // 刷新页面
-    setTimeout(() => {
-        location.reload();
-    }, 1000);
+    // 跳转到登录页（更直观）
+    window.location.href = '/auth/login?from=' + encodeURIComponent(window.location.pathname + window.location.search);
 }
 
 // 检查钱包连接状态
@@ -233,8 +251,12 @@ function updateWalletUI() {
     const authMenu = document.getElementById('authMenu');
     const userMenu = document.getElementById('userMenu');
 
-    if (isWalletConnected && userAccount) {
-        // 隐藏连接按钮，显示断开按钮
+    // 检查用户是否已登录（通过localStorage或后端状态）
+    const currentUser = localStorage.getItem('user');
+    const isUserLoggedIn = currentUser && currentUser !== 'null';
+
+    if (isWalletConnected && userAccount && isUserLoggedIn) {
+        // 用户已登录且钱包已连接：隐藏连接按钮，显示断开按钮
         if (connectButton) {
             connectButton.style.display = 'none';
         }
@@ -253,9 +275,9 @@ function updateWalletUI() {
         if (userMenu) userMenu.style.display = 'block';
         if (authMenu) authMenu.style.display = 'none';
 
-        console.log('钱包UI已更新');
+        console.log('钱包UI已更新 - 用户已登录');
     } else {
-        // 显示连接按钮，隐藏断开按钮
+        // 用户未登录或钱包未连接：显示连接按钮，隐藏断开按钮
         if (connectButton) {
             connectButton.style.display = 'block';
         }
@@ -272,6 +294,8 @@ function updateWalletUI() {
         if (userDropdown) userDropdown.style.display = 'none';
         if (userMenu) userMenu.style.display = 'none';
         if (authMenu) authMenu.style.display = 'block';
+
+        console.log('钱包UI已更新 - 用户未登录');
     }
 }
 

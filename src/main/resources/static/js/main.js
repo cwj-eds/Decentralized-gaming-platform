@@ -129,8 +129,11 @@ async function walletLogin() {
             console.log('用户登录成功:', result.data);
             // 存储用户信息到本地存储
             localStorage.setItem('user', JSON.stringify(result.data));
+            localStorage.setItem('authType', 'wallet');
             // 更新页面用户信息
             updateUserInfo(result.data);
+            // 更新钱包UI状态
+            updateWalletUI();
         } else {
             throw new Error((result && result.message) || '登录请求失败');
         }
@@ -414,10 +417,37 @@ window.logout = async function logout(){
         // 清除本地信息
         localStorage.removeItem('user');
         localStorage.removeItem('authType');
+        localStorage.removeItem('walletSignature');
+        localStorage.removeItem('walletMessage');
+        
         // 清除TOKEN Cookie
         document.cookie = 'TOKEN=; Max-Age=0; path=/';
-        showNotification('已退出登录','success');
-        setTimeout(()=>{ window.location.href = '/auth/login?from=' + encodeURIComponent(window.location.pathname + window.location.search); }, 800);
+        
+        // 若下拉已展开，先关闭以防视觉残留
+        const openMenus = document.querySelectorAll('.dropdown-menu.show');
+        openMenus.forEach(m => m.classList.remove('show'));
+        const openTogglers = document.querySelectorAll('.dropdown.show');
+        openTogglers.forEach(d => d.classList.remove('show'));
+
+        // 强制显示登录注册菜单，隐藏用户菜单
+        const authMenu = document.getElementById('authMenu');
+        const userMenu = document.getElementById('userMenu');
+        if (authMenu) authMenu.style.display = 'block';
+        if (userMenu) userMenu.style.display = 'none';
+
+        // 显示钱包连接按钮，隐藏断开连接按钮
+        const connectButton = document.querySelector('[onclick="connectWallet()"]');
+        const disconnectButton = document.querySelector('[onclick="disconnectWallet()"]');
+        if (connectButton) connectButton.style.display = 'block';
+        if (disconnectButton) disconnectButton.style.display = 'none';
+        
+        // 同步刷新一次（容错后端状态）
+        if (typeof refreshAuthMenusFromServer === 'function') {
+            try { await refreshAuthMenusFromServer(); } catch(_){}
+        }
+
+        // 立即跳转到登录页
+        window.location.href = '/auth/login?from=' + encodeURIComponent(window.location.pathname + window.location.search);
     }
 }
 window.saveGame = saveGame;
@@ -442,17 +472,31 @@ async function refreshAuthMenusFromServer(){
 }
 
 function toggleMenus(user){
-    const authMenu = document.getElementById('authMenu');
     const userMenu = document.getElementById('userMenu');
-    if(authMenu && userMenu){
-        if(user){
-            authMenu.style.display = 'none';
+    const authMenu = document.getElementById('authMenu'); // 兼容旧的下拉结构（可能不存在）
+    const authLoginLink = document.getElementById('authLoginLink');
+    const authRegisterLink = document.getElementById('authRegisterLink');
+    const walletLoginButton = document.getElementById('walletLoginButton');
+
+    if (userMenu) {
+        if (user) {
             userMenu.style.display = 'block';
             const nameEl = userMenu.querySelector('.username');
-            if(nameEl){ nameEl.textContent = user.username || (user.walletAddress ? formatAddress(user.walletAddress) : '用户'); }
-        }else{
-            authMenu.style.display = 'block';
+            if (nameEl) {
+                nameEl.textContent = user.username || (user.walletAddress ? formatAddress(user.walletAddress) : '用户');
+            }
+        } else {
             userMenu.style.display = 'none';
         }
     }
+
+    // 兼容：如果仍存在旧的 authMenu 下拉，则一起控制
+    if (authMenu) {
+        authMenu.style.display = user ? 'none' : 'block';
+    }
+
+    // 新结构：独立的三个按钮
+    if (authLoginLink) authLoginLink.style.display = user ? 'none' : 'block';
+    if (authRegisterLink) authRegisterLink.style.display = user ? 'none' : 'block';
+    if (walletLoginButton) walletLoginButton.style.display = user ? 'none' : 'block';
 }
