@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   servlet:
     context-path: /
 
@@ -151,8 +151,20 @@ app:
 
   # IPFS配置
   ipfs:
-    gateway-url: https://ipfs.io/ipfs/
-    upload-url: http://localhost:5001/api/v0
+    # 统一网关键名：用于拼接 https 网关访问（读取/下载）
+    gateway: https://ipfs.io/ipfs/
+    # 本地 Kubo(IPFS) API 配置
+    kubo:
+      api-url: http://127.0.0.1:5001/api/v0
+      enabled: true
+    # Pinata 配置（优先用于上传/固定 pin）
+    pinata:
+      enabled: true
+      base-url: https://api.pinata.cloud
+      gateway: https://orange-rational-squirrel-965.mypinata.cloud/ipfs/
+      jwt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjNjJmMTdiYS1mNzQ2LTRmY2ItOTViYS02YTM1N2U5MWYwNWUiLCJlbWFpbCI6IjIwMjEyOTk0NTBAcXEuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjZkYTBmMWU5ODkwOWI5ZjAxNTdhIiwic2NvcGVkS2V5U2VjcmV0IjoiOWIwNDhlZWZkZWIwMzM4M2JhNzI1NmIwODAxMzhlZDY1YzIwNTk2NmIwNmRhMzFkNzFhZDljYzk4ZTkxMGY4ZiIsImV4cCI6MTc5MTUzMDUzOH0.5sS7b6LVKElAxSY3RgwGGFA2EYsefPxv83gH8N1JsvQ
+      api-key: 6da0f1e98909b9f0157a
+      api-secret: 9b048eefdeb03383ba7256b080138ed65c205966b06da31d71ad9cc98e910f8f
   
   # AI配置
   ai:
