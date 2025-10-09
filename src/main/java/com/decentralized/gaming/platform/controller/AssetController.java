@@ -4,6 +4,7 @@ import com.decentralized.gaming.platform.common.PageResult;
 import com.decentralized.gaming.platform.common.Result;
 import com.decentralized.gaming.platform.entity.UserAsset;
 import com.decentralized.gaming.platform.service.AssetService;
+import com.decentralized.gaming.platform.util.JwtUtils;
 import com.decentralized.gaming.platform.vo.AssetDashboardVO;
 import com.decentralized.gaming.platform.vo.UserAssetVO;
 import com.decentralized.gaming.platform.vo.UserBalanceVO;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -27,17 +30,53 @@ import java.util.List;
 public class AssetController {
     
     private final AssetService assetService;
+    private final JwtUtils jwtUtils;
+    
+    /**
+     * 从请求中获取当前用户ID
+     */
+    private Long getCurrentUserId(HttpServletRequest request) {
+        try {
+            String token = resolveToken(request);
+            if (token != null && jwtUtils.validateToken(token)) {
+                return jwtUtils.getUserIdFromToken(token);
+            }
+        } catch (Exception e) {
+            log.error("获取当前用户ID失败", e);
+        }
+        return null;
+    }
+    
+    /**
+     * 解析JWT token
+     */
+    private String resolveToken(HttpServletRequest request) {
+        String auth = request.getHeader("Authorization");
+        if (auth != null && auth.startsWith("Bearer ")) {
+            return auth.substring(7);
+        }
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if ("TOKEN".equals(c.getName())) {
+                    return c.getValue();
+                }
+            }
+        }
+        return null;
+    }
     
     /**
      * 资产管理首页
      */
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, HttpServletRequest request) {
         log.info("访问资产管理首页");
         
-        // 这里应该从session或token中获取当前用户ID
-        // 暂时使用固定用户ID进行演示
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            log.warn("未找到有效的用户认证信息");
+            return "redirect:/auth/login";
+        }
         
         AssetDashboardVO dashboard = assetService.getAssetDashboard(currentUserId);
         model.addAttribute("dashboard", dashboard);
@@ -51,10 +90,15 @@ public class AssetController {
     @GetMapping("/games")
     public String myGames(@RequestParam(defaultValue = "1") int page,
                          @RequestParam(defaultValue = "10") int size,
-                         Model model) {
+                         Model model, HttpServletRequest request) {
         log.info("访问我的游戏页面，页码: {}, 大小: {}", page, size);
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            log.warn("未找到有效的用户认证信息");
+            return "redirect:/auth/login";
+        }
+        
         PageResult<UserAssetVO> games = assetService.getUserGames(currentUserId, page, size);
         
         model.addAttribute("games", games);
@@ -70,10 +114,15 @@ public class AssetController {
     @GetMapping("/agents")
     public String myAgents(@RequestParam(defaultValue = "1") int page,
                           @RequestParam(defaultValue = "10") int size,
-                          Model model) {
+                          Model model, HttpServletRequest request) {
         log.info("访问我的智能体页面，页码: {}, 大小: {}", page, size);
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            log.warn("未找到有效的用户认证信息");
+            return "redirect:/auth/login";
+        }
+        
         PageResult<UserAssetVO> agents = assetService.getUserAgents(currentUserId, page, size);
         
         model.addAttribute("agents", agents);
@@ -89,10 +138,15 @@ public class AssetController {
     @GetMapping("/items")
     public String myItems(@RequestParam(defaultValue = "1") int page,
                          @RequestParam(defaultValue = "10") int size,
-                         Model model) {
+                         Model model, HttpServletRequest request) {
         log.info("访问我的道具页面，页码: {}, 大小: {}", page, size);
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            log.warn("未找到有效的用户认证信息");
+            return "redirect:/auth/login";
+        }
+        
         PageResult<UserAssetVO> items = assetService.getUserItems(currentUserId, page, size);
         
         model.addAttribute("items", items);
@@ -106,10 +160,15 @@ public class AssetController {
      * 代币管理页面
      */
     @GetMapping("/tokens")
-    public String tokens(Model model) {
+    public String tokens(Model model, HttpServletRequest request) {
         log.info("访问代币管理页面");
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            log.warn("未找到有效的用户认证信息");
+            return "redirect:/auth/login";
+        }
+        
         List<UserBalanceVO> balances = assetService.getUserBalances(currentUserId);
         
         model.addAttribute("balances", balances);
@@ -124,10 +183,14 @@ public class AssetController {
      */
     @GetMapping("/api/dashboard")
     @ResponseBody
-    public Result<AssetDashboardVO> getDashboard() {
+    public Result<AssetDashboardVO> getDashboard(HttpServletRequest request) {
         log.info("获取资产管理面板数据");
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            return Result.error("未找到有效的用户认证信息");
+        }
+        
         AssetDashboardVO dashboard = assetService.getAssetDashboard(currentUserId);
         
         return Result.success(dashboard);
@@ -141,10 +204,15 @@ public class AssetController {
     public Result<PageResult<UserAssetVO>> getAssets(
             @RequestParam(required = false) String assetType,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            HttpServletRequest request) {
         log.info("获取用户资产列表，资产类型: {}, 页码: {}, 大小: {}", assetType, page, size);
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            return Result.error("未找到有效的用户认证信息");
+        }
+        
         UserAsset.AssetType type = null;
         if (assetType != null && !assetType.isEmpty()) {
             try {
@@ -164,10 +232,14 @@ public class AssetController {
      */
     @GetMapping("/api/balances")
     @ResponseBody
-    public Result<List<UserBalanceVO>> getBalances() {
+    public Result<List<UserBalanceVO>> getBalances(HttpServletRequest request) {
         log.info("获取用户代币余额");
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            return Result.error("未找到有效的用户认证信息");
+        }
+        
         List<UserBalanceVO> balances = assetService.getUserBalances(currentUserId);
         
         return Result.success(balances);
@@ -178,10 +250,14 @@ public class AssetController {
      */
     @GetMapping("/api/balances/{tokenType}")
     @ResponseBody
-    public Result<UserBalanceVO> getBalance(@PathVariable String tokenType) {
+    public Result<UserBalanceVO> getBalance(@PathVariable String tokenType, HttpServletRequest request) {
         log.info("获取用户指定代币余额，代币类型: {}", tokenType);
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            return Result.error("未找到有效的用户认证信息");
+        }
+        
         UserBalanceVO balance = assetService.getUserBalance(currentUserId, tokenType);
         
         return Result.success(balance);
@@ -192,10 +268,14 @@ public class AssetController {
      */
     @PostMapping("/api/assets")
     @ResponseBody
-    public Result<Boolean> addAsset(@RequestBody AddAssetRequest request) {
+    public Result<Boolean> addAsset(@RequestBody AddAssetRequest request, HttpServletRequest httpRequest) {
         log.info("添加用户资产，请求: {}", request);
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(httpRequest);
+        if (currentUserId == null) {
+            return Result.error("未找到有效的用户认证信息");
+        }
+        
         boolean success = assetService.addUserAsset(
                 currentUserId,
                 request.getAssetType(),
@@ -217,10 +297,14 @@ public class AssetController {
      */
     @DeleteMapping("/api/assets/{assetType}/{assetId}")
     @ResponseBody
-    public Result<Boolean> removeAsset(@PathVariable String assetType, @PathVariable Long assetId) {
+    public Result<Boolean> removeAsset(@PathVariable String assetType, @PathVariable Long assetId, HttpServletRequest request) {
         log.info("移除用户资产，资产类型: {}, 资产ID: {}", assetType, assetId);
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            return Result.error("未找到有效的用户认证信息");
+        }
+        
         UserAsset.AssetType type;
         try {
             type = UserAsset.AssetType.valueOf(assetType.toUpperCase());
@@ -244,11 +328,16 @@ public class AssetController {
     @ResponseBody
     public Result<Boolean> updateTradeableStatus(@PathVariable String assetType, 
                                                 @PathVariable Long assetId,
-                                                @RequestBody UpdateTradeableRequest request) {
+                                                @RequestBody UpdateTradeableRequest request,
+                                                HttpServletRequest httpRequest) {
         log.info("更新资产可交易状态，资产类型: {}, 资产ID: {}, 可交易: {}", 
                 assetType, assetId, request.getIsTradeable());
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(httpRequest);
+        if (currentUserId == null) {
+            return Result.error("未找到有效的用户认证信息");
+        }
+        
         UserAsset.AssetType type;
         try {
             type = UserAsset.AssetType.valueOf(assetType.toUpperCase());
@@ -271,10 +360,14 @@ public class AssetController {
      */
     @GetMapping("/api/assets/{assetType}/{assetId}/has")
     @ResponseBody
-    public Result<Boolean> hasAsset(@PathVariable String assetType, @PathVariable Long assetId) {
+    public Result<Boolean> hasAsset(@PathVariable String assetType, @PathVariable Long assetId, HttpServletRequest request) {
         log.info("检查用户是否拥有指定资产，资产类型: {}, 资产ID: {}", assetType, assetId);
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            return Result.error("未找到有效的用户认证信息");
+        }
+        
         UserAsset.AssetType type;
         try {
             type = UserAsset.AssetType.valueOf(assetType.toUpperCase());
@@ -292,10 +385,14 @@ public class AssetController {
      */
     @GetMapping("/api/statistics")
     @ResponseBody
-    public Result<AssetService.AssetStatistics> getStatistics() {
+    public Result<AssetService.AssetStatistics> getStatistics(HttpServletRequest request) {
         log.info("获取资产统计信息");
         
-        Long currentUserId = 1L;
+        Long currentUserId = getCurrentUserId(request);
+        if (currentUserId == null) {
+            return Result.error("未找到有效的用户认证信息");
+        }
+        
         AssetService.AssetStatistics statistics = assetService.getAssetStatistics(currentUserId);
         
         return Result.success(statistics);
