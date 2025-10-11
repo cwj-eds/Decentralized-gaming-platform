@@ -61,9 +61,14 @@ async function handleAccountLogin(event) {
         if (result && result.code === 200) {
             const payload = result.data || {};
             const user = payload.user || payload; // 兼容两种返回结构
-            // 登录成功，保存用户信息
+            const token = payload.token; // 获取JWT token
+            
+            // 登录成功，保存用户信息和token
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('authType', 'account');
+            if (token) {
+                localStorage.setItem('token', token); // 保存token（虽然Cookie中也有，但备用）
+            }
 
             // 更新UI状态 - 隐藏登录按钮，显示用户菜单
             const authMenu = document.getElementById('authMenu');
@@ -142,9 +147,14 @@ async function handleAccountRegister(event) {
         if (result && result.code === 200) {
             const payload = result.data || {};
             const user = payload.user || payload;
-            // 注册成功，保存用户信息
+            const token = payload.token; // 获取JWT token
+            
+            // 注册成功，保存用户信息和token
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('authType', 'account');
+            if (token) {
+                localStorage.setItem('token', token); // 保存token（虽然Cookie中也有，但备用）
+            }
 
             // 更新UI状态 - 隐藏登录按钮，显示用户菜单
             const authMenu = document.getElementById('authMenu');
@@ -211,9 +221,12 @@ async function handleWalletRegister(event) {
         const result = await response.json();
 
         if (result.code === 200) {
-            // 注册成功，保存用户信息
+            // 注册成功，保存用户信息和token
             localStorage.setItem('user', JSON.stringify(result.data.user));
             localStorage.setItem('authType', 'wallet');
+            if (result.data.token) {
+                localStorage.setItem('token', result.data.token);
+            }
 
             // 更新UI状态 - 隐藏登录按钮，显示用户菜单
             const authMenu = document.getElementById('authMenu');

@@ -212,25 +212,25 @@
 			// 模拟进度更新
 			simulateProgress();
 			
-			// 发送请求
-			const requestData = {
-				description: formData.get('description'),
-				gameType: formData.get('gameType'),
-				difficulty: formData.get('difficulty'),
-				theme: formData.get('theme'),
-				specialRequirements: formData.get('specialRequirements')
-			};
-			
-			// 这里应该从session或token中获取用户ID
-			const userId = 1; // 临时硬编码
-			
-			fetch('/agents/api/game-maker/generate?userId=' + userId, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(requestData)
-			})
+		// 发送请求
+		const requestData = {
+			description: formData.get('description'),
+			gameType: formData.get('gameType'),
+			difficulty: formData.get('difficulty'),
+			theme: formData.get('theme'),
+			specialRequirements: formData.get('specialRequirements')
+		};
+		
+		// ✅ 不需要手动传递userId，后端会自动从JWT token中获取当前登录用户ID
+		// JWT token已经在登录时设置为HttpOnly Cookie，会自动随请求发送
+		
+		fetch('/agents/api/game-maker/generate', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(requestData)
+		})
 			.then(response => response.json())
 			.then(data => {
 				hideProgress();

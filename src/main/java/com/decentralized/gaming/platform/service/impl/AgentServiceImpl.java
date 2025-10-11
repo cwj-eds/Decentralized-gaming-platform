@@ -15,6 +15,8 @@ import com.decentralized.gaming.platform.mapper.AgentMapper;
 import com.decentralized.gaming.platform.mapper.GameMapper;
 import com.decentralized.gaming.platform.mapper.UserMapper;
 import com.decentralized.gaming.platform.service.AgentService;
+import com.decentralized.gaming.platform.service.AssetService;
+import com.decentralized.gaming.platform.entity.UserAsset;
 import com.decentralized.gaming.platform.vo.AgentVO;
 import com.decentralized.gaming.platform.vo.AgentStatistics;
 import com.decentralized.gaming.platform.vo.GameGenerationResult;
@@ -43,6 +45,7 @@ public class AgentServiceImpl implements AgentService {
     private final AgentMapper agentMapper;
     private final GameMapper gameMapper;
     private final UserMapper userMapper;
+    private final AssetService assetService;
 
     @Override
     public PageResult<AgentVO> getActiveAgents(int page, int size) {
@@ -196,6 +199,22 @@ public class AgentServiceImpl implements AgentService {
 
         agentMapper.insert(agent);
 
+        // 将智能体添加到创建者的资产表中
+        try {
+            assetService.addUserAsset(
+                creatorId, 
+                UserAsset.AssetType.AGENT, 
+                agent.getId(), 
+                UserAsset.AcquisitionType.CREATED,
+                agent.getContractAddress(),
+                null
+            );
+            log.info("智能体已添加到用户资产，用户ID: {}, 智能体ID: {}", creatorId, agent.getId());
+        } catch (Exception e) {
+            log.error("添加智能体到用户资产失败，用户ID: {}, 智能体ID: {}", creatorId, agent.getId(), e);
+            // 不抛出异常，避免影响智能体创建流程
+        }
+
         // 转换为VO并返回
         AgentVO agentVO = new AgentVO();
         BeanUtils.copyProperties(agent, agentVO);
@@ -245,6 +264,22 @@ public class AgentServiceImpl implements AgentService {
             game.setUpdatedAt(LocalDateTime.now());
 
             gameMapper.insert(game);
+
+            // 将游戏添加到创建者的资产表中
+            try {
+                assetService.addUserAsset(
+                    userId, 
+                    UserAsset.AssetType.GAME, 
+                    game.getId(), 
+                    UserAsset.AcquisitionType.CREATED,
+                    game.getContractAddress(),
+                    null
+                );
+                log.info("游戏已添加到用户资产，用户ID: {}, 游戏ID: {}", userId, game.getId());
+            } catch (Exception ex) {
+                log.error("添加游戏到用户资产失败，用户ID: {}, 游戏ID: {}", userId, game.getId(), ex);
+                // 不抛出异常，避免影响游戏创建流程
+            }
 
             // 增加智能体使用次数
             incrementUsageCount(gameMakerAgent.getId());

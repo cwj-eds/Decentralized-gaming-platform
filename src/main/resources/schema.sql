@@ -21,8 +21,13 @@ CREATE TABLE IF NOT EXISTS user_balances (
     balance DECIMAL(20,8) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deleted INT DEFAULT 0 COMMENT '删除标记'
+    deleted INT DEFAULT 0 COMMENT '删除标记',
+    CONSTRAINT fk_user_balances_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- 为用户余额表创建索引
+CREATE INDEX IF NOT EXISTS idx_user_balances_user_id ON user_balances(user_id);
+CREATE UNIQUE INDEX IF NOT EXISTS uk_user_token ON user_balances(user_id, token_type);
 
 -- 游戏表
 CREATE TABLE IF NOT EXISTS games (
@@ -38,8 +43,13 @@ CREATE TABLE IF NOT EXISTS games (
     rating DECIMAL(3,2) DEFAULT 0.0 COMMENT '评分',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deleted INT DEFAULT 0 COMMENT '删除标记'
+    deleted INT DEFAULT 0 COMMENT '删除标记',
+    CONSTRAINT fk_games_creator_id FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- 为游戏表创建索引
+CREATE INDEX IF NOT EXISTS idx_games_creator_id ON games(creator_id);
+CREATE INDEX IF NOT EXISTS idx_games_status ON games(status);
 
 -- 智能体表
 CREATE TABLE IF NOT EXISTS agents (
