@@ -1,10 +1,12 @@
 package com.decentralized.gaming.platform.controller;
 
 import com.decentralized.gaming.platform.common.PageResult;
+import com.decentralized.gaming.platform.common.RequireAuth;
 import com.decentralized.gaming.platform.common.Result;
 import com.decentralized.gaming.platform.dto.CreateAgentRequest;
 import com.decentralized.gaming.platform.dto.GameGenerationRequest;
 import com.decentralized.gaming.platform.service.AgentService;
+import com.decentralized.gaming.platform.util.UserContext;
 import com.decentralized.gaming.platform.vo.AgentStatistics;
 import com.decentralized.gaming.platform.vo.AgentVO;
 import com.decentralized.gaming.platform.vo.GameGenerationResult;
@@ -111,16 +113,13 @@ public class AgentController {
     /**
      * 我的智能体页面
      */
+    @RequireAuth
     @GetMapping("/my-agents")
     public String myAgents(@RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "12") int size,
-                           @RequestParam(required = false) Long userId,
                            Model model) {
-        // 这里应该从session或token中获取当前用户ID
-        // 暂时使用参数传递，实际项目中应该从认证信息中获取
-        if (userId == null) {
-            userId = 1L; // 默认用户ID，实际应该从认证中获取
-        }
+        // 从认证信息中获取当前登录用户ID
+        Long userId = UserContext.getCurrentUserId();
         
         PageResult<AgentVO> agents = agentService.getAgentsByCreator(userId, page, size);
         model.addAttribute("agents", agents);
@@ -134,11 +133,14 @@ public class AgentController {
     /**
      * 创建智能体API
      */
+    @RequireAuth
     @PostMapping("/api/create")
     @ResponseBody
-    public Result<AgentVO> createAgent(@Valid @RequestBody CreateAgentRequest request,
-                                       @RequestParam Long userId) {
+    public Result<AgentVO> createAgent(@Valid @RequestBody CreateAgentRequest request) {
         try {
+            // 从认证信息中获取当前登录用户ID
+            Long userId = UserContext.getCurrentUserId();
+            
             AgentVO agent = agentService.createAgent(request, userId);
             return Result.success(agent);
         } catch (Exception e) {
@@ -148,13 +150,18 @@ public class AgentController {
     }
 
     /**
-     * 生成游戏API
+     * 生成游戏API - 修复创建者ID问题
      */
+    @RequireAuth
     @PostMapping("/api/game-maker/generate")
     @ResponseBody
-    public Result<GameGenerationResult> generateGame(@Valid @RequestBody GameGenerationRequest request,
-                                                     @RequestParam Long userId) {
+    public Result<GameGenerationResult> generateGame(@Valid @RequestBody GameGenerationRequest request) {
         try {
+            // 从认证信息中获取当前登录用户ID
+            Long userId = UserContext.getCurrentUserId();
+            
+            log.info("用户 {} 请求生成游戏", userId);
+            
             GameGenerationResult result = agentService.generateGame(request, userId);
             return Result.success(result);
         } catch (Exception e) {
@@ -166,11 +173,14 @@ public class AgentController {
     /**
      * 使用智能体API
      */
+    @RequireAuth
     @PostMapping("/api/{agentId}/use")
     @ResponseBody
-    public Result<Boolean> useAgent(@PathVariable Long agentId,
-                                    @RequestParam Long userId) {
+    public Result<Boolean> useAgent(@PathVariable Long agentId) {
         try {
+            // 从认证信息中获取当前登录用户ID
+            Long userId = UserContext.getCurrentUserId();
+            
             boolean success = agentService.useAgent(agentId, userId);
             return Result.success(success);
         } catch (Exception e) {

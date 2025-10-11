@@ -62,8 +62,23 @@ class JwtAuthFilter extends OncePerRequestFilter {
         String token = resolveToken(request);
         if (token != null && jwtUtils.validateToken(token)) {
             String username = jwtUtils.getUsernameFromToken(token);
+            Long userId = jwtUtils.getUserIdFromToken(token);
+            
+            // 创建UserDetails
             UserDetails userDetails = User.withUsername(username).password("").authorities(Collections.emptyList()).build();
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            
+            // 创建Authentication并设置用户ID到details中
+            UsernamePasswordAuthenticationToken authentication = 
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            
+            // 将用户ID存储到authentication的details中
+            authentication.setDetails(userId);
+            
+            // 将用户ID存储到request属性中（备用方案）
+            request.setAttribute("userId", userId);
+            request.setAttribute("username", username);
+            
+            // 设置到SecurityContext中
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
