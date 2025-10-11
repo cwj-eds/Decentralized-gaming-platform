@@ -17,9 +17,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.decentralized.gaming.platform.service.blockchain.BlockchainService;
+import com.decentralized.gaming.platform.service.blockchain.PlatformTokenService;
 
 /**
  * 资产管理服务实现类
@@ -37,6 +42,8 @@ public class AssetServiceImpl implements AssetService {
     private final GameMapper gameMapper;
     private final AgentMapper agentMapper;
     private final GameItemMapper gameItemMapper;
+    private final BlockchainService blockchainService;
+    private final PlatformTokenService platformTokenService;
     
     @Override
     public AssetDashboardVO getAssetDashboard(Long userId) {
@@ -135,9 +142,36 @@ public class AssetServiceImpl implements AssetService {
         
         List<UserBalance> balances = userBalanceMapper.selectList(queryWrapper);
         
-        return balances.stream()
+        List<UserBalanceVO> vos = balances.stream()
                 .map(this::convertToUserBalanceVO)
                 .collect(Collectors.toList());
+
+        // 覆盖为链上实时余额（ETH 和 平台代币）
+        try {
+            User user = userMapper.selectById(userId);
+            String walletAddress = user != null ? user.getWalletAddress() : null;
+            if (walletAddress != null && !walletAddress.isEmpty()) {
+                BigInteger decimals = null;
+                for (UserBalanceVO vo : vos) {
+                    if ("ETH".equalsIgnoreCase(vo.getTokenType())) {
+                        BigDecimal eth = blockchainService.getBalance(walletAddress);
+                        vo.setBalance(eth);
+                    } else if ("PLATFORM_TOKEN".equalsIgnoreCase(vo.getTokenType())) {
+                        if (decimals == null) {
+                            decimals = platformTokenService.getDecimals();
+                        }
+                        BigInteger raw = platformTokenService.getBalance(walletAddress);
+                        BigDecimal plt = new BigDecimal(raw)
+                                .divide(new BigDecimal(BigInteger.TEN.pow(decimals.intValue())), 6, RoundingMode.DOWN);
+                        vo.setBalance(plt);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.warn("获取链上实时余额失败，使用本地缓存余额，用户ID: {}, 错误: {}", userId, e.getMessage());
+        }
+
+        return vos;
     }
     
     @Override
@@ -159,7 +193,28 @@ public class AssetServiceImpl implements AssetService {
             userBalanceMapper.insert(balance);
         }
         
-        return convertToUserBalanceVO(balance);
+        UserBalanceVO vo = convertToUserBalanceVO(balance);
+
+        // 覆盖为链上实时余额（ETH 和 平台代币）
+        try {
+            User user = userMapper.selectById(userId);
+            String walletAddress = user != null ? user.getWalletAddress() : null;
+            if (walletAddress != null && !walletAddress.isEmpty()) {
+                if ("ETH".equalsIgnoreCase(tokenType)) {
+                    vo.setBalance(blockchainService.getBalance(walletAddress));
+                } else if ("PLATFORM_TOKEN".equalsIgnoreCase(tokenType)) {
+                    BigInteger decimals = platformTokenService.getDecimals();
+                    BigInteger raw = platformTokenService.getBalance(walletAddress);
+                    BigDecimal plt = new BigDecimal(raw)
+                            .divide(new BigDecimal(BigInteger.TEN.pow(decimals.intValue())), 6, RoundingMode.DOWN);
+                    vo.setBalance(plt);
+                }
+            }
+        } catch (Exception e) {
+            log.warn("获取链上实时余额失败，使用本地缓存余额，用户ID: {}, 错误: {}", userId, e.getMessage());
+        }
+
+        return vo;
     }
     
     @Override

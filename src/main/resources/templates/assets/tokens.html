@@ -38,7 +38,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-3 col-md-6 mb-3" th:each="balance : ${balances}">
-                                    <div class="balance-card">
+                                    <div class="balance-card" th:attr="data-token-type=${balance.tokenType}">
                                         <div class="balance-icon">
                                             <i th:class="${balance.tokenType == 'PLATFORM_TOKEN'} ? 'fas fa-coins' : 
                                                           (${balance.tokenType == 'ETH'} ? 'fab fa-ethereum' : 
@@ -84,7 +84,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="balance : ${balances}">
+                                        <tr th:each="balance : ${balances}" th:attr="data-token-type=${balance.tokenType}">
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="token-icon me-2">
@@ -348,10 +348,29 @@
             });
         }
         
-        // 页面加载完成后刷新余额数据
+        // 实时刷新余额
+        async function refreshBalances(){
+            try{
+                const res = await fetch('/assets/api/balances',{headers:{'Accept':'application/json'}});
+                if(!res.ok) return;
+                const body = await res.json();
+                const list = body && body.data ? body.data : [];
+                if(!Array.isArray(list)) return;
+                // 卡片区域
+                list.forEach(b => {
+                    const card = document.querySelector('.balance-card[data-token-type="'+ b.tokenType +'"] .balance-amount');
+                    if(card) card.textContent = b.balance;
+                    const row = document.querySelector('tr[data-token-type="'+ b.tokenType +'"] .balance-display');
+                    if(row) row.textContent = b.balance;
+                });
+            }catch(e){
+                // ignore
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            // 可以在这里添加自动刷新余额的逻辑
-            console.log('代币管理页面加载完成');
+            refreshBalances();
+            setInterval(refreshBalances, 15000);
         });
     </script>
 </body>

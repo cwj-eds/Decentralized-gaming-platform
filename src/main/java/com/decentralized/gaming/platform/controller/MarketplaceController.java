@@ -37,6 +37,12 @@ public class MarketplaceController {
         return "marketplace/index";
     }
 
+    // 页面：上架表单
+    @GetMapping("/sell")
+    public String sellPage(){
+        return "marketplace/sell";
+    }
+
     // API：获取市场商品
     @GetMapping("/api/items")
     @ResponseBody
@@ -67,6 +73,38 @@ public class MarketplaceController {
     @ResponseBody
     public Result<List<TransactionVO>> getUserTransactions(@PathVariable Long userId) {
         return Result.success(marketplaceAppService.getUserTransactions(userId));
+    }
+
+    // API：取消上架
+    @PostMapping("/api/items/{listingId}/cancel")
+    @ResponseBody
+    public Result<Boolean> cancel(@PathVariable Long listingId) {
+        Long currentUserId = 1L; // TODO: 从会话获取
+        return Result.success(marketplaceAppService.cancelListing(currentUserId, listingId));
+    }
+
+    // API：我的上架（ACTIVE）
+    @GetMapping("/api/my/listings")
+    @ResponseBody
+    public Result<PageResult<MarketplaceItemVO>> myListings(@RequestParam(defaultValue = "1") int page,
+                                                            @RequestParam(defaultValue = "12") int size) {
+        Long currentUserId = 1L; // TODO: 从会话获取
+        return Result.success(marketplaceAppService.getMyListings(currentUserId, page, size));
+    }
+
+    // API：我买到/卖出的交易
+    @GetMapping("/api/my/purchases")
+    @ResponseBody
+    public Result<List<TransactionVO>> myPurchases() {
+        Long currentUserId = 1L; // TODO: 从会话获取
+        return Result.success(marketplaceAppService.getMyPurchases(currentUserId));
+    }
+
+    @GetMapping("/api/my/sales")
+    @ResponseBody
+    public Result<List<TransactionVO>> mySales() {
+        Long currentUserId = 1L; // TODO: 从会话获取
+        return Result.success(marketplaceAppService.getMySales(currentUserId));
     }
 }
 

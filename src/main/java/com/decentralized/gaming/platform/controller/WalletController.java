@@ -2,16 +2,20 @@ package com.decentralized.gaming.platform.controller;
 
 import com.decentralized.gaming.platform.common.Result;
 import com.decentralized.gaming.platform.dto.WalletLoginRequest;
+import com.decentralized.gaming.platform.dto.LoginResponse;
 import com.decentralized.gaming.platform.entity.User;
 import com.decentralized.gaming.platform.service.WalletService;
+import com.decentralized.gaming.platform.service.UserService;
 import com.decentralized.gaming.platform.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletResponse;
+import com.decentralized.gaming.platform.util.JwtUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 钱包控制器
@@ -27,31 +31,38 @@ public class WalletController {
     @Autowired
     private WalletService walletService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
+
     /**
      * 钱包登录
      */
     @PostMapping("/login")
     @Operation(summary = "钱包登录", description = "通过钱包签名进行用户认证")
-    public Result<UserVO> walletLogin(@Valid @RequestBody WalletLoginRequest request) {
+    public Result<UserVO> walletLogin(@Valid @RequestBody WalletLoginRequest request, HttpServletResponse response) {
         log.info("钱包登录请求: {}", request.getWalletAddress());
-        
-        // 验证并认证用户
-        User user = walletService.authenticateWallet(
-            request.getWalletAddress(),
-            request.getSignature(),
-            request.getMessage()
-        );
 
-        // 转换为VO
-        UserVO userVO = new UserVO();
-        userVO.setId(user.getId());
-        userVO.setWalletAddress(user.getWalletAddress());
-        userVO.setUsername(user.getUsername());
-        userVO.setEmail(user.getEmail());
-        userVO.setAvatarUrl(user.getAvatarUrl());
-        userVO.setCreatedAt(user.getCreatedAt());
+        // 走统一的用户登录/注册逻辑，保证用户真实落库并返回携带token
+        LoginResponse login = userService.walletLogin(request);
 
-        log.info("用户登录成功: {}", user.getWalletAddress());
+        // 设置 HttpOnly TOKEN Cookie，页面访问将自动携带
+        try {
+            if (login != null && login.isSuccess() && login.getToken() != null) {
+                jakarta.servlet.http.Cookie cookie = new jakarta.servlet.http.Cookie("TOKEN", login.getToken());
+                cookie.setPath("/");
+                cookie.setHttpOnly(true);
+                // 可选：cookie.setSecure(true);
+                response.addCookie(cookie);
+            }
+        } catch (Exception ignored) {
+        }
+
+        // 统一将用户VO返回给前端
+        Object userObj = (login != null) ? login.getUser() : null;
+        UserVO userVO = (userObj instanceof UserVO) ? (UserVO) userObj : null;
         return Result.success(userVO);
     }
 
